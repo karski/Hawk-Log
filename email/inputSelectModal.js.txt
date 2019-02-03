@@ -1,2 +1,0 @@
-//provides a popup modal containing a list for one time inputs
-// multiple selection mode provides an "accept" button to confirm inputs
