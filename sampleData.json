@@ -1,0 +1,623 @@
+{
+	"SORTIE": {
+		"ID": "123",
+		"MsnNum": "ABX8A01",
+		"callsignATO": "LONGNAME05",
+		"callsignATC": "AIRBORNE55",
+		"QuickTake": "Everything is going fine",
+		"Notes": "ATC Requests remain current alt<br/>ATC Freq: 123.45<br/>Bingo Fuel: 5200lb",
+		"schedTakeoff": "2018-01-01T12:00Z",
+		"schedLand": "2018-01-02T05:00Z",
+		"actualTakeoff": "2018-01-01T11:35Z",
+		"actualLanding": "2018-01-02T06:10Z",
+		"takeoffNote": "",
+		"landingNote": "ATC Delay",
+		"Squadron": "12RS",
+		"COCOM": "LOCAL",
+		"Effective": "Ineffective",
+		"EffReason": "Weather",
+
+		"tailNum": "11-2020",
+		"msnPlanFile": "ABC12X4",
+		"msnPlanChecksum": "11359AF"
+
+	},
+	"AIRCRAFT": {
+		"sortieID": "123",
+		"tailNum": "11-2020",
+		"Block": "B30M",
+		"Location": "KBAB",
+		"Status": "FMC",
+		"Notes": "Historically throws Eng 33 in the climb"
+	},
+	"GROUNDSTATIONUSE": [
+		{
+			"ID": "12324",
+			"sortieID": "123",
+			"EquipmentID": "10-1301",
+			"schedStart": "2018-01-01T12:00Z",
+			"schedEnd": "2018-01-02T05:00Z",
+			"GROUNDSTATION": {
+				"GSNum": "10-1301",
+				"Type": "LRE",
+				"Location": "KBAB",
+				"Status": "PMC",
+				"Notes": "TCDL Video feed inop"
+			}
+		},
+		{
+			"ID": "12325",
+			"sortieID": "123",
+			"EquipmentID": "10-1209",
+			"schedStart": "2018-01-01T12:00Z",
+			"schedEnd": "2018-01-02T05:00Z",
+			"GROUNDSTATION": {
+				"GSNum": "10-1209",
+				"Type": "MCE",
+				"Location": "KBAB",
+				"Status": "FMC",
+				"Notes": "Mouse Ball is dirty"
+			}
+		}
+	],
+	"AIRCREW": [
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"SSN": "0000",
+			"squadron": "0012",
+			"Name": "Smith, Joseph",
+			"CrewPos": "Pilot",
+			"StartTime": "2018-01-01T11:35Z",
+			"EndTime": "2018-01-01T14:05Z",
+			"TotalTime": "2.5",
+			"Primary": "1.5",
+			"Secondary": "1.0",
+			"Instructor": "0",
+			"Evaluator": "0",
+			"Other": "0",
+			"Combat": "0",
+			"CombatSupport": "0",
+			"GroundStation": "10-1301",
+			"DutyCode": ""
+		},
+		{
+			"ID": "2",
+			"sortieID": "123",
+			"SSN": "0000",
+			"squadron": "0012",
+			"Name": "Smith, Adam",
+			"CrewPos": "Pilot",
+			"StartTime": "2018-01-01T11:35Z",
+			"EndTime": "2018-01-01T16:00Z",
+			"TotalTime": "5.5",
+			"Primary": "4.0",
+			"Secondary": "1.5",
+			"Instructor": "0",
+			"Evaluator": "0",
+			"Other": "0",
+			"Combat": "0",
+			"CombatSupport": "0",
+			"GroundStation": "10-1209",
+			"DutyCode": ""
+		},
+		{
+			"ID": "2",
+			"sortieID": "123",
+			"SSN": "0000",
+			"squadron": "0012",
+			"Name": "Washington, George",
+			"CrewPos": "Sensor",
+			"StartTime": "2018-01-01T11:35Z",
+			"EndTime": "2018-01-01T16:00Z",
+			"TotalTime": "5.5",
+			"Primary": "0",
+			"Secondary": "0",
+			"Instructor": "5.5",
+			"Evaluator": "0",
+			"Other": "0",
+			"Combat": "0",
+			"CombatSupport": "0",
+			"GroundStation": "10-1209",
+			"DutyCode": ""
+		},
+		{
+			"ID": "2",
+			"sortieID": "123",
+			"SSN": "0000",
+			"squadron": "0012",
+			"Name": "Snuffy, Airman",
+			"CrewPos": "Sensor",
+			"StartTime": "2018-01-01T11:35Z",
+			"EndTime": "2018-01-01T16:00Z",
+			"TotalTime": "5.5",
+			"Primary": "5.5",
+			"Secondary": "0",
+			"Instructor": "0",
+			"Evaluator": "0",
+			"Other": "0",
+			"Combat": "0",
+			"CombatSupport": "0",
+			"GroundStation": "10-1209",
+			"DutyCode": ""
+		},
+		{
+			"ID": "3",
+			"sortieID": "123",
+			"SSN": "0000",
+			"squadron": "0012",
+			"Name": "Longnamington, Pishposh",
+			"CrewPos": "Pilot",
+			"StartTime": "2018-01-01T16:00Z",
+			"EndTime": "2018-01-01T20:00Z",
+			"TotalTime": "4.0",
+			"Primary": "4.0",
+			"Secondary": "0",
+			"Instructor": "0",
+			"Evaluator": "0",
+			"Other": "0",
+			"Combat": "0",
+			"CombatSupport": "0",
+			"GroundStation": "10-1209",
+			"DutyCode": ""
+		},
+		{
+			"ID": "4",
+			"sortieID": "123",
+			"SSN": "0000",
+			"squadron": "0012",
+			"Name": "Rodgers, Mister",
+			"CrewPos": "Sensor",
+			"StartTime": "2018-01-01T20:00Z",
+			"EndTime": "2018-01-02T00:00Z",
+			"TotalTime": "4.0",
+			"Primary": "4.0",
+			"Secondary": "0",
+			"Instructor": "0",
+			"Evaluator": "0",
+			"Other": "0",
+			"Combat": "0",
+			"CombatSupport": "0",
+			"GroundStation": "10-1209",
+			"DutyCode": ""
+		},
+		{
+			"ID": "10",
+			"sortieID": "123",
+			"SSN": "0000",
+			"squadron": "0012",
+			"Name": "Smith, Joseph",
+			"CrewPos": "Pilot",
+			"StartTime": "2018-01-01T11:35Z",
+			"EndTime": "2018-01-01T14:05Z",
+			"TotalTime": "2.5",
+			"Primary": "1.5",
+			"Secondary": "1.0",
+			"Instructor": "0",
+			"Evaluator": "0",
+			"Other": "0",
+			"Combat": "0",
+			"CombatSupport": "0",
+			"GroundStation": "10-1301",
+			"DutyCode": ""
+		},
+		{
+			"ID": "10",
+			"sortieID": "123",
+			"SSN": "0000",
+			"squadron": "0012",
+			"Name": "Smith, Joseph",
+			"CrewPos": "Pilot",
+			"StartTime": "2018-01-01T11:35Z",
+			"EndTime": "2018-01-01T14:05Z",
+			"TotalTime": "2.5",
+			"Primary": "1.5",
+			"Secondary": "1.0",
+			"Instructor": "0",
+			"Evaluator": "0",
+			"Other": "0",
+			"Combat": "0",
+			"CombatSupport": "0",
+			"GroundStation": "10-1301",
+			"DutyCode": ""
+		}
+	],
+	"LOG": [
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T10:15Z",
+			"Type": "EVENT",
+			"Source": "Pilot",
+			"Name": "Smith, Adam",
+			"Title": "Crew Show",
+			"Notes": "Pilot showed to MCE, it wasn't open yet"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T10:17Z",
+			"Type": "EVENT",
+			"Source": "Pilot",
+			"Name": "Smith, Joseph",
+			"Title": "Crew Show",
+			"Notes": "Logged into the LRE, walkaround in progress"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T10:20Z",
+			"Type": "EVENT",
+			"Source": "11-2020",
+			"Name": "Smith, Joseph",
+			"Title": "Engine Start",
+			"Notes": ""
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T10:21Z",
+			"Type": "FAULT",
+			"Source": "11-2020",
+			"Name": "Smith, Joseph",
+			"Title": "ECS 100",
+			"Notes": "ECS 100: Something is wrong<br/>MX is trying to fix now, they think restarting the aircraft will help"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T10:25Z",
+			"Type": "EVENT",
+			"Source": "11-2020",
+			"Name": "Smith, Joseph",
+			"Title": "Engine Shutdown",
+			"Notes": "Shutdown for ECS fault"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T10:35Z",
+			"Type": "EVENT",
+			"Source": "11-2020",
+			"Name": "Smith, Joseph",
+			"Title": "Engine Start",
+			"Notes": "Second Eng Start"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T11:15Z",
+			"Type": "EVENT",
+			"Source": "11-2020",
+			"Name": "Smith, Joseph",
+			"Title": "Taxi",
+			"Notes": ""
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T11:15Z",
+			"Type": "INFO",
+			"Source": "Pilot",
+			"Name": "Smith, Joseph",
+			"Title": "Story of my life",
+			"Notes": "Written in these walls are the stories that I can't explain I leave my heart open but it stays right here empty for days She told me in the morning She don't feel the same about us in her bones It seems to me that when I die These words will be written on my stone And I'll be gone, gone tonight The ground beneath my feet is open wide The way that I been holdin' on too tight With nothing in between The story of my life, I take her home I drive all night to keep her warm and time Is frozen (the story of, the story of, the story of) The story of my life, I give her hope I spend her love until she's broke inside The story of my life (the story of, the story of) "
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T11:35Z",
+			"Type": "EVENT",
+			"Source": "11-2020",
+			"Name": "Smith, Joseph",
+			"Title": "Takeoff",
+			"Notes": "We slipped the surly bonds of earth to dance on laughter silvered wings"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T11:50Z",
+			"Type": "FAULT",
+			"Source": "11-2020",
+			"Name": "Smith, Joseph",
+			"Title": "Eng 33",
+			"Notes": "Eng 33: Fuel flow is higher than expected<br/>Well, we knew this would happen"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T11:55Z",
+			"Type": "FAULT",
+			"Source": "11-2020",
+			"Name": "Smith, Adam",
+			"Title": "KU 03/07",
+			"Notes": "Greened up"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T12:50Z",
+			"Type": "FAULT",
+			"Source": "11-2020",
+			"Name": "Smith, Joseph",
+			"Title": "Eng 33",
+			"Notes": "Eng 33: Fuel flow is higher than expected"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T12:59Z",
+			"Type": "FAULT",
+			"Source": "11-2020",
+			"Name": "Smith, Joseph",
+			"Title": "CDL 03/07",
+			"Notes": ""
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T12:30Z",
+			"Type": "SENSOR",
+			"Source": "11-2020",
+			"Name": "Smith, Adam",
+			"Title": "ISS Startup",
+			"Notes": "ISS started without issues"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T12:30Z",
+			"Type": "EVENT",
+			"Source": "11-2020",
+			"Name": "Snuffy, Airman",
+			"Title": "ISS On",
+			"Notes": "BIT Tests successful<br/>Test shots complete"
+		},
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Time": "2018-01-01T14:45Z",
+			"Type": "FAULT",
+			"Source": "11-2020",
+			"Name": "Smith, Adam",
+			"Title": "SMU 02",
+			"Notes": "Greened up within 2 minutes"
+		}
+	],
+	"SYSTEMSTATUS": [
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"system": "11-2020",
+			"statusCode": "2",
+			"Notes": "ASIP issues"
+		},
+		{
+			"ID": "2",
+			"sortieID": "123",
+			"system": "10-1301",
+			"statusCode": "1",
+			"Notes": ""
+		},
+		{
+			"ID": "3",
+			"sortieID": "123",
+			"system": "10-1209",
+			"statusCode": "1",
+			"Notes": ""
+		}
+	],
+	"SUBSYSTEMSTATUS": [
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"parentSystem": "11-2020",
+			"subsystem": "ISS",
+			"statusCode": "9",
+			"Notes": "2x SAR restarts"
+		},
+		{
+			"ID": "2",
+			"sortieID": "123",
+			"parentSystem": "11-2020",
+			"subsystem": "ASIP",
+			"statusCode": "3",
+			"Notes": "Dropped connection half way through sortie"
+		},
+		{
+			"ID": "3",
+			"sortieID": "123",
+			"parentSystem": "11-2020",
+			"subsystem": "Links",
+			"statusCode": "2",
+			"Notes": "KU pressure system causing link hits"
+		},
+		{
+			"ID": "4",
+			"sortieID": "123",
+			"parentSystem": "10-1301",
+			"subsystem": "Pilot WS",
+			"statusCode": "1",
+			"Notes": ""
+		},
+		{
+			"ID": "10",
+			"sortieID": "123",
+			"parentSystem": "10-1301",
+			"subsystem": "SCAT-1",
+			"statusCode": "0",
+			"Notes": "INOP before mission"
+		},
+		{
+			"ID": "5",
+			"sortieID": "123",
+			"parentSystem": "10-1209",
+			"subsystem": "Pilot WS",
+			"statusCode": "9",
+			"Notes": "Map crash"
+		},
+		{
+			"ID": "6",
+			"sortieID": "123",
+			"parentSystem": "10-1209",
+			"subsystem": "Sensor WS",
+			"statusCode": "1",
+			"Notes": ""
+		}
+	],
+	"OPAREA": [
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Name": "C123 Corridor1",
+			"schedEntry": "2018-01-01T14:00Z",
+			"schedExit": "2018-01-01T15:00Z",
+			"actualEntry": "2018-01-01T13:20Z",
+			"actualExit": "2018-01-01T14:35Z",
+			"entryNote": "Early Takeoff",
+			"exitNote": ""
+		},
+		{
+			"ID": "2",
+			"sortieID": "123",
+			"Name": "C123 Corridor1",
+			"schedEntry": "2018-01-02T02:00Z",
+			"schedExit": "2018-01-02T03:00Z",
+			"actualEntry": "2018-01-02T04:20Z",
+			"actualExit": "2018-01-02T05:35Z",
+			"entryNote": "Weather",
+			"exitNote": "Weather"
+		},
+		{
+			"ID": "3",
+			"sortieID": "123",
+			"Name": "STA01 OpArea1",
+			"schedEntry": "2018-01-01T20:00Z",
+			"schedExit": "2018-01-01T23:30Z",
+			"actualEntry": "2018-01-01T19:40Z",
+			"actualExit": "2018-01-01T23:35Z",
+			"entryNote": "",
+			"exitNote": ""
+		},
+		{
+			"ID": "4",
+			"sortieID": "123",
+			"Name": "STA02 OpArea2",
+			"schedEntry": "2018-01-01T23:30Z",
+			"schedExit": "2018-01-02T03:00Z",
+			"actualEntry": "2018-01-01T23:35Z",
+			"actualExit": "2018-01-02T03:35Z",
+			"entryNote": "",
+			"exitNote": "Extension Approved"
+		},
+		{
+			"ID": "5",
+			"sortieID": "123",
+			"Name": "STA00 FocusArea",
+			"schedEntry": "2018-01-02T01:00Z",
+			"schedExit": "2018-01-02T02:30Z",
+			"actualEntry": "2018-01-02T01:10Z",
+			"actualExit": "2018-01-02T02:45Z",
+			"entryNote": "",
+			"exitNote": ""
+		}
+	],
+	"IMINT": [
+		{
+			"ID": "1",
+			"opAreaID": "3",
+			"sortieID": "123",
+			"UNICORNMissionNum": "AAX8A01",
+			"tasked": "320",
+			"planned": "300",
+			"collected": "280",
+			"noExploit": "50",
+			"satisfied": "100",
+			"ADHOCTasked": "10",
+			"ADHOCCollected": "5",
+			"totalImages": "400"
+		},
+		{
+			"ID": "2",
+			"opAreaID": "4",
+			"sortieID": "123",
+			"UNICORNMissionNum": "BBX8A01",
+			"tasked": "200",
+			"planned": "200",
+			"collected": "200",
+			"noExploit": "0",
+			"satisfied": "190",
+			"ADHOCTasked": "1",
+			"ADHOCCollected": "1",
+			"totalImages": "250"
+		}
+	],
+	"SIGINT": [
+		{
+			"ID": "1",
+			"Name": "SIGINT Vul",
+			"opAreaID": "",
+			"sortieID": "123",
+			"schedStart": "2018-01-01T21:00Z",
+			"schedEnd": "2018-01-02T02:00Z",
+			"actualStart": "2018-01-01T21:00Z",
+			"actualEnd": "2018-01-02T02:00Z",
+			"downTime": "2.0",
+			"isPrime": "False",
+			"CR": "100",
+			"DF": "100",
+			"PR": "75",
+			"KL": "0"
+		}
+	],
+	"GMTI": [
+		{
+			"ID": "1",
+			"sortieID": "123",
+			"Name": "Transit Collect",
+			"opAreaID": "",
+			"schedStart": "2018-01-02T02:00Z",
+			"schedEnd": "2018-01-02T03:00Z",
+			"actualStart": "2018-01-02T02:30ZZ",
+			"actualEnd": "2018-01-02T04:00ZZ",
+			"downTime": "0.0",
+			"tracks": "21",
+			"SARH": "2",
+			"SARM": "3",
+			"SARMB": "0",
+			"SARMA": "0",
+			"swathC": "5",
+			"swathM": "6",
+			"swathH": "3",
+			"CSAR": "0",
+			"RRCA": "4",
+			"GRCA": "2",
+			"CMTI": "7",
+			"totalImages": "35"
+		},
+			{
+				"ID": "2",
+				"sortieID": "123",
+				"Name": "Area 1",
+				"opAreaID": "5",
+				"schedStart": "2018-01-02T01:00Z",
+				"schedEnd": "2018-01-02T02:30Z",
+				"actualStart": "2018-01-02T01:10Z",
+				"actualEnd": "2018-01-02T02:45Z",
+				"downTime": "0.3",
+				"tracks": "45",
+				"SARH": "7",
+				"SARM": "9",
+				"SARMB": "1",
+				"SARMA": "0",
+				"swathC": "3",
+				"swathM": "4",
+				"swathH": "5",
+				"CSAR": "0",
+				"RRCA": "9",
+				"GRCA": "4",
+				"CMTI": "0",
+				"totalImages": "40"
+			}
+	]
+}

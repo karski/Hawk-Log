@@ -1,0 +1,1143 @@
+﻿<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+	<meta charset="utf-8" />
+	<title>Log Details</title>
+	<!--should be set by js to mission number-->
+	<link rel="stylesheet" type="text/css" href="logStyle.css">
+	<link rel="stylesheet" type="text/css" href="sortieDetailStyle.css">
+</head>
+
+<body>
+
+	<header id="headerPanel" class="panelShadow" onresize="headerResize()">
+		<nav id="headerNav">
+			<a id="headerNav0" onclick="headerNav(this,'headerHalf0')" class="current">MSN</a>
+			<a id="headerNav1" onclick="headerNav(this,'headerHalf1')"><img src="img/iconAircraftDark.png" style="width:30px;" /></a>
+			<!--<a id="headerNavAircraft" href="#headerAircraft" onclick="headerNav('headerAircraft')" class="headerNavLvl1 headerNavLvl2">TAIL</a>
+			<a id="headerNavGS" href="#headerGS" onclick="headerNav('headerGS')" class="headerNavLvl1 headerNavLvl2">GS</a>-->
+		</nav>
+		<div id="headerMsn" class="headerSection headerHalf0 selected">
+			<table>
+				<tr>
+					<td>
+						<h1 data-element-id="1" data-table="SORTIE" data-field="msnNum" class="editText" contenteditable="true">SORTIE#</h1>
+					</td>
+					<td class="" style="background-color:limegreen;vertical-align:middle;">
+						<h2 id="msnStat" class="dropHolder"></h2>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2">
+						<h2>17-18 September</h2>
+					</td>
+
+				</tr>
+			</table>
+		</div>
+		<div id="headerDetail" class="headerSection headerHalf0 selected">
+			<table>
+				<tr>
+					<td class="label tooltipHolder" colspan="2">ATO callsign <div class="tooltip shiftDown">Test Tooltip</div>
+					</td>
+					<td colspan="2" data-element-id="1" data-table="SORTIE" data-field="csATO">
+						<div class="editText" contenteditable="true">LONGNAME05</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" class="label">ATC callsign</td>
+					<td colspan="2" data-element-id="1" data-table="SORTIE" data-field="csATC"><span class="editText" contenteditable="true">AIRBORNE55</span></td>
+				</tr>
+				<tr>
+					<td class="label topBorder">unit</td>
+					<td field="squadron topBorder" table="Sortie" class="editDropdown">12RS</td>
+					<td class="label topBorder">type</td>
+					<td field="cocom" table="Sortie" class="editDropdown topBorder">LOCAL</td>
+				</tr>
+			</table>
+		</div>
+		<div id="headerAircraft" class="headerSection headerHalf1">
+			<img src="img/iconAircraftDark.png" style="height:15px;" />
+			<div class="button small" style="height:15px;line-height:14px;">✎</div>
+			<table>
+				<!--<tr>
+					<td><img src="img/iconAircraftDark.png" style="height:15px;" /></td>
+					<td colspan="2"><div class="button small">✎</div></td>
+				</tr>-->
+				<tr>
+					<td>01-2021</td>
+					<td class="calculated">Block 30M</td>
+					<td style="background:limegreen;" title="description of what's wrong with this tail">FMC</td>
+				</tr>
+			</table>
+			<table>
+				<tr>
+					<td class="label topBorder">MsnPlan</td>
+					<td class="topBorder">ABC12X4</td>
+					<td class="topBorder calculated">11359AF</td>
+				</tr>
+			</table>
+
+		</div>
+		<div id="headerGS" class="headerSection headerHalf1">
+			<img src="img/iconGS.png" style="height:15px;" />
+			<div class="button small" style="height:15px;line-height:14px;">✎</div>
+			<div id="GSTableContainer">
+				<table>
+					<!--<tr>
+						<td>
+							<img src="img/iconGS.png" style="height:15px;" />
+						</td>
+						<td colspan="2"><div class="button small">✎</div></td>
+					</tr>-->
+					<tr>
+						<td style="padding-right:5px;" class="">01-1301</td>
+						<td class="calculated ">LRE</td>
+						<td style="background:limegreen;" class="" title="This groundstation is missing a door">FMC</td>
+					</tr>
+
+					<tr style="display:none;">
+						<td colspan="3">This is a long description of what's wrong with it</td>
+					</tr>
+					<tr>
+						<td style="padding-right:5px;" class="topBorder">01-1201</td>
+						<td class="calculated topBorder">MCE</td>
+						<td style="background:limegreen;" class="topBorder" title="No one has reported anything on this one">FMC</td>
+					</tr>
+					<tr style="display:none;">
+						<td colspan="3">This is a long description of what's wrong with it</td>
+					</tr>
+					<tr>
+						<td style="padding-right:5px;" class="topBorder">01-1201</td>
+						<td class="calculated topBorder">MCE</td>
+						<td style="background:limegreen;" class="topBorder" title="No one has reported anything on this one">FMC</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+		<div id="headerMenu">
+			<div class="button small" onclick="showToast('Test 123456789 perhaps this one is too long for the screen?  what if we just keep going and going and going and going?????')">🏠</div>
+			<div class="button small" onclick="showToast('Number 2 has a little bit more to say!','skyblue',10000)">⚙️</div>
+			<div class="button small" onclick="showToast('Testing 1... 2.... 3.. Gone!','',1000)">📊</div>
+			<div class="button small" onclick="showToast('This one is pink','pink')">🕒</div>
+		</div>
+	</header>
+	<nav id="navPanel" class="panelShadow">
+		<a href="#noteCard" class="current">NOTES</a>
+		<a href="#statusCard">STATUS</a>
+		<a href="#stationCard">TIMELINE</a>
+		<a href="#collectCard">COLLECT</a>
+		<a href="#logCard">EVENT LOG</a>
+	</nav>
+	<main id="mainPanel">
+		<div id="mainContainer">
+			<aside id="asideLeft">
+				<div id="noteCard" class="card leftContents">
+					<img src="img/iconMemo.png" style="height:25px; display:inline-block;" />
+					<h1 class="noEdit cardHeader">Note Space</h1>
+					<div data-element-id="1" data-table="SORTIE" data-field="notes" class="editMemo" contenteditable="true">
+						Memo about the msn<br />
+						will need to be html formatted<br />
+						would like to have formatting and color options eventually<br />
+						<br />
+						Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore
+						magna aliqua. Velit euismod in pellentesque massa placerat duis ultricies lacus. Eget dolor morbi non arcu. Velit
+						sed ullamcorper morbi tincidunt. Eu ultrices vitae auctor eu. Lectus nulla at volutpat diam. Scelerisque varius
+						morbi enim nunc faucibus. Id leo in vitae turpis massa sed. Adipiscing enim eu turpis egestas pretium aenean
+						pharetra. Pulvinar pellentesque habitant morbi tristique senectus et. Lorem dolor sed viverra ipsum nunc aliquet
+						bibendum enim. Ut tellus elementum sagittis vitae et. Sit amet mattis vulputate enim nulla aliquet. Purus
+						faucibus ornare suspendisse sed nisi lacus sed.
+					</div>
+
+				</div>
+				<div id="statusCard" class="card leftContents">
+					<img src="img/iconStatus.png" style="height:25px; display:inline-block; margin-bottom:-5px;" />
+					<h1 class="noEdit cardHeader">MX Status</h1>
+
+					<table class="mxStatus">
+						<tr>
+							<th class="mxStatusSystem">01-2021</th>
+							<th class="statusCode" style="background:limegreen;">1</th>
+							<th class="editText" contenteditable="true" data-element-id="10" data-table="MXSYSTEMSTATUS" data-field="note">Everything
+								good here</th>
+						</tr>
+						<tr>
+							<td class="mxStatusSubSystem">ISS</td>
+							<td class="statusCode" style="background:gold;">9</td>
+							<td class="editText" contenteditable="true" data-element-id="1" data-table="MXSUBSYSTEMSTATUS" data-field="note">VME
+								Restart</td>
+						</tr>
+						<tr>
+							<td class="mxStatusSubSystem">ASIP</td>
+							<td class="statusCode" style="background:limegreen;">1</td>
+							<td class="editText" contenteditable="true" data-element-id="2" data-table="MXSUBSYSTEMSTATUS" data-field="note">Swapped
+								out before engine start</td>
+						</tr>
+						<tr>
+							<td class="mxStatusSubSystem">Links</td>
+							<td class="statusCode" style="background:gold;">9</td>
+							<td class="editText" contenteditable="true" data-element-id="3" data-table="MXSUBSYSTEMSTATUS" data-field="note">INMAR
+								link loss</td>
+						</tr>
+						<tr>
+							<th class="mxStatusSystem">01-1201</th>
+							<th class="statusCode" style="background:limegreen;">1</th>
+							<th class="editText" contenteditable="true" data-element-id="11" data-table="MXSYSTEMSTATUS" data-field="note"></th>
+						</tr>
+						<tr>
+							<td class="mxStatusSubSystem">Pilot WS</td>
+							<td class="statusCode" style="background:gold;">9</td>
+							<td class="editText" contenteditable="true" data-element-id="4" data-table="MXSUBSYSTEMSTATUS" data-field="note">Map
+								Restart</td>
+						</tr>
+						<tr>
+							<th class="mxStatusSystem">01-1301</th>
+							<th class="statusCode" style="background:limegreen;">1</th>
+							<th class="editText" contenteditable="true" data-element-id="12" data-table="MXSYSTEMSTATUS" data-field="note"></th>
+						</tr>
+						<tr>
+							<td class="mxStatusSubSystem">SCAT-1</td>
+							<td class="statusCode" style="background:crimson;">0</td>
+							<td class="editText	" contenteditable="true" data-element-id="5" data-table="MXSUBSYSTEMSTATUS" data-field="note">INOP
+								before mission</td>
+						</tr>
+					</table>
+				</div>
+			</aside>
+			<aside id="asideRight">
+				<div id="stationCard" class="card rightContents">
+					<img src="img/iconTime.png" style="height:25px; display:inline-block;" />
+					<h1 class="noEdit cardHeader">Timeline</h1>
+
+					<div class="button small">✚</div>
+					<div class="button small" title="Upload Stations from ATO file">ATO⇪</div>
+
+					<table>
+						<tr>
+							<td></td>
+							<td></td>
+							<td class="label">ETA</td>
+							<td class="label">ATA</td>
+						</tr>
+						<tr id="takeoffRow">
+							<!--<td class="label topBorder">TAKEOFF</td>-->
+							<td class="">↗</td>
+							<td class="dropHolder"></td>
+							<td>
+								<div class="dateRangeAlert editDateTime" data-name="KBAB Sched Takeoff" data-value="18-Aug-2018 01:30z" title="18-Aug-2018 0130z">
+									<span class="timeDisplay ">0130</span>
+								</div>
+							</td>
+							<td>
+								<div class=" editDateTime" data-name="Actual Takeoff Time" data-value="18-Aug-2018 01:05z" title="18-Aug-2018 0105z | 0.4 early"><span
+									 class="timeDisplay">0105</span></div>
+							</td>
+							<td class="tooltipHolder nominal">-0.4<div class="tooltip shiftLeft">25 minutes early</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="">→</td>
+							<td class="editDropdown ">OpArea 1</td>
+							<td>
+								<div class="editDateTime" title="18-Aug-2018 0500z"><span class="timeDisplay">0500</span></div>
+							</td>
+							<td>
+								<div class="editDateTime" title="18-Aug-2018 0445z | 0.3 early"><span class="timeDisplay">0445</span></div>
+							</td>
+							<td class="tooltipHolder nominal">-0.3<div class="tooltip shiftLeft">15 minutes early</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="">←</td>
+							<td class="editDropdown ">OpArea 1</td>
+							<td>
+								<div class="editDateTime" title="18-Aug-2018 0500z"><span class="timeDisplay">0800</span></div>
+							</td>
+							<td>
+								<div class="editDateTime" title="18-Aug-2018 0445z | 1.0 late - reason for late exit"><span class="timeDisplay">0900</span></div>
+							</td>
+							<td class="tooltipHolder inputAlert deviation">+1.0 <div class="tooltip shiftLeft deviationLabel">1 hour late <p
+									 class="label">Reason:</p>
+								</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="label calculated"></td>
+							<td class="label calculated"></td>
+							<td class="label calculated">3.0</td>
+							<td class="label calculated">4.3</td>
+						</tr>
+
+						<tr id="landRow">
+							<!--<td class="label">LAND</td>-->
+							<td class="">↘</td>
+							<td class="dropHolder"></td>
+							<td>
+								<div class=" editDateTime" title="18-Aug-2018 1530z"><span class="timeDisplay">1530</span></div>
+							</td>
+							<td>
+								<div class=" editDateTime" title="18-Aug-2018 1610z | 0.8 late - reason for late landing"><span class="timeDisplay">1610</span></div>
+							</td>
+							<td class="tooltipHolder inputAlert deviation">+0.8 <div class="tooltip shiftLeft deviationLabel">40 minutes
+									late <p class="label">Reason: </p>
+								</div>
+							</td>
+						</tr>
+						<tr id="sortieDurationRow">
+							<td class="label calculated"></td>
+							<td class="label calculated">Duration</td>
+							<td class="label calculated">14.0</td>
+							<td class="label calculated">15.1</td>
+						</tr>
+
+					</table>
+
+				</div>
+				<div id="collectCard" class="card rightContents">
+					<img src="img/iconCamera.png" style="height:25px; display:inline-block;" />
+					<h1 class="noEdit cardHeader">Collection</h1>
+					<div class="button small">✚</div>
+					<div class="button small" title="Import Stats from Unicorn">🦄↧</div>
+
+
+					<div class="recordEntry">
+						<h2>ABX8X02</h2>
+						<span class="calculated">B30 IMINT</span>
+						<span style="float:right; clear:left; padding:2px; background:limegreen;">EFFECTIVE</span>
+						<p>Station: OpArea 1</p>
+						<table>
+							<tr>
+								<td class="label" title="Tasked/Planned/Collected">T/P/C</td>
+								<td>
+									<div class="editText" contenteditable="true">320</div>/<div class="editText" contenteditable="true">300</div>/<div
+									 class="editText" contenteditable="true">280</div>
+								</td>
+								<td class="calculated" title="percent of planned collected">93%</td>
+							</tr>
+							<tr>
+								<td class="label" title="non DGS Exploit Collection (no exploit required)/Satisfied">NoExp/Sat</td>
+								<td>
+									<div class="editText" contenteditable="true">50</div>/<div class="editText" contenteditable="true">100</div>
+								</td>
+								<td class="calculated" title="percent of collected satisfied">43%</td>
+							</tr>
+							<tr>
+								<td class="label" title="ADHOC Planned/Collected">ADHOC P/C</td>
+								<td>
+									<div class="editText" contenteditable="true">10</div>/<div class="editText" contenteditable="true">5</div>
+								</td>
+								<td class="calculated">50%</td>
+							</tr>
+							<tr>
+								<td class="label" title="">Total Img</td>
+								<td><span class="editText" contenteditable="true">400</span></td>
+								<td class="calculated"></td>
+							</tr>
+						</table>
+						<div class="noEdit" style="display:flex;margin-top:5px; margin-bottom:5px; box-shadow: black 1px 1px 8px 0px;overflow:hidden;border-radius:5px;">
+							<span style="background:limegreen;width:32%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="100 Satisfied - 30% tasked/32% planned/35% collected">.
+							</span>
+							<span style="background:orange;width:41%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="130 Unsatisfied - 39% tasked/41% planned/45% collected">
+								.</span>
+							<span style="background:cadetblue;width:15%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="50 non-DGS (no Exploit) - 20% collected">.
+							</span>
+							<span style="background:crimson;width:6%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="20 Uncollected - 6%">.
+							</span>
+							<span style="background:green;width:6%;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;" title="20 Unplanned - 6% tasked">.
+							</span>
+						</div>
+					</div>
+
+					<div class="recordEntry">
+						<h2>SIGINT VUL</h2>
+						<span class="calculated">SIGINT</span>
+						<span style="float:right; clear:left; padding:2px; background:limegreen;">EFFECTIVE</span>
+						<p>Station: None</p>
+						<table>
+							<tr>
+								<td></td>
+								<td style="min-width:70px; width:70px;" class="label">SCH</td>
+								<td style="min-width:70px; width:70px;" class="label">ACT</td>
+							</tr>
+							<tr>
+								<td class="label topBorder">ON</td>
+								<td class="topBorder" title="18-Aug-2018 0500z">0500</td>
+								<td class="topBorder" title="18-Aug-2018 0445z">0445</td>
+								<td class="calculated topBorder" style="background:limegreen">0.3 early</td>
+							</tr>
+							<tr>
+								<td class="label ">OFF</td>
+
+								<td class="" title="18-Aug-2018 1200z">0800</td>
+								<td class="" title="18-Aug-2018 1300z">0900</td>
+								<td class="calculated " style="background:crimson">1.0 late</td>
+							</tr>
+							<tr>
+								<td class="label topBorder">Dur</td>
+								<td class="calculated topBorder">3.0</td>
+								<td class="calculated topBorder">4.3</td>
+								<td class="topBorder topBorder">143%</td>
+							</tr>
+							<tr>
+								<td class="label topBorder">outage</td>
+								<td class="topBorder">0.5</td>
+								<td class="label topBorder">total:</td>
+								<td class="calculated topBorder">3.8</td>
+							</tr>
+
+							<tr>
+								<td class="label "></td>
+								<td class="label " colspan="2"></td>
+								<td class="calculated">126%</td>
+							</tr>
+						</table>
+						<table>
+							<tr>
+								<td class="label">CR</td>
+								<td class="label">DF</td>
+								<td class="label">PR</td>
+								<td class="label">KL</td>
+							</tr>
+							<tr>
+								<td class="topBorder">100</td>
+								<td class="topBorder">100</td>
+								<td class="topBorder">75</td>
+								<td class="topBorder">0</td>
+							</tr>
+						</table>
+					</div>
+
+					<div class="recordEntry">
+						<h2>OpArea 1</h2>
+						<span class="calculated">B40 GMTI</span>
+						<span style="float:right; clear:left; padding:2px; background:limegreen;">EFFECTIVE</span>
+						<p>Station: OpArea 1</p>
+						<table>
+							<tr>
+								<td></td>
+								<td style="min-width:70px; width:70px;" class="label">SCH</td>
+								<td style="min-width:70px; width:70px;" class="label">ACT</td>
+							</tr>
+							<tr>
+								<td class="label topBorder">ON</td>
+								<td class="topBorder" title="18-Aug-2018 0500z">0500</td>
+								<td class="topBorder" title="18-Aug-2018 0445z">0445</td>
+								<td class="calculated topBorder" style="background:limegreen">0.3 early</td>
+							</tr>
+							<tr>
+								<td class="label ">OFF</td>
+
+								<td class="" title="18-Aug-2018 1200z">0800</td>
+								<td class="" title="18-Aug-2018 1300z">0900</td>
+								<td class="calculated " style="background:crimson">1.0 late</td>
+							</tr>
+							<tr>
+								<td class="label topBorder">Dur</td>
+								<td class="calculated topBorder">3.0</td>
+								<td class="calculated topBorder">4.3</td>
+								<td class="topBorder topBorder">143%</td>
+							</tr>
+							<tr>
+								<td class="label topBorder">outage</td>
+								<td class="topBorder">0.5</td>
+								<td class="label topBorder">total:</td>
+								<td class="calculated topBorder">3.8</td>
+							</tr>
+
+							<tr>
+								<td class="label "></td>
+								<td class="label " colspan="2"></td>
+								<td class="calculated">126%</td>
+							</tr>
+						</table>
+						<table>
+							<tr>
+								<td class="label">Tracks</td>
+								<td>21</td>
+							</tr>
+							<tr>
+								<td class="label topBorder">SAR H/M/MB/MA</td>
+								<td class="topBorder">2/3/0/0</td>
+								<td class="topBorder"></td>
+							</tr>
+							<tr>
+								<td class="label">Swath C/M/H/CSAR</td>
+								<td>5/1/3/0</td>
+								<td class="calculated">13</td>
+							</tr>
+							<tr>
+								<td class="label topBorder">RRCA/GRCA/CMTI</td>
+								<td class="topBorder">5/6/7</td>
+								<td class="calculated topBorder">18</td>
+							</tr>
+							<tr>
+								<td class="label topBorder">Total Img</td>
+								<td class="topBorder">32</td>
+								<td class="topBorder"></td>
+							</tr>
+						</table>
+					</div>
+				</div>
+			</aside>
+			<div id="logCard" class="card">
+
+				<img src="img/iconLog.png" style="height:20px; display:inline-block;" />
+				<h1 class="cardHeader">Event Log</h1>
+				<div style="display:flex; flex-direction:row; align-items: center; float:right;">
+					<div class="label">Sort</div>
+					<div class="toggleContainerVertical">
+						<input type="radio" name="sort" id="sortNewestFirst" checked="checked" />
+						<label for="sortNewestFirst" title="Newest Entries on Top">↑</label>
+						<input type="radio" name="sort" id="sortOldestFirst" />
+						<label for="sortOldestFirst" title="Newest Entries at Bottom">↓</label>
+					</div>
+				</div>
+				<table id="logButtonContainer">
+					<tr>
+						<td>
+							<div class="button logEvent"><span style="font-size:45px;line-height:30px;float:left;">+</span>Flight<br />Event</div>
+						</td>
+						<td>
+							<div class="button logFault"><span style="font-size:45px;line-height:30px;float:left;">+</span>Fault<br />Entry</div>
+						</td>
+						<td>
+							<div class="button logSensor"><span style="font-size:45px;line-height:30px;float:left;">+</span>Sensor<br />Event</div>
+						</td>
+						<td>
+							<div class="button logInfo"><span style="font-size:45px;line-height:30px;float:left;">+</span>Info<br />Note</div>
+						</td>
+					</tr>
+				</table>
+				<div class="filterContainer">
+
+					<!--Filters:-->
+					<input type="radio" name="filter" id="filterAll" checked="checked" />
+					<label for="filterAll">Show All</label>
+					<input type="radio" name="filter" id="filterEvent" data-target-class="logEvent" />
+					<label for="filterEvent">Events</label>
+					<input type="radio" name="filter" id="filterFaults" data-target-class="logFault" />
+					<label for="filterFaults">Faults</label>
+					<input type="radio" name="filter" id="filterSensor" data-target-class="logSensor" />
+					<label for="filterSensor">Sensor</label>
+					<input type="radio" name="filter" id="filterInfo" data-target-class="logInfo" />
+					<label for="filterInfo">Info</label>
+				</div>
+
+				<div id="logContainer">
+					<div class="logFault logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logFault.png" style="height:30px; display:inline-block;" /></td>
+								<th class="logTimeCol" title="18-Aug-2018 0250z">0250</th>
+								<th style="text-align:left">Eng 33</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2021</p>
+									<p>Adams</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">Fuel flow 10% higher than expected<br />Fuel Flow: 500pph</td>
+							</tr>
+						</table>
+					</div>
+					<div class="logSensor logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logSensor.png" style="height:30px; display:inline-block;" /></td>
+								<th class="logTimeCol" title="18-Aug-2018 0250z">0250</th>
+								<th style="text-align:left">ISS Restart</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2021</p>
+									<p>Rodgers</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">Uncommanded restart<br />Total outage: 15min<br />targets
+									missed:0</td>
+							</tr>
+						</table>
+					</div>
+
+					<div class="logFault logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logFault.png" style="height:30px; display:inline-block;" /></td>
+								<th class="logTimeCol" title="18-Aug-2018 0250z">0250</th>
+								<th style="text-align:left">INMAR Link Loss</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2021</p>
+									<p>Adams</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">Outage length: 3min<br />MX completed restart</td>
+							</tr>
+						</table>
+					</div>
+					<div class="logInfo logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logInfo.png" style="height:30px; display:inline-block;" /></td>
+
+								<th class="logTimeCol" title="18-Aug-2018 0445z">0445</th>
+								<th style="text-align:left">Cool Story</th>
+							</tr>
+							<tr>
+								<td>
+									<p>Pilot</p>
+									<p>Snuffy</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">
+									when someone says something really weird. akward, or something no one cares, about, so you say cool story to
+									be sarcastic and show that you didn't care.
+									"So I got buger king the other day cause my mom had a coupon for free whopper, buy one meal get one free. so I
+									got my food and took it out to the truck. well I was driving and I wanted a drink of my coke. so I tore open
+									one end of the straw paper and blew into that. And the paper shot off to the passenger side vent! Then I
+									laughed and forgot about it" - Daniel
+
+									"Cool story" - Bri
+								</td>
+							</tr>
+						</table>
+					</div>
+					<div class="logFault logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logFault.png" style="height:30px; display:inline-block;" /></td>
+								<th class="logTimeCol" title="18-Aug-2018 0250z">0250</th>
+								<th style="text-align:left">INMAR Link Loss</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2021</p>
+									<p>Adams</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">Outage length: 3min<br />MX completed restart</td>
+							</tr>
+						</table>
+					</div>
+
+					<div class="logSensor logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logSensor.png" style="height:30px; display:inline-block;" /></td>
+								<th class="logTimeCol" title="18-Aug-2018 0250z">0050</th>
+								<th style="text-align:left">ISS Startup</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2021</p>
+									<p>Rodgers</p>
+								</td>
+								<td class="memo logComment" style="text-align:left"></td>
+							</tr>
+						</table>
+					</div>
+
+					<div class="logEvent logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logEvent.png" style="width:15px; display:inline-block;" /></td>
+								<th class="logTimeCol" title="17-Aug-2018 2100z">2300</th>
+								<th style="text-align:left">Taxi</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2020</p>
+									<p>McLongnamington</p>
+								</td>
+								<td class="memo logComment" style="text-align:left"></td>
+							</tr>
+						</table>
+					</div>
+					<div class="logEvent logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logEvent.png" style="width:15px; display:inline-block;" /></td>
+								<th class="logTimeCol" title="17-Aug-2018 2100z">2100</th>
+								<th style="text-align:left">Engine Start</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2020</p>
+									<p>McLongnamington</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">Engine start for new aircraft<br />MX suspects 2020 will
+									not return to service for sevaral weeks.<br />Ensure LNO is inofrmed that turn time will be extended, so
+									either this sortie should land early or next will end up takeing off late.</td>
+							</tr>
+						</table>
+					</div>
+					<div class="logEvent logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logEvent.png" style="width:15px; display:inline-block;" /></td>
+								<th class="logTimeCol" title="17-Aug-2018 2200z">2200</th>
+								<th style="text-align:left">Tail Swap</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2020</p>
+									<p>Smith</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">01-2020→01-2021<br />Swapped tails for INS fault</td>
+							</tr>
+						</table>
+					</div>
+
+					<div class="logFault logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logFault.png" style="height:30px; display:inline-block;" /></td>
+								<th class="logTimeCol" title="17-Aug-2018 2115z">2115</th>
+								<th style="text-align:left">INS 86</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2020</p>
+									<p>Adams</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">same issue, mx reports no replacements on base</td>
+							</tr>
+						</table>
+					</div>
+					<div class="logEvent logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logEvent.png" style="width:15px; display:inline-block;" /></td>
+								<th class="logTimeCol editDateTime" title="17-Aug-2018 2100z"><span class="timeDisplay">2130</span></th>
+								<th style="text-align:left">Engine Start</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2020</p>
+									<p>Smith</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">Second engine start</td>
+							</tr>
+						</table>
+					</div>
+					<div class="logEvent logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logEvent.png" style="width:15px; display:inline-block;" /></td>
+								<th class="logTimeCol editDateTime" title="17-Aug-2018 2100z"><span class="timeDisplay">2120</span></th>
+								<th style="text-align:left">Engine Shutdown</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2020</p>
+									<p>Smith</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">Shut down for INS fault</td>
+							</tr>
+						</table>
+					</div>
+
+
+					<div class="logFault logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logFault.png" style="height:30px; display:inline-block;" /></td>
+								<th class="logTimeCol">
+									<div class="logTimeCol editDateTime" title="17-Aug-2018 2100z"><span class="timeDisplay">2115</span></div>
+								</th>
+								<th style="text-align:left">INS 86</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2020</p>
+									<p>Adams</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">MX thinks restarting will fix</td>
+							</tr>
+						</table>
+					</div>
+					<div class="logEvent logEntry">
+						<table>
+							<tr>
+								<td class="logLabelCol" rowspan="2"><img src="img/logEvent.png" style="width:15px; display:inline-block;" /></td>
+								<th class="logTimeCol editDateTime" title="17-Aug-2018 2100z"><span class="timeDisplay">2100</span></th>
+								<th style="text-align:left">Engine Start</th>
+							</tr>
+							<tr>
+								<td class="logTimeCol">
+									<p>01-2020</p>
+									<p>Smith</p>
+								</td>
+								<td class="memo logComment" style="text-align:left">On time engine start</td>
+							</tr>
+						</table>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+
+	</main>
+	<footer id="footerPanel" class="panelShadow">
+		<div class="button small" style="float:left;">✚</div>
+		<div class="button small" onclick="expandPanel('footerPanel')">
+			<div class="expandArrow"> </div>
+		</div>
+		<div class="button small">🗑️</div>
+		<div id="shiftContainer">
+			<table class="footerShift">
+				<tr>
+					<td class="label">Current User</td>
+					<td class="label">Role</td>
+					<td class="label">Unit</td>
+					<td class="label">SSAN</td>
+					<td class="label">Ground Station</td>
+					<td class="label">Start</td>
+					<td class="label">End</td>
+					<td class="label">Shift Length</td>
+				</tr>
+				<tr>
+					<td class="topBorder">Smith, Joseph</td>
+					<td class="topBorder">Pilot</td>
+					<td class="topBorder">0012</td>
+					<td class="topBorder">1234</td>
+					<td class="topBorder">01-1201</td>
+					<td class="topBorder">1530</td>
+					<td class="topBorder">1730</td>
+					<td class="topBorder">2.0</td>
+				</tr>
+			</table>
+		</div>
+
+		<div class="button small" style="clear:right;">🖶
+			<!--Print-->
+		</div>
+		<div id="timesheetContainer">
+
+
+
+			<div id="timesheetHeaderContainer">
+				<table id="timesheetHeader">
+					<thead>
+						<tr>
+							<th class="colDetail">Shift<br />Time</th>
+							<th class="colName">
+								<p>Name</p>
+								<p>Position</p>
+							</th>
+							<th class="colDetail">
+								<p>Unit</p>
+								<p>SSAN</p>
+							</th>
+							<th class="colNum">Pri</th>
+							<th class="colNum">Sec</th>
+							<th class="colNum">Inst</th>
+							<th class="colNum">Eval</th>
+							<th class="colNum">Oth</th>
+							<th class="colDetail">Total</th>
+							<th class="colNum">Cbt</th>
+							<th class="colNum">Cbt<br />Spt</th>
+							<th class="colGS">Ground<br />Station</th>
+							<th class="colNum">RS</th>
+						</tr>
+
+					</thead>
+				</table>
+			</div>
+			<div id="timesheetBodyContainer">
+				<table id="timesheet">
+					<tbody>
+						<tr>
+							<td class="colDetail">
+								<p>1530</p>
+								<p>1730</p>
+							</td>
+
+							<td class="colName">
+								<p>Smith, Joseph</p>
+								<p>Pilot</p>
+							</td>
+							<td class="colDetail">
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+							<td class="colNum">2.0</td>
+							<td class="colNum">0.0</td>
+							<td class="colNum">0.0</td>
+							<td class="colNum">0.0</td>
+							<td class="colNum">0.0</td>
+							<td class="colDetail">2.0</td>
+							<td class="colNum">0.0</td>
+							<td class="colNum">0.0</td>
+							<td class="colGS">01-1201</td>
+							<td class="colNum"></td>
+						</tr>
+						<tr>
+							<td>
+								<p>1030</p>
+								<p>1530</p>
+							</td>
+							<td class="colName">
+								<p>Adams, Samuel</p>
+								<p>Pilot</p>
+							</td>
+							<td>
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+							<td>5.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>5.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>01-1201</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<p>0630</p>
+								<p>1030</p>
+							</td>
+							<td class="colName">
+								<p>McLongnamington, Pishposh</p>
+								<p>Pilot</p>
+							</td>
+							<td>
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>01-1201</td>
+							<td>1</td>
+						</tr>
+						<tr>
+							<td>
+								<p>1030</p>
+								<p>1530</p>
+							</td>
+							<td class="colName">
+								<p>Snuffy, Sam</p>
+								<p>Pilot</p>
+							</td>
+							<td>
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>5.0</td>
+							<td>5.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>01-1201</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<p>1530</p>
+								<p>1730</p>
+							</td>
+
+							<td class="colName">
+								<p>Smith, Joseph</p>
+								<p>Pilot</p>
+							</td>
+							<td>
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+							<td>2.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>2.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>01-1201</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<p>1030</p>
+								<p>1530</p>
+							</td>
+							<td class="colName">
+								<p>Adams, Samuel</p>
+								<p>Pilot</p>
+							</td>
+							<td>
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+							<td>5.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>5.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>01-1201</td>
+							<td></td>
+						</tr>
+						<tr>
+							<td>
+								<p>0630</p>
+								<p>1030</p>
+							</td>
+							<td class="colName">
+								<p>McLongnamington, Pishposh</p>
+								<p>Pilot</p>
+							</td>
+							<td>
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>01-1201</td>
+							<td>1</td>
+						</tr>
+
+						<tr>
+							<td>
+								<p>0630</p>
+								<p>1030</p>
+							</td>
+							<td class="colName">
+								<p>Rodgers, Mister</p>
+								<p>Sensor</p>
+							</td>
+							<td>
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>01-1201</td>
+							<td>1</td>
+						</tr>
+						<tr>
+							<td>
+								<p>0630</p>
+								<p>1030</p>
+							</td>
+							<td class="colName">
+								<p>Rodgers, Mister</p>
+								<p>Sensor</p>
+							</td>
+							<td>
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>01-1201</td>
+							<td>1</td>
+						</tr>
+						<tr>
+							<td>
+								<p>0630</p>
+								<p>1030</p>
+							</td>
+							<td class="colName">
+								<p>Rodgers, Mister</p>
+								<p>Sensor</p>
+							</td>
+							<td>
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>01-1201</td>
+							<td>1</td>
+						</tr>
+						<tr>
+							<td>
+								<p>0630</p>
+								<p>1030</p>
+							</td>
+							<td class="colName">
+								<p>Rodgers, Mister</p>
+								<p>Sensor</p>
+							</td>
+							<td>
+								<p>0012</p>
+								<p>1234</p>
+							</td>
+
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>4.0</td>
+							<td>0.0</td>
+							<td>0.0</td>
+							<td>01-1201</td>
+							<td>1</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+	</footer>
+
+
+	<!--<script src="calendar-display/vanillaCalendar.js"></script>-->
+
+	<script src="modalManager.js"></script>
+	<script src="components/calendar.js"></script>
+	<script src="components/inputDateTime.js"></script>
+	<script src="components/selectionList.js"></script>
+	<script src="components/inputSelectModal.js"></script>
+	<script src="components/inputDropdown.js"></script>
+	<script src="components/toast.js"></script>
+	<script src="logUI.js"></script>
+</body>
+
+</html>

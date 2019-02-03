@@ -1,0 +1,1273 @@
+﻿/*div {
+	border: 1px solid gold;
+}
+
+header, nav, footer {
+	border: 1px solid red;
+}
+
+
+span, main {
+	border: 1px solid blue;
+}*/
+
+
+body {
+	margin: 0;
+	/*font-size: 10.0pt;*/
+	font-family: Calibri;
+	background-color: gray;
+	transition: background-color 1s;
+}
+
+
+h1 {
+	font-size: 1.5em;
+	margin: 0;
+	top: 0;
+	left: 0;
+	display: inline-block;
+}
+
+h2 {
+	font-size: 1.2em;
+	margin: 0px;
+	display: inline-block;
+}
+
+h3 {
+	margin: 0px;
+	display: inline-block;
+}
+
+p {
+	margin: 0px 0px 0px 0px;
+	width: 100%;
+}
+
+
+table {
+	width: 100%;
+	border: 0px none;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+
+th {
+	border-width: 1px 0px 1px 0px;
+	padding: 1px 5px 1px 5px;
+	border-style: solid;
+	border-color: black;
+	font-weight: bold;
+	white-space: nowrap;
+	/*overflow: hidden;
+	text-overflow: ellipsis;*/
+	vertical-align: top;
+}
+
+td {
+	border-width: 0px;
+	padding: 0px 2px 0px 2px;
+	border-color: transparent;
+	/*overflow: hidden;
+	text-overflow: ellipsis;*/
+	/*white-space: nowrap;*/
+	vertical-align: top;
+}
+
+	td.topBorder {
+		border-top: 1px solid lightgray;
+	}
+
+
+/*main components*/
+#headerPanel {
+	position: fixed;
+	top: 0px;
+	height: 65px; /*75px;*/
+	width: 100%;
+	min-width: 500px;
+	background-color: whitesmoke;
+	border-bottom: 3px solid black;
+	/*flex the top*/
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: flex-start;
+	z-index: 11;
+}
+
+	#headerPanel td {
+		white-space: nowrap;
+	}
+
+#headerNav {
+	display: none;
+	background: lightgray;
+	height: 100%;
+	flex-basis: 35px;
+	flex-grow: 0;
+	flex-shrink: 0;
+	flex-direction: column;
+	border-right: 1px solid dimgray;
+}
+
+	#headerNav > a {
+		display: none;
+		flex-grow: 1;
+		flex-direction: column;
+		border: 1px solid black;
+		text-align: center;
+		justify-content: center;
+		font-weight: bold;
+		color: black;
+		text-decoration: none;
+	}
+
+		#headerNav > a:hover {
+			background-color: deepskyblue;
+			cursor: pointer;
+		}
+
+		#headerNav > a.current {
+			background-color: dodgerblue;
+		}
+
+.headerSection {
+	/*position: relative;*/
+	padding: 0 3px 0 3px;
+	margin: 2px;
+	/*width: 225px;*/
+	height: 60px; /*70px;*/ /*hardcoded to header height-padding (could be calculated, but as long as header is fixed, why?)*/
+	border-width: 0 1px 0 0;
+	border-color: dimgray;
+	border-style: solid;
+	/*flexy*/
+	flex-grow: 1;
+	flex-shrink: 0;
+	/*overflow-y: auto;
+	overflow-x: hidden;*/
+	max-width: 300px;
+	min-width: 150px;
+}
+
+#GSTableContainer {
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 100%;
+	height: 40px;
+}
+
+
+#headerMenu {
+	/*float:right;*/
+	flex-grow: 1;
+	flex-shrink: 2;
+	max-height: 100px;
+	min-width: 75px;
+}
+
+
+#navPanel {
+	display: none;
+	/*visibility: hidden;*/
+	background: lightgray;
+	position: fixed;
+	top: 68px; /*78px;*/
+	height: 20px;
+	width: 100%;
+	min-width: 400px;
+}
+
+	#navPanel > a {
+		border: 1px solid black;
+		flex-grow: 1;
+		text-align: center;
+		font-weight: bold;
+		color: black;
+		text-decoration: none;
+	}
+
+		#navPanel > a:hover {
+			background-color: deepskyblue;
+		}
+
+		#navPanel > a.current {
+			background-color: dodgerblue;
+		}
+
+#mainPanel {
+	position: absolute;
+	top: 68px; /*78px;*/
+	bottom: 50px;
+	width: 100%;
+	overflow: auto;
+	overflow-x: hidden;
+	scroll-behavior: smooth;
+	/*flex again!*/
+	/*display: flex;
+	flex-flow: row nowrap;
+	justify-content: center;
+	align-items: flex-start;*/
+}
+
+/*#mainPanel.expand {
+		bottom: 500px;
+	}*/
+
+/*table.mxStatus {
+	table-layout: fixed;
+}
+
+	table.mxStatus td, table.mxStatus td {
+		white-space: nowrap;
+	}*/
+
+#takeoffRow {
+	/*border-top: solid 1px black;*/
+	border-bottom: solid 1px black;
+	font-weight:bold;
+}
+
+#landRow {
+	border-top: solid 1px black;
+	font-weight: bold;
+}
+
+
+table.mxStatus .statusCode {
+	width: 15px;
+}
+
+#logButtonContainer {
+	table-layout: fixed;
+}
+
+	#logButtonContainer .button {
+		width: calc(100% - 26px);
+		min-width: 70px;
+	}
+
+#logContainer {
+	height: calc(100% - 130px); /*smaller header font allows for 20 extra pixels!*/
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.logEntry table {
+	width: 100%;
+	/*overflow: hidden;*/
+	table-layout: fixed;
+}
+
+	.logEntry table td, .logEntry table td p {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.logEntry table .logLabelCol {
+		width: 25px;
+	}
+
+	.logEntry table .logTimeCol {
+		width: 70px;
+	}
+
+.logEntry.logInfo {
+	background: #e1f5fe;
+}
+
+.logEntry.logEvent {
+	background: #E8F5E9;
+}
+
+.logEntry.logFault {
+	background: #FFF3E0;
+}
+
+.logEntry.logSensor {
+	background: #B2EBF2;
+}
+
+#footerPanel {
+	position: fixed;
+	text-align: center;
+	bottom: 0px;
+	height: 50px;
+	width: 100%;
+	background-color: whitesmoke;
+	border-top: 3px solid black;
+	transition: height ease-in-out 0.5s;
+}
+
+	#footerPanel.expand {
+		height: 500px;
+	}
+
+.expandArrow {
+	position: relative;
+	top: 5px;
+	width: 7px;
+	height: 7px;
+	margin: 2px;
+	border: solid white;
+	border-width: 1px 0 0 1px;
+	transform: rotate(45deg);
+	transition: all ease-in-out 0.25s;
+}
+
+#footerPanel.expand div.expandArrow {
+	transform: rotate(225deg) translateY(2px) translateX(2px);
+}
+
+#shiftContainer {
+	display: inline-block;
+	width: calc(100% - 80px);
+}
+
+.footerShift {
+	table-layout: fixed;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 5px 0 5px 0;
+}
+
+	.footerShift td {
+		padding: 0 5px 0 5px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		width: 15%;
+	}
+
+		.footerShift td:first-child {
+			width: 25%;
+			font-weight: bold;
+		}
+
+	.footerShift tr td:not(:last-child) {
+		border-right: 1px solid lightgray;
+	}
+
+#timesheetContainer {
+	position: absolute;
+	top: 85px;
+	bottom: 0px;
+	width: 100%;
+	/*overflow-x:auto;
+	overflow-y:hidden;*/
+	overflow: auto;
+}
+
+#timesheetHeader {
+	border: solid black;
+	border-width: 2px 1px;
+	width: calc(100% - 17px);
+}
+
+#timesheetBodyContainer {
+	position: absolute;
+	top: 42px;
+	bottom: 0px;
+	min-width: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+/*#timesheet thead {
+	height: 0px;
+}
+
+	#timesheet thead th div {
+		position: absolute;
+		top: 0;
+		width:100%;
+		border-left:1px solid black;
+		text-align:center;
+	}*/
+
+#timesheet td, #timesheet th, #timesheetHeader th {
+	padding: 0 2px 0 2px;
+	vertical-align: middle;
+	border: 1px solid black;
+}
+
+#timesheet tr:nth-child(even) {
+	background-color: lightgray;
+}
+
+.colDetail {
+	width: 50px !important;
+	min-width: 50px;
+}
+
+.colName {
+	min-width: 150px;
+	text-align: left;
+}
+
+.colNum {
+	width: 35px !important;
+	min-width: 35px;
+}
+
+.colGS {
+	width: 75px !important;
+	min-width: 75px;
+}
+
+/*reused classes*/
+.panelShadow {
+	/*moves panels to "top" and casts shadow on lower content*/
+	z-index: 10;
+	box-shadow: black 0px 0px 7px 0px;
+}
+
+.card {
+	border: 0;
+	background: whitesmoke;
+	border-radius: 3px;
+	margin: 5px;
+	/*box-shadow: black 1px 1px 7px 0px;*/
+	box-shadow: black 1px 1px 2px 0px;
+	padding: 5px 5px 10px 5px;
+	/*width: 100%; causes overflow by ignoring margins*/
+}
+
+.cardHeader {
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+
+.recordEntry {
+	border-top: 1px solid dimgray;
+	margin-top: 10px;
+}
+
+.label {
+	color: grey;
+	cursor: default;
+}
+
+.calculated {
+	font-style: italic;
+	cursor: default;
+}
+
+.mxStatusSystem {
+	text-align: left;
+	cursor: default;
+	white-space: nowrap;
+	width: 30px;
+}
+
+.mxStatusSubSystem {
+	text-align: left;
+	padding-left: 20px;
+	padding-right: 5px;
+	cursor: default;
+	white-space: nowrap;
+}
+
+.mxStatus td, .mxStatus th {
+	text-align: left;
+}
+
+.editMemo {
+	white-space: normal;
+	overflow-x: hidden;
+	overflow-y: auto;
+	text-align: left;
+	font-weight: normal;
+	min-width: 50px;
+	max-height: 500px;
+}
+
+.editText {
+	min-width: 25px;
+}
+
+div.editText {
+	display: inline-block;
+}
+
+
+.editDropdown {
+	cursor: pointer;
+	position: relative;
+	/*width: max-content;*/
+	padding-right: 15px;
+}
+
+	.editDropdown:hover:before {
+		content: "";
+		position: absolute;
+		width: 6px;
+		height: 6px;
+		bottom: calc(50% - 4px);
+		right: 3px;
+		border: solid #f5f5f5cf;
+		border-width: 0 5px 5px 0;
+		transform: rotate(45deg)
+	}
+
+
+
+	.editDropdown:hover:after {
+		content: "";
+		position: absolute;
+		width: 5px;
+		height: 5px;
+		bottom: calc(50% - 2px);
+		right: 5px;
+		border: solid black;
+		border-width: 0 2px 2px 0;
+		transform: rotate(45deg);
+	}
+
+.dropdown-display.label {
+	font-style: italic;
+}
+
+/*button dropdown option
+		.editDropdown:hover:before {
+		content: "";
+		position: absolute;
+		width: 14px;
+		height: 14px;
+		bottom: calc(50% - 6px);
+		right: 1px;
+		background-color: deepskyblue;
+		border-radius: 14px;
+	}
+
+	.editDropdown:hover:after {
+		content: "";
+		position: absolute;
+		width: 4px;
+		height: 4px;
+		bottom: calc(50% - 1px);
+		right: 5px;
+		border: solid white;
+		border-width: 0 2px 2px 0;
+		transform: rotate(45deg);
+	}*/
+
+.dropdown-container {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	left: -5px;
+	margin: 0;
+	padding: 0;
+	max-height: calc(25vh);
+	overflow: hidden;
+}
+
+	.dropdown-container.shiftLeft {
+		left: unset;
+		right: -5px;
+	}
+
+	.dropdown-container.shiftUp {
+		bottom: 20px;
+	}
+
+.list-container {
+	box-sizing: border-box;
+	width: 100%;
+	/*height: 100%; this will probably revent container from shrinking for shorter lists?*/
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.list-scroll-container {
+	flex-grow: 1;
+	flex-shrink: 1;
+	overflow-x: hidden;
+	overflow-y: auto;
+	scroll-behavior: smooth;
+}
+
+.list-entry {
+	white-space: nowrap;
+	cursor: pointer;
+	text-align: left;
+	user-select: none;
+}
+
+	/*doesn't work well with search - plus, rows are not usually separated in dropdowns
+		.dropdown-entry:nth-child(even) {
+		background-color: gainsboro;
+	}*/
+	.list-entry > td {
+		padding: 1px 5px;
+	}
+
+		.list-entry > td.list-entry-content:nth-child(n+2) {
+			border-left: solid dimgray 1px;
+		}
+
+		.list-entry > td.list-entry-multicontent:nth-child(n+3) {
+			border-left: solid dimgray 1px;
+		}
+
+	.list-entry.search-selection {
+		box-shadow: inset 0px 0px 10px 5px deepskyblue;
+		/*background: deepskyblue;*/
+	}
+
+
+	.list-entry.selected {
+		background-color: dodgerblue;
+		color: white;
+	}
+
+	.list-entry:hover {
+		background: deepskyblue;
+	}
+
+	.list-entry:active {
+		background: #1976d2;
+	}
+
+.list-textinput {
+	box-sizing: border-box;
+	margin: 3px 0;
+	width: calc(100% - 5px);
+}
+
+
+.editDateTime {
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+}
+
+.editTime {
+	display: inline-block;
+	width: 70px;
+	/*font: normal normal 700 normal 40px / normal Calibri;*/
+	font-size: 2.5em;
+	font-weight: bold;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	padding: 0px;
+	margin: 2px;
+}
+
+.editDate {
+	display: inline-block;
+	width: 120px;
+	font-size: 1em;
+	font-weight: bold;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+[class*="edit"]:focus {
+	background-color: white;
+}
+
+[class*="edit"]:hover {
+	box-shadow: 0px 0px 5px 2px dodgerblue;
+}
+
+.noEdit {
+	cursor: default;
+}
+
+
+.changed {
+	box-shadow: 0px 0px 5px 2px orange;
+}
+
+.error {
+	box-shadow: 0px 0px 5px 2px red;
+}
+
+/*use for timeline deviations or error notices*/
+.deviation {
+	color: crimson;
+}
+
+/*use for on time indiactions and 'good' displays*/
+.nominal {
+	color: limegreen;
+}
+
+.hidden {
+	display: none;
+}
+
+.inputAlert {
+	position: relative;
+}
+
+	.inputAlert:after {
+		content: "!";
+		position: absolute;
+		top: 0;
+		left: 100%;
+		/*margin-left: 5px;*/
+		width: 15px;
+		height: 15px;
+		font-size: 12px;
+		text-align: center;
+		/*vertical-align: middle;*/
+		font-weight: bold;
+		color: crimson; /*gray;*/
+		border: solid crimson 1px; /*solid gray 1px;*/
+		border-radius: 20px;
+		background-color: whitesmoke;
+	}
+
+	.inputAlert:hover:after {
+		content: "input required";
+		font-weight: normal;
+		border-radius: 3px;
+		padding: 0 2px 0 2px;
+		height: auto;
+		width: auto;
+	}
+
+.timeCard {
+	position: absolute;
+	left: calc(50% - 30px);
+	width: 170px; /*consider making 200px wide and stacking everything vertically -> calendar extra buttons need to be moved to bottom and days condensed to letters and day height changed to 2 or 3*/
+	text-align: center;
+	color: black;
+	/*height: 300px;*/
+}
+
+	.timeCard.shiftLeft {
+		left: unset;
+		right: calc(50% - 30px);
+	}
+
+	.timeCard.shiftUp {
+		bottom: 20px;
+	}
+
+
+	.timeCard::before {
+		position: absolute;
+		content: "";
+		border: solid 10px;
+		border-color: transparent transparent black transparent;
+		top: -20px;
+		left: 15px;
+	}
+
+	.timeCard.shiftLeft::before {
+		left: unset;
+		right: 15px;
+	}
+
+	.timeCard.shiftUp::before {
+		border-color: black transparent transparent transparent;
+		top: unset;
+		bottom: -20px;
+	}
+
+.modal {
+	z-index: 21;
+	cursor: auto;
+	box-shadow: grey 1px 1px 4px 2px;
+	border: 2px solid black;
+}
+
+
+.modalHeader {
+	display: inline;
+	cursor: default;
+}
+
+
+/*resizeable components*/
+#mainContainer {
+	margin: auto;
+	height: 100%;
+	width: 90%; /*size of each card plus padding (60px)*/
+	max-width: 1350px;
+	/*overflow: auto;*/
+}
+
+#asideLeft {
+	float: left;
+	clear: left;
+	/*flex: 1 1 300px;
+	max-width: 400px;*/
+}
+
+.leftContents {
+	width: 350px;
+}
+
+#logCard {
+	width: calc(100% - (350px + 250px + 60px));
+	display: inline-block;
+	height: calc(100% - 30px);
+	min-height: 500px;
+	/*flex: 2 1 500px;
+	min-width: 420px;
+	max-width: 800px;*/
+}
+
+#asideRight {
+	float: right;
+	clear: right;
+	/*order: 3;
+	flex: 1 1 250px;
+	max-width: 350px;*/
+}
+
+.rightContents {
+	width: 250px;
+}
+
+/*Resizing styles*/
+
+/*slightly smaller, shrink columns*/
+@media screen and (max-width: 1200px) {
+	#mainContainer {
+		width: 100%;
+	}
+
+	#logCard {
+		width: calc(100% - (250px + 250px + 60px));
+	}
+
+	.leftContents {
+		width: 250px;
+	}
+}
+
+/*skinny displays, single column, center cards*/
+/*show nav panel*/
+@media screen and (max-width: 955px) {
+
+	#headerNav {
+		display: flex;
+	}
+
+	.headerSection {
+		flex-grow: 1;
+	}
+
+	#headerNav > a {
+		display: flex;
+	}
+
+	.headerSection {
+		display: none;
+	}
+
+		.headerSection.selected {
+			display: inline-block;
+		}
+
+	#navPanel {
+		display: flex;
+		visibility: visible;
+	}
+
+	#mainPanel {
+		top: 90px; /*100px;*/
+		/*flex-direction: column;
+		justify-content: flex-start;*/
+	}
+
+	#mainContainer {
+		/*width: 100%;*/
+		width: 95%;
+		max-width: 700px;
+		min-width: 400px;
+	}
+
+	#logCard {
+		flex: 0 0 calc(100% - 30px);
+	}
+
+	#logCard, #asideRight, #asideLeft {
+		float: left;
+		clear: left;
+		width: 95%;
+	}
+
+		#asideRight table {
+			width: auto;
+			max-width: 300px;
+		}
+
+	.leftContents, .rightContents {
+		display: inline-block;
+		width: 100%;
+	}
+}
+
+
+
+/*Interface parts*/
+/*Standard Button*/
+.button {
+	display: inline-block;
+	margin: 2px;
+	border: 0px none;
+	/*box-shadow: grey 0px 1px 7px 2px;*/
+	box-shadow: grey 1px 1px 2px 0px;
+	border-radius: 3px;
+	padding: 1px 5px 1px 5px;
+	text-align: center;
+	vertical-align: middle;
+	background: dodgerblue;
+	color: white;
+	user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+}
+
+	.button:hover {
+		cursor: pointer;
+		/*box-shadow: grey 0px 1px 10px 5px;*/
+		box-shadow: grey 1px 1px 4px 2px;
+		/*padding: 5px 5px 5px 5px;*/
+		/*font-weight: bold;*/
+		text-shadow: 1px 0px 0px white; /*use shadow instead of bold to keep the button size consistent*/
+		background: deepskyblue;
+	}
+
+	.button:active {
+		/*box-shadow: grey 0px 1px 2px 1px;*/
+		box-shadow: inset grey 1px 1px 0px 0px;
+		/*font-weight: bold;*/
+		text-shadow: 1px 0px 0px white;
+		cursor: pointer;
+		background: #1976d2;
+	}
+	/*Special action buttons*/
+
+	.button.small {
+		height: 22px; /*make room for padding*/
+		min-width: 14px;
+		line-height: 22px;
+		border-radius: 20px;
+		float: right;
+	}
+
+		.button.small.left {
+			float: left;
+		}
+
+	/*button colors*/
+	.button.logEvent {
+		background: #4caf50;
+	}
+
+		.button.logEvent:hover {
+			background: #6adc6f;
+		}
+
+		.button.logEvent:active {
+			background: #2e7d32;
+		}
+
+	.button.logFault {
+		background: #ef6c00;
+	}
+
+		.button.logFault:hover {
+			background: #ffa726;
+		}
+
+		.button.logFault:active {
+			background: #e65100;
+		}
+
+	.button.logSensor {
+		background: #00bcd4;
+	}
+
+		.button.logSensor:hover {
+			background: #26c6da;
+		}
+
+		.button.logSensor:active {
+			background: #00838f;
+		}
+
+
+.tooltipHolder {
+	position: relative;
+	cursor: default;
+	text-decoration: underline dotted darkgrey;
+}
+
+	.tooltipHolder:hover .tooltip {
+		visibility: visible;
+		opacity: 100;
+	}
+
+.tooltip {
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	bottom: 18px;
+	left: calc(50% - 50px);
+	white-space: nowrap;
+	z-index: 20;
+	padding: 3px 5px;
+	margin: 5px;
+	border: 0;
+	background: whitesmoke;
+	border-radius: 3px;
+	box-shadow: grey 1px 1px 4px 2px;
+	color: black;
+	/*try to do a transition in/out*/
+	transition: all ease-in-out .25s;
+}
+
+	.tooltip:before {
+		position: absolute;
+		content: "";
+		border: solid 6px;
+		border-color: grey transparent transparent transparent;
+		bottom: -12px;
+		left: 39px;
+	}
+
+	.tooltip:after {
+		position: absolute;
+		content: "";
+		border: solid 5px;
+		border-color: whitesmoke transparent transparent transparent;
+		bottom: -10px;
+		left: 40px;
+	}
+
+	.tooltip.shiftDown {
+		bottom: unset;
+	}
+
+		.tooltip.shiftDown:before {
+			border-color: transparent transparent grey transparent;
+			bottom: unset;
+			top: -12px;
+		}
+
+		.tooltip.shiftDown:after {
+			border-color: transparent transparent whitesmoke transparent;
+			bottom: unset;
+			top: -10px;
+		}
+
+.toast {
+	position: fixed;
+	/*visibility: hidden;*/
+	opacity: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #EEEEEE;
+	box-shadow: black 3px 3px 11px 1px;
+	border-radius: 33px;
+	padding: 10px 20px 10px 20px;
+	min-width: 150px;
+	max-width: calc(100% - 40px);
+	text-align: center;
+	font-weight: bold;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	z-index: 99999;
+	transition: transform .25s ease-in-out, opacity .5s ease-in-out, top .25s ease-in-out;
+}
+
+	.toast.show {
+		/*visibility: visible;*/
+		opacity: 1;
+	}
+
+	.toast.movein {
+		top: 0px;
+		animation: slidein .25s ease-in-out;
+	}
+
+@keyframes slidein {
+	from {
+		top: -50px;
+	}
+
+	to {
+		top: 0px;
+	}
+}
+
+
+
+/*Filter buttons - note this assumes we don't have any other radio buttons, or they are all styled the same*/
+
+
+.filterContainer {
+	min-width: 375px;
+	margin: 10px 0 10px 0;
+	text-align: center;
+}
+
+input[type="radio"] {
+	display: none;
+}
+
+label {
+	position: relative;
+	display: inline-block;
+	margin-right: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	line-height: 25px;
+	border-radius: 12px;
+	cursor: pointer;
+	user-select: none;
+	transition: .25s all ease;
+	z-index: 2;
+}
+
+input[type="radio"]:checked + label {
+	color: #fff;
+	background: dodgerblue;
+}
+
+input[type="radio"]:hover + label {
+	color: #fff;
+	background: lightskyblue;
+}
+
+#filterAll + label:before {
+	content: " ";
+	position: absolute;
+	visibility: hidden;
+	top: 0px;
+	left: 0;
+	display: block;
+	width: 24px;
+	height: 21px;
+	border: 2px solid dodgerblue;
+	border-radius: 11px;
+	z-index: 1;
+}
+
+#filterAll:checked + label:before {
+	width: 370px;
+	visibility: visible;
+	transition: .25s width ease;
+}
+
+.toggleContainerVertical {
+	/*for simple toggle buttons*/
+	border: 2px solid dodgerblue;
+	border-radius: 11px;
+	z-index: 1;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	margin: 0 5px;
+}
+
+	.toggleContainerVertical label {
+		display: inherit;
+		margin: 0;
+		padding: 0 5px;
+		font-size: 10px;
+		line-height: 12px;
+	}
+
+
+/*Calendar styles*/
+.calendar-container {
+	box-sizing: border-box;
+	margin: 5px auto;
+	width: 100%;
+	border-radius: 3px;
+}
+
+.calendar-header {
+	/*background-color: lightgray;*/
+	border-bottom: solid black 1px;
+	border-top: solid black 1px;
+}
+
+.calendar-month-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 5px 0px;
+}
+
+/*.calendar-month-row .button.small {
+		height: 15px;
+		min-width: 10px;
+		line-height: 15px;
+		padding: 1px 2px;
+		font-size: 14px;
+	}*/
+
+.calendar-monthLabel, .calendar-yearLabel {
+	margin: 0;
+	padding: 0 3px 0 18px;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+.calendar-weekday-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+	.calendar-weekday-row .div {
+		flex: 0 0 14.28%;
+		text-align: center;
+		vertical-align: middle;
+	}
+
+.calendar-day-container {
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-around;
+	width: 100%;
+	/*background-color: white;*/
+}
+
+.calendar-day {
+	box-sizing: border-box;
+	flex: 0 0 14.28%;
+	font-size: .9em;
+	text-align: center;
+	vertical-align: middle;
+	padding: 1px 0;
+	border-radius: 3px;
+	border: solid 1px transparent;
+}
+
+	.calendar-day:hover {
+		background-color: deepskyblue;
+		cursor: pointer;
+		box-shadow: grey 1px 1px 2px 0px;
+	}
+
+	.calendar-day.calendar-day-today {
+		border: solid 1px gray;
+	}
+
+	.calendar-day.calendar-day-selected {
+		background-color: dodgerblue;
+		color: white;
+	}
+
+	.calendar-day.calendar-day-otherMonth {
+		color: gray;
+	}

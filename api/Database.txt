@@ -1,0 +1,30 @@
+<?php 
+  class Database {
+    // DB Params
+	private $serverName = "baey-db-203002p\\SQLEXPRESS";
+	private $connectionInfo = array( "Database"=>"msnlog", "UID"=>"sa", "PWD"=>"1qaz2wsx!QAZ@WSX");
+	private $conn;
+    
+	
+
+    // DB Connect
+    public function Connect() {
+      $this->conn = null;
+	 
+      try { 
+			
+			$this->conn = new PDO( "sqlsrv:Server=baey-db-203002p\\SQLEXPRESS;Database=msnlog", "sa", "1qaz2wsx!QAZ@WSX");  
+			$this->conn->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
+			
+		}  
+			catch(Exception $e) {   
+			die(print_r( $e->getMessage()));   
+		}  
+
+		return $this->conn;
+      
+   }
+		
+}
+	
+?>

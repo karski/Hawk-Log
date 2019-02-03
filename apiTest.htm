@@ -1,0 +1,74 @@
+<html>
+<head>
+	<style>
+		.flexContainer{
+			display: flex;
+			margin:20px;
+		}
+		.flexContainer > div{
+			flex-grow:1;
+			flex-shrink:0;
+			flex-basis: 20%;
+			border:1px solid blue;
+			padding:10px;
+		}
+		#resultContainer{
+			flex-grow:1;
+			flex-shrink:0;
+			flex-basis: 40%;
+			border:1px solid blue;
+			padding:10px;
+		}
+		input{
+			width:100px;
+		}
+
+	</style>
+</head>
+<body>
+	<div class="flexContainer">
+		<div id="inputContainer">
+			<h2>All Requests:</h2>
+			<p>Sortie ID: <input id="textSortieID" class="" type="text" /></p>
+			<h2>Update Field / Create Entry</h2>
+			<p>
+				Table: <select id="tableSelect">
+					<option value="sorties">sorties</option>
+					<option value="groundstationuse">groundstationuse</option>
+					<option value="timeline">timeline</option>
+					<option value="systemstatus">systemstatus</option>
+				</select>
+			</p>
+			<table id="inputTable">
+				<tr>
+					<th>Field Name</th>
+					<th>Value</th>
+				</tr>
+				<tr class="inputRow">
+					<td><input class="textField" type="text" onfocus="addInputRow()" /></td>
+					<td><input class="textValue" type="text" onfocus="addInputRow()" /></td>
+					<td style="padding-left:27px;"></td>
+				</tr>
+			</table>
+
+		</div>
+		<div id="actionContainer">
+			<button onclick="getMission()">Retrieve Info</button>
+			<p>Retrieve data associated with Sortie ID entry</p>
+			<button onclick="updateField()">Update Entry</button>
+			<p>Updates field in specified table with entered value</p>
+			<button onclick="createEntry()">Create Entry</button>
+			<p>Creates a new entry in specified table with all the fields and associated values</p>
+		</div>
+		<div id="resultContainer">
+
+		</div>
+	</div>
+
+
+
+	<script type="text/javascript" src="api.js">
+		
+	</script>
+</body>
+</html>

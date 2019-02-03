@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Month Editor</title>
+    <link rel="stylesheet" type="text/css" href="logStyle.css">
+    <link rel="stylesheet" type="text/css" href="componentStyle.css">
+    <link rel="stylesheet" type="text/css" href="monthEditorStyles.css">
+</head>
+
+<body>
+    <header id="headerPanel" class="panelShadow">
+        <div id="headerTitle" class="headerSection"><H1>Monthly Mission Editor</H1></div>
+        <div id="headerMonth" class="headerSection calendar-month-row">
+            <div class="button small">←</div>
+            <div>Month</div>
+            <div>Year</div>
+            <div class="button small">→</div>
+        </div>
+        <div id="headerMenu">
+                <div class="button small" onclick="showToast('Test 123456789 perhaps this one is too long for the screen?  what if we just keep going and going and going and going?????')">🏠</div>
+                <div class="button small" onclick="showToast('Number 2 has a little bit more to say!','skyblue',10000)">⚙️</div>
+                <div class="button small" onclick="showToast('Testing 1... 2.... 3.. Gone!','',1000)">📊</div>
+                <div class="button small" onclick="showToast('This one is pink','pink')">🕒</div>
+            </div>
+           <div>Add table headers to the header section - need to set header to flex-wrap, while we're at it, put space inbetween header elements and remove vertical bars</div> 
+    </header>
+
+    <main id="mainPanel">
+        <table>
+
+        </table>
+
+    </main>
+
+    
+
+    <script src="modalManager.js"></script>
+    <script src="components/calendar.js"></script>
+    <script src="components/inputDateTime.js"></script>
+    <script src="components/selectionList.js"></script>
+    <script src="components/inputSelectModal.js"></script>
+    <script src="components/inputDropdown.js"></script>
+    <script src="components/toast.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,729 @@
+﻿/*div {
+	border: 1px solid gold;
+}
+
+header, nav, footer {
+	border: 1px solid red;
+}
+
+
+span, main {
+	border: 1px solid blue;
+}*/
+
+
+body {
+	margin: 0;
+	/*font-size: 10.0pt;*/
+	font-family: Calibri;
+	background-color: gray;
+	transition: background-color 1s;
+}
+
+
+h1 {
+	font-size: 2em;
+	margin: 0;
+	top: 0;
+	left: 0;
+	display: inline-block;
+}
+
+h2 {
+	margin: 0px;
+	display: inline-block;
+}
+
+h3 {
+	margin: 0px;
+	display: inline-block;
+}
+
+p {
+	margin: 0px 0px 0px 0px;
+	width: 100%;
+}
+
+
+table {
+	width: 100%;
+	border: 0px none;
+	border-spacing: 0px;
+	border-collapse: collapse;
+	text-align: center;
+}
+
+
+th {
+	border-width: 1px 0px 1px 0px;
+	padding: 1px 5px 1px 5px;
+	border-style: solid;
+	border-color: black;
+	font-weight: bold;
+	white-space: nowrap;
+	/*overflow: hidden;
+	text-overflow: ellipsis;*/
+	vertical-align: top;
+}
+
+td {
+	border-width: 0px;
+	padding: 0px 2px 0px 2px;
+	border-color: transparent;
+	/*overflow: hidden;
+	text-overflow: ellipsis;*/
+	/*white-space: nowrap;*/
+	vertical-align: top;
+}
+
+	td.topBorder {
+		border-top: 1px solid lightgray;
+	}
+
+
+/*main components*/
+#headerPanel {
+	position: fixed;
+	top: 0px;
+	height: 75px;
+	width: 100%;
+	min-width: 500px;
+	background-color: whitesmoke;
+	border-bottom: 3px solid black;
+	/*flex the top*/
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: flex-start;
+}
+
+	#headerPanel td {
+		white-space: nowrap;
+	}
+
+#headerNav {
+	display: none;
+	background: lightgray;
+	height: 100%;
+	flex-basis: 35px;
+	flex-grow: 0;
+	flex-shrink: 0;
+	flex-direction: column;
+	border-right: 1px solid dimgray;
+}
+
+	#headerNav > a {
+		display: none;
+		flex-grow: 1;
+		flex-direction: column;
+		border: 1px solid black;
+		text-align: center;
+		justify-content: center;
+		font-weight: bold;
+		color: black;
+		text-decoration: none;
+	}
+
+		#headerNav > a:hover {
+			background-color: deepskyblue;
+			cursor: pointer;
+		}
+
+		#headerNav > a.current {
+			background-color: dodgerblue;
+		}
+
+.headerSection {
+	/*position: relative;*/
+	padding: 0 3px 0 3px;
+	margin: 2px;
+	/*width: 225px;*/
+	height: 70px; /*hardcoded to header height-padding (could be calculated, but as long as header is fixed, why?)*/
+	border-width: 0 1px 0 0;
+	border-color: dimgray;
+	border-style: solid;
+	/*flexy*/
+	flex-grow: 1;
+	flex-shrink: 0;
+	overflow-y: auto;
+	overflow-x: hidden;
+	flex-basis: 225px;
+}
+
+
+#headerMenu {
+	/*float:right;*/
+	flex-grow: 10;
+	flex-shrink: 1;
+	max-height: 100px;
+}
+
+
+#navPanel {
+	display: none;
+	/*visibility: hidden;*/
+	background: lightgray;
+	position: fixed;
+	top: 78px;
+	height: 20px;
+	width: 100%;
+}
+
+	#navPanel > a {
+		border: 1px solid black;
+		flex-grow: 1;
+		text-align: center;
+		font-weight: bold;
+		color: black;
+		text-decoration: none;
+	}
+
+		#navPanel > a:hover {
+			background-color: deepskyblue;
+		}
+
+		#navPanel > a.current {
+			background-color: dodgerblue;
+		}
+
+#mainPanel {
+	position: absolute;
+	top: 78px;
+	bottom: 50px;
+	width: 100%;
+	overflow: auto;
+	scroll-behavior: smooth;
+}
+
+	#mainPanel.expand {
+		bottom: 500px;
+	}
+
+/*table.mxStatus {
+	table-layout: fixed;
+}
+
+	table.mxStatus td, table.mxStatus td {
+		white-space: nowrap;
+	}
+
+	table.mxStatus .statusCode {
+		width: 10%;
+	}*/
+
+#timelineButtonContainer {
+	table-layout: fixed;
+}
+
+	#timelineButtonContainer .button {
+		width: calc(100% - 26px);
+	}
+
+#timelineContainer {
+	height: calc(100% - 150px);
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.timelineEntry table {
+	width: 100%;
+	overflow: hidden;
+	table-layout: fixed;
+}
+
+	.timelineEntry table td, .timelineEntry table td p {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	.timelineEntry table .timelineLabelCol {
+		width: 25px;
+	}
+
+	.timelineEntry table .timelineTimeCol {
+		width: 70px;
+	}
+
+.timelineEntry.timelineInfo {
+	background: #e1f5fe;
+}
+
+.timelineEntry.timelineEvent {
+	background: #E8F5E9;
+}
+
+.timelineEntry.timelineFault {
+	background: #FFF3E0;
+}
+
+.timelineEntry.timelineSensor {
+	background: #B2EBF2;
+}
+
+#footerPanel {
+	position: fixed;
+	text-align: center;
+	bottom: 0px;
+	height: 50px;
+	width: 100%;
+	background-color: whitesmoke;
+	border-top: 3px solid black;
+	transition: height ease-in-out 0.5s;
+}
+
+	#footerPanel.expand {
+		height: 500px;
+	}
+
+.expandArrow {
+	position: relative;
+	top: 5px;
+	width: 7px;
+	height: 7px;
+	border: solid white;
+	border-width: 1px 0 0 1px;
+	transform: rotate(45deg);
+	transition: all ease-in-out 0.25s;
+}
+
+#footerPanel.expand div.expandArrow {
+	transform: rotate(225deg);
+}
+
+#shiftContainer {
+	display: inline-block;
+	width: calc(100% - 80px);
+}
+
+.footerShift {
+	table-layout: fixed;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 5px 0 5px 0;
+}
+
+	.footerShift td {
+		padding: 0 5px 0 5px;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		width: 15%;
+	}
+
+		.footerShift td:first-child {
+			width: 25%;
+			font-weight: bold;
+		}
+
+	.footerShift tr td:not(:last-child) {
+		border-right: 1px solid lightgray;
+	}
+
+#timesheetContainer {
+	position: absolute;
+	top: 85px;
+	bottom: 0px;
+	width: 100%;
+	/*overflow-x:auto;
+	overflow-y:hidden;*/
+	overflow: auto;
+}
+
+#timesheetHeader {
+	border: solid black;
+	border-width: 2px 1px;
+	width: calc(100% - 17px);
+}
+
+#timesheetBodyContainer {
+	position: absolute;
+	top: 42px;
+	bottom: 0px;
+	min-width: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+/*#timesheet thead {
+	height: 0px;
+}
+
+	#timesheet thead th div {
+		position: absolute;
+		top: 0;
+		width:100%;
+		border-left:1px solid black;
+		text-align:center;
+	}*/
+
+#timesheet td, #timesheet th, #timesheetHeader th {
+	padding: 0 2px 0 2px;
+	vertical-align: middle;
+	border: 1px solid black;
+}
+
+#timesheet tr:nth-child(even) {
+	background-color: lightgray;
+}
+
+.colDetail {
+	width: 50px !important;
+	min-width: 50px;
+}
+
+.colName {
+	min-width: 150px;
+	text-align: left;
+}
+
+.colNum {
+	width: 35px !important;
+	min-width: 35px;
+}
+
+.colGS {
+	width: 75px !important;
+	min-width: 75px;
+}
+
+/*reused classes*/
+.panelShadow {
+	/*moves panels to "top" and casts shadow on lower content*/
+	z-index: 10;
+	box-shadow: black 0px 0px 7px 0px;
+}
+
+.card {
+	border: 0;
+	background: whitesmoke;
+	border-radius: 5px;
+	margin: 5px;
+	box-shadow: black 1px 1px 7px 0px;
+	padding: 5px 5px 10px 5px;
+	width: 100%;
+}
+
+.cardHeader {
+	margin-bottom: 5px;
+	margin-left: 10px;
+}
+
+.recordEntry {
+	border-top: 1px solid dimgray;
+	margin-top: 10px;
+}
+
+.label {
+	color: grey;
+	cursor: default;
+}
+
+.calculated {
+	font-style: italic;
+	cursor: default;
+}
+
+.mxStatusSystem {
+	text-align: left;
+	cursor: default;
+}
+
+.mxStatusSubSystem {
+	text-align: left;
+	padding-left: 20px;
+	cursor: default;
+}
+
+.editMemo {
+	white-space: normal;
+	text-align: left;
+	font-weight: normal;
+}
+
+.editMemo, .editText {
+	cursor: text;
+}
+
+.editDropdown {
+	cursor: pointer;
+}
+
+[class*="edit"]:hover {
+	/*border-bottom:1px solid blue;*/
+}
+
+.noEdit {
+	cursor: default;
+}
+
+
+.changed {
+	border: 3px solid orange;
+	border-radius: 5px;
+}
+
+.hidden {
+	display: none;
+}
+
+
+/*resizeable components*/
+#mainContainer {
+	margin: auto;
+	height: 100%;
+	width: 1110px; /*size of each card plus padding*/
+	/*overflow: auto;*/
+}
+
+#asideLeft {
+	float: left;
+	clear: left;
+}
+
+.leftContents {
+	width: 300px;
+}
+
+#timelineCard {
+	width: 500px;
+	/*margin-left: 325px;*/
+	display: inline-block;
+	height: calc(100% - 30px);
+	min-height: 500px;
+}
+
+#asideRight {
+	float: right;
+	clear: right;
+}
+
+.rightContents {
+	width: 250px;
+}
+
+/*Resizing styles*/
+
+/*Small Screen, put all smaller cards on the left*/
+/*@media screen and (max-width: 1120px) {
+	#mainContainer {
+		width: 840px;
+	}
+
+	#asideRight {
+		float: left;
+		clear: left;
+	}
+
+	.rightContents {
+		width: 300px;
+	}
+}*/
+
+/*slightly smaller, shrink columns and halve top display*/
+@media screen and (max-width: 860px) {
+	#mainContainer {
+		width: 690px;
+	}
+
+	#timelineCard {
+		width: 400px;
+		/*margin-left:225px;*/
+	}
+
+	.leftContents, .rightContents {
+		width: 250px;
+	}
+
+	#headerNav {
+		display: flex;
+	}
+
+	.headerSection {
+		flex-grow: 1;
+	}
+
+	#headerNav > a {
+		display: flex;
+	}
+
+	.headerSection {
+		display: none;
+	}
+
+		.headerSection.selected {
+			display: inline-block;
+		}
+}
+
+/*skinny displays, fill width with single column*/
+/*show nav panel*/
+@media screen and (max-width: 710px) {
+
+	#navPanel {
+		display: flex;
+		visibility: visible;
+	}
+
+	#mainPanel {
+		top: 100px;
+	}
+
+	#mainContainer {
+		width: 100%;
+		min-width: 400px;
+	}
+
+	#asideRight, #asideLeft {
+		width: 100%;
+	}
+
+	/*#asideLeft table, #asideRight table {
+			width: auto;
+		}*/
+
+	#timelineCard, .leftContents, .rightContents {
+		display: inline-block;
+		width: 95%;
+		/*margin-left:225px;*/
+	}
+}
+
+
+
+/*Interface parts*/
+/*Standard Button*/
+.button {
+	display: inline-block;
+	margin: 2px;
+	border: 0px none;
+	box-shadow: grey 0px 1px 7px 2px;
+	border-radius: 5px;
+	padding: 5px 8px 5px 8px;
+	text-align: center;
+	background: dodgerblue;
+	color: white;
+	user-select: none;
+	-ms-user-select: none;
+	-webkit-user-select: none;
+	vertical-align: super;
+}
+
+	.button:hover {
+		cursor: pointer;
+		box-shadow: grey 0px 1px 10px 5px;
+		/*padding: 5px 5px 5px 5px;*/
+		/*font-weight: bold;*/
+		text-shadow: 1px 0px 0px white; /*use shadow instead of bold to keep the button size consistent*/
+		background: deepskyblue;
+	}
+
+	.button:active {
+		box-shadow: grey 0px 1px 2px 1px;
+		/*font-weight: bold;*/
+		text-shadow: 1px 0px 0px white;
+		cursor: pointer;
+		background: #1976d2;
+	}
+	/*Special action buttons*/
+
+	.button.small {
+		height: 20px;
+		line-height: 20px;
+		padding: 2px 8px 2px 8px;
+		border-radius: 24px;
+		float: right;
+	}
+
+		.button.small:hover {
+			padding: 2px 8px 2px 8px;
+		}
+
+	/*button colors*/
+	.button.timelineEvent {
+		background: #4caf50;
+	}
+
+		.button.timelineEvent:hover {
+			background: #6adc6f;
+		}
+
+		.button.timelineEvent:active {
+			background: #2e7d32;
+		}
+
+	.button.timelineFault {
+		background: #ef6c00;
+	}
+
+		.button.timelineFault:hover {
+			background: #ffa726;
+		}
+
+		.button.timelineFault:active {
+			background: #e65100;
+		}
+
+	.button.timelineSensor {
+		background: #00bcd4;
+	}
+
+		.button.timelineSensor:hover {
+			background: #26c6da;
+		}
+
+		.button.timelineSensor:active {
+			background: #00838f;
+		}
+
+/*Filter buttons - note this assumes we don't have any other radio buttons, or they are all styled the same*/
+.filterContainer {
+	min-width: 420px;
+	margin: 10px 0 10px 0;
+	text-align: center;
+}
+
+input[type="radio"] {
+	display: none;
+}
+
+label {
+	position: relative;
+	display: inline-block;
+	margin-right: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+	line-height: 25px;
+	border-radius: 12px;
+	cursor: pointer;
+	user-select: none;
+	transition: .25s all ease;
+	z-index: 2;
+}
+
+input[type="radio"]:checked + label {
+	color: #fff;
+	background: dodgerblue;
+}
+
+input[type="radio"]:hover + label {
+	color: #fff;
+	background: lightskyblue;
+}
+
+#filterAll + label:before {
+	content: " ";
+	position: absolute;
+	visibility: hidden;
+	top: 0px;
+	left: 0;
+	display: block;
+	width: 24px;
+	height: 21px;
+	border: 2px solid dodgerblue;
+	border-radius: 11px;
+	z-index: 1;
+}
+
+#filterAll:checked + label:before {
+	width: 370px;
+	visibility: visible;
+	transition: .25s width ease;
+}
