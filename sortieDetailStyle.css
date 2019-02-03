@@ -1,0 +1,489 @@
+#headerPanel {
+	position: fixed;
+	top: 0px;
+	height: 65px;
+	/*75px;*/
+	width: 100%;
+	min-width: 500px;
+	background-color: whitesmoke;
+	border-bottom: 3px solid black;
+	/*flex the top*/
+	display: flex;
+	flex-wrap: nowrap;
+	align-items: flex-start;
+	z-index: 11;
+}
+
+#headerPanel td {
+	white-space: nowrap;
+}
+
+#headerNav {
+	display: none;
+	background: lightgray;
+	height: 100%;
+	flex-basis: 35px;
+	flex-grow: 0;
+	flex-shrink: 0;
+	flex-direction: column;
+	border-right: 1px solid dimgray;
+}
+
+#headerNav>a {
+	display: none;
+	flex-grow: 1;
+	flex-direction: column;
+	border: 1px solid black;
+	text-align: center;
+	justify-content: center;
+	font-weight: bold;
+	color: black;
+	text-decoration: none;
+}
+
+#headerNav>a:hover {
+	background-color: deepskyblue;
+	cursor: pointer;
+}
+
+#headerNav>a.current {
+	background-color: dodgerblue;
+}
+
+.headerSection {
+	/*position: relative;*/
+	padding: 0 3px 0 3px;
+	margin: 2px;
+	/*width: 225px;*/
+	height: 60px;
+	/*70px;*/
+	/*hardcoded to header height-padding (could be calculated, but as long as header is fixed, why?)*/
+	border-width: 0 1px 0 0;
+	border-color: dimgray;
+	border-style: solid;
+	/*flexy*/
+	flex-grow: 1;
+	flex-shrink: 0;
+	/*overflow-y: auto;
+	overflow-x: hidden;*/
+	max-width: 300px;
+	min-width: 150px;
+}
+
+#GSTableContainer {
+	overflow-y: auto;
+	overflow-x: hidden;
+	width: 100%;
+	height: 40px;
+}
+
+
+#headerMenu {
+	/*float:right;*/
+	flex-grow: 1;
+	flex-shrink: 2;
+	max-height: 100px;
+	min-width: 75px;
+}
+
+
+#navPanel {
+	display: none;
+	/*visibility: hidden;*/
+	background: lightgray;
+	position: fixed;
+	top: 68px;
+	/*78px;*/
+	height: 20px;
+	width: 100%;
+	min-width: 400px;
+}
+
+#navPanel>a {
+	border: 1px solid black;
+	flex-grow: 1;
+	text-align: center;
+	font-weight: bold;
+	color: black;
+	text-decoration: none;
+}
+
+#navPanel>a:hover {
+	background-color: deepskyblue;
+}
+
+#navPanel>a.current {
+	background-color: dodgerblue;
+}
+
+#mainPanel {
+	position: absolute;
+	top: 68px;
+	/*78px;*/
+	bottom: 50px;
+	width: 100%;
+	overflow: auto;
+	overflow-x: hidden;
+	scroll-behavior: smooth;
+}
+
+#takeoffRow {
+	/*border-top: solid 1px black;*/
+	border-bottom: solid 1px black;
+	font-weight: bold;
+}
+
+#landRow {
+	border-top: solid 1px black;
+	font-weight: bold;
+}
+
+
+table.mxStatus {
+	text-align: left;
+}
+
+table.mxStatus .statusCode {
+	width: 15px;
+	text-align: center;
+}
+
+
+table.mxStatus .mxStatusSystem {
+	text-align: left;
+	cursor: default;
+	white-space: nowrap;
+	width: 30px;
+}
+
+table.mxStatus .mxStatusSubSystem {
+	text-align: left;
+	padding-left: 20px;
+	padding-right: 5px;
+	cursor: default;
+	white-space: nowrap;
+}
+
+#logButtonContainer {
+	table-layout: fixed;
+}
+
+#logButtonContainer .button {
+	width: calc(100% - 26px);
+	min-width: 70px;
+}
+
+#logContainer {
+	height: calc(100% - 130px);
+	/*smaller header font allows for 20 extra pixels!*/
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+
+.logEntry table {
+	width: 100%;
+	/*overflow: hidden;*/
+	table-layout: fixed;
+}
+
+.logEntry table td,
+.logEntry table td p {
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+.logEntry table .logLabelCol {
+	width: 25px;
+}
+
+.logEntry table .logTimeCol {
+	width: 70px;
+}
+
+
+.logEntry .timeCard .calendar-monthLabel .dropdown-container {
+	min-width: 100px;
+}
+
+.logEntry.logInfo {
+	background: #e1f5fe;
+}
+
+.logEntry.logEvent {
+	background: #E8F5E9;
+}
+
+.logEntry.logFault {
+	background: #FFF3E0;
+}
+
+.logEntry.logSensor {
+	background: #B2EBF2;
+}
+
+#footerPanel {
+	position: fixed;
+	text-align: center;
+	bottom: 0px;
+	height: 50px;
+	width: 100%;
+	background-color: whitesmoke;
+	border-top: 3px solid black;
+	transition: height ease-in-out 0.5s;
+}
+
+#footerPanel.expand {
+	height: 500px;
+}
+
+#shiftContainer {
+	display: inline-block;
+	width: calc(100% - 80px);
+}
+
+.footerShift {
+	table-layout: fixed;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	margin: 5px 0 5px 0;
+}
+
+.footerShift td {
+	padding: 0 5px 0 5px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	width: 15%;
+}
+
+.footerShift td:first-child {
+	width: 25%;
+	font-weight: bold;
+}
+
+.footerShift tr td:not(:last-child) {
+	border-right: 1px solid lightgray;
+}
+
+#timesheetContainer {
+	position: absolute;
+	top: 85px;
+	bottom: 0px;
+	width: 100%;
+	/*overflow-x:auto;
+        overflow-y:hidden;*/
+	overflow: auto;
+}
+
+#timesheetHeader {
+	border: solid black;
+	border-width: 2px 1px;
+	width: calc(100% - 17px);
+}
+
+#timesheetBodyContainer {
+	position: absolute;
+	top: 42px;
+	bottom: 0px;
+	min-width: 100%;
+	overflow-x: hidden;
+	overflow-y: scroll;
+}
+
+#timesheet td,
+#timesheet th,
+#timesheetHeader th {
+	padding: 0 2px 0 2px;
+	vertical-align: middle;
+	border: 1px solid black;
+}
+
+#timesheet tr:nth-child(even) {
+	background-color: lightgray;
+}
+
+.colDetail {
+	width: 50px !important;
+	min-width: 50px;
+}
+
+.colName {
+	min-width: 150px;
+	text-align: left;
+}
+
+.colNum {
+	width: 35px !important;
+	min-width: 35px;
+}
+
+.colGS {
+	width: 75px !important;
+	min-width: 75px;
+}
+
+/*-----------------------------resizeable page segments------------------------------------------------*/
+#mainContainer {
+	margin: auto;
+	height: 100%;
+	width: 90%;
+	/*size of each card plus padding (60px)*/
+	max-width: 1350px;
+	/*overflow: auto;*/
+}
+
+#asideLeft {
+	float: left;
+	clear: left;
+	/*flex: 1 1 300px;
+	max-width: 400px;*/
+}
+
+.leftContents {
+	width: 350px;
+}
+
+#logCard {
+	width: calc(100% - (350px + 250px + 60px));
+	display: inline-block;
+	height: calc(100% - 30px);
+	min-height: 500px;
+	/*flex: 2 1 500px;
+	min-width: 420px;
+	max-width: 800px;*/
+}
+
+#asideRight {
+	float: right;
+	clear: right;
+	/*order: 3;
+	flex: 1 1 250px;
+	max-width: 350px;*/
+}
+
+.rightContents {
+	width: 250px;
+}
+
+/*---------------------------------Resizing styles--------------------------------------------*/
+
+/*slightly smaller, shrink columns*/
+@media screen and (max-width: 1200px) {
+	#mainContainer {
+		width: 100%;
+	}
+
+	#logCard {
+		width: calc(100% - (250px + 250px + 60px));
+	}
+
+	.leftContents {
+		width: 250px;
+	}
+}
+
+/*skinny displays, single column, center cards*/
+/*show nav panel*/
+@media screen and (max-width: 955px) {
+
+	#headerNav {
+		display: flex;
+	}
+
+	.headerSection {
+		flex-grow: 1;
+	}
+
+	#headerNav>a {
+		display: flex;
+	}
+
+	.headerSection {
+		display: none;
+	}
+
+	.headerSection.selected {
+		display: inline-block;
+	}
+
+	#navPanel {
+		display: flex;
+		visibility: visible;
+	}
+
+	#mainPanel {
+		top: 90px;
+		/*100px;*/
+		/*flex-direction: column;
+		justify-content: flex-start;*/
+	}
+
+	#mainContainer {
+		/*width: 100%;*/
+		width: 95%;
+		max-width: 700px;
+		min-width: 400px;
+	}
+
+	#logCard {
+		flex: 0 0 calc(100% - 30px);
+	}
+
+	#logCard,
+	#asideRight,
+	#asideLeft {
+		float: left;
+		clear: left;
+		width: 95%;
+	}
+
+	#asideRight table {
+		width: auto;
+		max-width: 300px;
+	}
+
+	.leftContents,
+	.rightContents {
+		display: inline-block;
+		width: 100%;
+	}
+}
+
+
+/*Styling for Event Addition buttons*/
+/*button colors*/
+.button.logEvent {
+	background: #4caf50;
+}
+
+.button.logEvent:hover {
+	background: #6adc6f;
+}
+
+.button.logEvent:active {
+	background: #2e7d32;
+}
+
+.button.logFault {
+	background: #ef6c00;
+}
+
+.button.logFault:hover {
+	background: #ffa726;
+}
+
+.button.logFault:active {
+	background: #e65100;
+}
+
+.button.logSensor {
+	background: #00bcd4;
+}
+
+.button.logSensor:hover {
+	background: #26c6da;
+}
+
+.button.logSensor:active {
+	background: #00838f;
+}

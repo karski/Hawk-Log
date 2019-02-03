@@ -6,18 +6,18 @@
     <meta charset="utf-8" />
     <title>Month Editor</title>
     <link rel="stylesheet" type="text/css" href="logStyle.css">
-    <link rel="stylesheet" type="text/css" href="componentStyle.css">
-    <link rel="stylesheet" type="text/css" href="monthEditorStyles.css">
+    <link rel="stylesheet" type="text/css" href="components/componentStyle.css">
+    <link rel="stylesheet" type="text/css" href="monthEditorStyle.css">
 </head>
 
 <body>
     <header id="headerPanel" class="panelShadow">
         <div id="headerTitle" class="headerSection"><H1>Monthly Mission Editor</H1></div>
         <div id="headerMonth" class="headerSection calendar-month-row">
-            <div class="button small">←</div>
-            <div>Month</div>
-            <div>Year</div>
-            <div class="button small">→</div>
+            <div id="pageLeftButton" class="button small">←</div>
+            <div id="pageMonthLabel">Month</div>
+            <div id="pageYearLabel">Year</div>
+            <div id="pageRightButton" class="button small">→</div>
         </div>
         <div id="headerMenu">
                 <div class="button small" onclick="showToast('Test 123456789 perhaps this one is too long for the screen?  what if we just keep going and going and going and going?????')">🏠</div>
@@ -25,7 +25,12 @@
                 <div class="button small" onclick="showToast('Testing 1... 2.... 3.. Gone!','',1000)">📊</div>
                 <div class="button small" onclick="showToast('This one is pink','pink')">🕒</div>
             </div>
-           <div>Add table headers to the header section - need to set header to flex-wrap, while we're at it, put space inbetween header elements and remove vertical bars</div> 
+           <div id="headerTableHeadings">
+               <table>
+                   <tr>
+                       <th class="smallCol">ID</th><th class="smallCol">Unit</th><th class="smallCol">Type</th><th class="smallCol">Msn Number</th><th class="timeCol">Scheduled Takeoff</th><th class="timeCol">Scheduled Land</th><th>Note</th><th class="actionCol">Actions</th>
+                   </tr></table>
+           </div> 
     </header>
 
     <main id="mainPanel">

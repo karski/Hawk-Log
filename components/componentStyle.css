@@ -1,0 +1,492 @@
+/*---------------------------------------------Input Field Styles----------------------------*/
+/* Note: these will likely impact one or more components listed below*/
+
+.editMemo {
+	white-space: normal;
+	overflow-x: hidden;
+	overflow-y: auto;
+	text-align: left;
+	font-weight: normal;
+	min-width: 50px;
+	max-height: 500px;
+}
+
+.editText {
+	min-width: 25px;
+}
+
+div.editText {
+	display: inline-block;
+}
+
+
+.editDropdown {
+	cursor: pointer;
+	position: relative;
+	/*width: max-content;*/
+	padding-right: 15px;
+}
+
+.editDropdown:hover:before {
+	content: "";
+	position: absolute;
+	width: 6px;
+	height: 6px;
+	bottom: calc(50% - 4px);
+	right: 3px;
+	border: solid #f5f5f5cf;
+	border-width: 0 5px 5px 0;
+	transform: rotate(45deg)
+}
+
+.editDropdown:hover:after {
+	content: "";
+	position: absolute;
+	width: 5px;
+	height: 5px;
+	bottom: calc(50% - 2px);
+	right: 5px;
+	border: solid black;
+	border-width: 0 2px 2px 0;
+	transform: rotate(45deg);
+}
+
+.editDateTime {
+	display: inline-block;
+	position: relative;
+	cursor: pointer;
+}
+
+.editTime {
+	display: inline-block;
+	width: 70px;
+	/*font: normal normal 700 normal 40px / normal Calibri;*/
+	font-size: 2.5em;
+	font-weight: bold;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+	padding: 0px;
+	margin: 2px;
+}
+
+.editDate {
+	display: inline-block;
+	width: 120px;
+	font-size: 1em;
+	font-weight: bold;
+	text-align: center;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+[class*="edit"]:focus {
+	background-color: white;
+}
+
+[class*="edit"]:hover {
+	box-shadow: 0px 0px 5px 2px dodgerblue;
+}
+
+
+/*-------------------------Modal display----------------------------------*/
+
+.modal {
+	z-index: 21;
+	cursor: auto;
+	box-shadow: grey 1px 1px 4px 2px;
+	border: 2px solid black;
+	font-weight: normal;
+}
+
+.modalHeader {
+	display: inline;
+	text-align: center;
+	cursor: default;
+	margin: 5px;
+}
+
+
+/*-------------------------Interface parts----------------------------------*/
+
+/* Tooltip */
+.tooltipHolder {
+	position: relative;
+	cursor: default;
+	text-decoration: underline dotted darkgrey;
+}
+
+.tooltipHolder:hover .tooltip {
+	visibility: visible;
+	opacity: 100;
+}
+
+.tooltip {
+	visibility: hidden;
+	opacity: 0;
+	position: absolute;
+	bottom: 18px;
+	left: calc(50% - 50px);
+	white-space: nowrap;
+	z-index: 20;
+	padding: 3px 5px;
+	margin: 5px;
+	border: 0;
+	background: whitesmoke;
+	border-radius: 3px;
+	box-shadow: grey 1px 1px 4px 2px;
+	color: black;
+	/*try to do a transition in/out*/
+	transition: all ease-in-out .25s;
+}
+
+.tooltip:before {
+	position: absolute;
+	content: "";
+	border: solid 6px;
+	border-color: grey transparent transparent transparent;
+	bottom: -12px;
+	left: 39px;
+}
+
+.tooltip:after {
+	position: absolute;
+	content: "";
+	border: solid 5px;
+	border-color: whitesmoke transparent transparent transparent;
+	bottom: -10px;
+	left: 40px;
+}
+
+/*for tooltips located at the top of the screen*/
+.tooltip.shiftDown {
+	bottom: unset;
+}
+
+.tooltip.shiftDown:before {
+	border-color: transparent transparent grey transparent;
+	bottom: unset;
+	top: -12px;
+}
+
+.tooltip.shiftDown:after {
+	border-color: transparent transparent whitesmoke transparent;
+	bottom: unset;
+	top: -10px;
+}
+
+
+/*for tooltips on the right side of the page (avoid overflowing window)*/
+.tooltip.shiftLeft {
+	left: unset;
+	right: -20px;
+}
+
+.tooltip.shiftLeft:before {
+	left: unset;
+	right: 29px;
+}
+
+.tooltip.shiftLeft:after {
+	left: unset;
+	right: 30px;
+}
+
+/* Toast */
+.toast {
+	position: fixed;
+	/*visibility: hidden;*/
+	opacity: 0;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #EEEEEE;
+	box-shadow: black 3px 3px 11px 1px;
+	border-radius: 33px;
+	padding: 10px 20px 10px 20px;
+	min-width: 150px;
+	max-width: calc(100% - 40px);
+	text-align: center;
+	font-weight: bold;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	z-index: 99999;
+	transition: transform .25s ease-in-out, opacity .5s ease-in-out, top .25s ease-in-out;
+}
+
+.toast.show {
+	/*visibility: visible;*/
+	opacity: 1;
+}
+
+.toast.movein {
+	top: 0px;
+	animation: slidein .25s ease-in-out;
+}
+
+@keyframes slidein {
+	from {
+		top: -50px;
+	}
+
+	to {
+		top: 0px;
+	}
+}
+
+/* Dropdown list styles */
+.dropdown-display.label {
+	font-style: italic;
+}
+
+
+.dropdown-container {
+	position: absolute;
+	display: flex;
+	flex-direction: column;
+	left: -5px;
+	margin: 0;
+	padding: 0;
+	max-height: calc(25vh);
+	overflow: hidden;
+}
+
+.dropdown-container.shiftLeft {
+	left: unset;
+	right: -5px;
+}
+
+.dropdown-container.shiftUp {
+	bottom: 20px;
+}
+
+/* Selection Modal styles*/
+.selectModal {
+	position: relative;
+	top: 25%;
+	margin: auto;
+	max-height: calc(50vh);
+	min-height: 10px;
+	width: max-content;
+	display: flex;
+	flex-direction: column;
+	padding: 0;
+	overflow: hidden;
+}
+
+.modalBackdrop {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	background: #00000069;
+	z-index: 20;
+}
+
+.modalBackdrop.center {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+/* Selection list styles 
+	- used as a sub-component for dropdowns and selection modals, but could be used inline as well*/
+.list-container {
+	box-sizing: border-box;
+	width: 100%;
+	/*height: 100%; this will probably prevent container from shrinking for shorter lists?*/
+	display: flex;
+	flex-direction: column;
+	overflow: hidden;
+}
+
+.list-scroll-container {
+	flex-grow: 1;
+	flex-shrink: 1;
+	overflow-x: hidden;
+	overflow-y: auto;
+	scroll-behavior: smooth;
+}
+
+.list-entry {
+	white-space: nowrap;
+	cursor: pointer;
+	text-align: left;
+	user-select: none;
+}
+
+.list-entry>td {
+	padding: 1px 5px;
+}
+
+.list-entry>td.list-entry-content:nth-child(n+2) {
+	border-left: solid dimgray 1px;
+}
+
+.list-entry>td.list-entry-multicontent:nth-child(n+3) {
+	border-left: solid dimgray 1px;
+}
+
+.list-entry.search-selection {
+	box-shadow: inset 0px 0px 10px 5px deepskyblue;
+	/*background: deepskyblue;*/
+}
+
+
+.list-entry.selected {
+	background-color: dodgerblue;
+	color: white;
+}
+
+.list-entry:hover {
+	background: deepskyblue;
+}
+
+.list-entry:active {
+	background: #1976d2;
+}
+
+.list-textinput {
+	box-sizing: border-box;
+	margin: 3px 0;
+	width: calc(100% - 5px);
+}
+
+/* Date and Time modal input style */
+.timeCard {
+	position: absolute;
+	left: calc(50% - 30px);
+	width: 170px;
+	/*consider making 200px wide and stacking everything vertically -> calendar extra buttons need to be moved to bottom and days condensed to letters and day height changed to 2 or 3*/
+	text-align: center;
+	color: black;
+	/*height: 300px;*/
+}
+
+.timeCard.shiftLeft {
+	left: unset;
+	right: calc(50% - 30px);
+}
+
+.timeCard.shiftUp {
+	bottom: 20px;
+}
+
+
+.timeCard::before {
+	position: absolute;
+	content: "";
+	border: solid 10px;
+	border-color: transparent transparent black transparent;
+	top: -20px;
+	left: 15px;
+}
+
+.timeCard.shiftLeft::before {
+	left: unset;
+	right: 15px;
+}
+
+.timeCard.shiftUp::before {
+	border-color: black transparent transparent transparent;
+	top: unset;
+	bottom: -20px;
+}
+
+/*Calendar styles*/
+.calendar-container {
+	box-sizing: border-box;
+	margin: 5px auto;
+	width: 100%;
+	border-radius: 3px;
+}
+
+.calendar-header {
+	/*background-color: lightgray;*/
+	border-bottom: solid black 1px;
+	border-top: solid black 1px;
+}
+
+.calendar-month-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 5px 0px;
+}
+
+/*optional smaller month change buttons so that they don't overwhelm the rest of the interface
+	.calendar-month-row .button.small {
+		height: 15px;
+		min-width: 10px;
+		line-height: 15px;
+		padding: 1px 2px;
+		font-size: 14px;
+	}*/
+
+.calendar-monthLabel,
+.calendar-yearLabel {
+	margin: 0;
+	padding: 0 3px 0 18px;
+	font-weight: bold;
+	font-size: 1.1em;
+}
+
+
+.calendar-weekday-row {
+	display: flex;
+	align-items: center;
+	justify-content: space-around;
+}
+
+.calendar-weekday-row .div {
+	flex: 0 0 14.28%;
+	text-align: center;
+	vertical-align: middle;
+}
+
+.calendar-day-container {
+	box-sizing: border-box;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-around;
+	width: 100%;
+	/*background-color: white;*/
+}
+
+.calendar-day {
+	box-sizing: border-box;
+	flex: 0 0 14.28%;
+	font-size: .9em;
+	text-align: center;
+	vertical-align: middle;
+	padding: 1px 0;
+	border-radius: 3px;
+	border: solid 1px transparent;
+}
+
+.calendar-day:hover {
+	background-color: deepskyblue;
+	cursor: pointer;
+	box-shadow: grey 1px 1px 2px 0px;
+}
+
+.calendar-day.calendar-day-today {
+	border: solid 1px gray;
+}
+
+.calendar-day.calendar-day-selected {
+	background-color: dodgerblue;
+	color: white;
+}
+
+.calendar-day.calendar-day-otherMonth {
+	color: gray;
+}
+
+
+
+/* It's important that this one is last, because dropdowns (and possibly other complonents use hidden to override their default display until they are needed */
+
+.hidden {
+	display: none;
+}

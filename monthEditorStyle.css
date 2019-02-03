@@ -1,0 +1,61 @@
+table {
+    width: 100%;
+}
+
+table .smallCol {
+    width: 100px;
+}
+
+table .timeCol {
+    width: 150px;
+}
+
+table .actionCol {
+    width: 300px;
+}
+
+#headerPanel {
+    position: fixed;
+    top: 0px;
+    height: 60px;
+    /*75px;*/
+    width: 100%;
+    min-width: 800px;
+    background-color: whitesmoke;
+    border-bottom: 3px solid black;
+    /*flex the top*/
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between;
+    z-index: 11;
+}
+
+.headerSection {
+    /*position: relative;*/
+    padding: 0 3px;
+    margin: 2px;
+    /*width: 225px;*/
+    height: 30px;
+    /*flexy*/
+    flex-grow: 0;
+    flex-shrink: 0;
+    max-width: 300px;
+    min-width: 250px;
+}
+
+
+#headerMenu {
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 30px;
+    min-width: 75px;
+}
+
+#headerTableHeadings {
+    flex-basis: calc(100% - 17px);
+    flex-grow: 0;
+    flex-shrink: 0;
+    height: 19px;
+}
+
