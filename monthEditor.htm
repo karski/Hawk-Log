@@ -12,35 +12,71 @@
 
 <body>
     <header id="headerPanel" class="panelShadow">
-        <div id="headerTitle" class="headerSection"><H1>Monthly Mission Editor</H1></div>
+        <div id="headerTitle" class="headerSection">
+            <H1>Monthly Mission Editor</H1>
+        </div>
         <div id="headerMonth" class="headerSection calendar-month-row">
             <div id="pageLeftButton" class="button small">←</div>
-            <div id="pageMonthLabel">Month</div>
-            <div id="pageYearLabel">Year</div>
+            <h1 id="pageMonthLabel">Month</h1>
+            <h1 id="pageYearLabel">Year</h1>
             <div id="pageRightButton" class="button small">→</div>
         </div>
         <div id="headerMenu">
-                <div class="button small" onclick="showToast('Test 123456789 perhaps this one is too long for the screen?  what if we just keep going and going and going and going?????')">🏠</div>
-                <div class="button small" onclick="showToast('Number 2 has a little bit more to say!','skyblue',10000)">⚙️</div>
-                <div class="button small" onclick="showToast('Testing 1... 2.... 3.. Gone!','',1000)">📊</div>
-                <div class="button small" onclick="showToast('This one is pink','pink')">🕒</div>
-            </div>
-           <div id="headerTableHeadings">
-               <table>
-                   <tr>
-                       <th class="smallCol">ID</th><th class="smallCol">Unit</th><th class="smallCol">Type</th><th class="smallCol">Msn Number</th><th class="timeCol">Scheduled Takeoff</th><th class="timeCol">Scheduled Land</th><th>Note</th><th class="actionCol">Actions</th>
-                   </tr></table>
-           </div> 
+            <div class="button small" onclick="showToast('Test 123456789 perhaps this one is too long for the screen?  what if we just keep going and going and going and going?????')">🏠</div>
+            <div class="button small" onclick="showToast('Number 2 has a little bit more to say!','skyblue',10000)">⚙️</div>
+            <div class="button small" onclick="showToast('Testing 1... 2.... 3.. Gone!','',1000)">📊</div>
+            <div class="button small" onclick="showToast('This one is pink','pink')">🕒</div>
+        </div>
+
     </header>
 
     <main id="mainPanel">
-        <table>
-
-        </table>
-
+        <div class="card">
+            <H1 class="cardHeader">Sorties</H1>
+            <div id="monthTableHeader">
+                <table>
+                    <tr>
+                        <th class="smallCol">
+                            <p class="tooltipHolder">Unit</p>
+                            <p class="tooltipHolder">Type</p>
+                        </th>
+                        <th class="smallCol">Msn Number</th>
+                        <th class="timeCol">
+                            <p>Scheduled Takeoff</p>
+                            <p>Scheduled Land</p>
+                        </th>
+                        <th>Note</th>
+                        <th class="actionCol">Actions</th>
+                    </tr>
+                </table>
+            </div>
+            <div id="monthTable">
+                <table>
+                    <tr class="sortieRow">
+                        <td class="smallCol">
+                            <p>Unit</p>
+                            <p>Type</p>
+                        </td>
+                        <td class="smallCol"><input class="msnInput"></td>
+                        <td class="timeCol">
+                            <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                        </td>
+                        <td><input class="noteInput"></td>
+                        <td class="actionCol">
+                            <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔</div>
+                            <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                            <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙</div>
+                            <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX</div>
+                            
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
     </main>
 
-    
+
 
     <script src="modalManager.js"></script>
     <script src="components/calendar.js"></script>

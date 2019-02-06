@@ -1,5 +1,15 @@
+body{
+    display: flex;
+    flex-direction: column;
+}
+
 table {
     width: 100%;
+}
+
+th,td{
+    vertical-align: middle;
+    min-width: 100px;
 }
 
 table .smallCol {
@@ -8,25 +18,26 @@ table .smallCol {
 
 table .timeCol {
     width: 150px;
+    min-width:150px;
 }
 
 table .actionCol {
-    width: 300px;
+    width: 200px;
 }
 
 #headerPanel {
-    position: fixed;
+    /* position: fixed;
     top: 0px;
-    height: 60px;
+    height: 35px; */
     /*75px;*/
-    width: 100%;
-    min-width: 800px;
+    /* width: 100%;
+    min-width: 500px; */
     background-color: whitesmoke;
     border-bottom: 3px solid black;
     /*flex the top*/
     display: flex;
-    flex-wrap: wrap;
-    align-items: flex-start;
+    flex-wrap: nowrap;
+    align-items: center;
     justify-content: space-between;
     z-index: 11;
 }
@@ -36,7 +47,7 @@ table .actionCol {
     padding: 0 3px;
     margin: 2px;
     /*width: 225px;*/
-    height: 30px;
+    /* height: 30px; */
     /*flexy*/
     flex-grow: 0;
     flex-shrink: 0;
@@ -47,15 +58,84 @@ table .actionCol {
 
 #headerMenu {
     flex-grow: 0;
-    flex-shrink: 0;
-    height: 30px;
+    flex-shrink: 1;
+    /* height: 30px; */
     min-width: 75px;
 }
 
-#headerTableHeadings {
-    flex-basis: calc(100% - 17px);
-    flex-grow: 0;
-    flex-shrink: 0;
-    height: 19px;
+#mainPanel {
+	/* position: absolute;
+	top: 40px; */
+	padding: 10px;
+	/* bottom: 0; */
+	/* width: 100%; */
+	overflow: auto;
+	overflow-x: hidden;
+	/* scroll-behavior: smooth; */
 }
 
+#monthTableHeader{
+    margin-right: 17px;
+    border-bottom: 2px solid black;
+}
+
+#monthTable{
+    overflow-y: scroll;
+}
+
+.sortieRow td{
+    padding: 2px 5px;
+}
+
+.dateInput{
+    width:50px;
+}
+
+.timeInput{
+    width:35px;
+}
+
+.msnInput{
+    width:75px;
+}
+
+.noteInput{
+    width:100%;
+}
+
+/*button colors*/
+.button.accept {
+	background: #4caf50;
+}
+
+.button.accept:hover {
+	background: #6adc6f;
+}
+
+.button.accept:active {
+	background: #2e7d32;
+}
+
+.button.cnx {
+	background: #ef6c00;
+}
+
+.button.cnx:hover {
+	background: #ffa726;
+}
+
+.button.cnx:active {
+	background: #e65100;
+}
+
+.button.delete {
+	background: crimson;
+}
+
+.button.delete:hover {
+	background: #E57373;
+}
+
+.button.delete:active {
+	background: #B71C1C;
+}
