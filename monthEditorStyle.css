@@ -25,7 +25,8 @@ table .timeCol {
 }
 
 table .actionCol {
-    width: 150px;
+    width: 120px;
+    text-align: left;
 }
 
 #headerPanel {
@@ -73,20 +74,20 @@ table .actionCol {
 #mainPanel {
     position: absolute;
     top: 55px;
-    bottom: 0; 
-    right:0;
-    left:0;
+    bottom: 0;
+    right: 0;
+    left: 0;
     padding: 10px;
     min-width: min-content;
     overflow: auto;
-/* flex stuff */
+    /* flex stuff */
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: flex-start;
 }
 
-#monthCard{
+#monthCard {
     flex-grow: 1;
     max-width: 1000px;
     max-height: calc(100% - 30px);
