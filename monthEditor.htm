@@ -13,7 +13,7 @@
 <body>
     <header id="headerPanel" class="panelShadow">
         <div id="headerTitle" class="headerSection">
-            <H1>Monthly Mission Editor</H1>
+            <H1>Month Editor</H1>
         </div>
         <div id="headerMonth" class="headerSection calendar-month-row">
             <div id="pageLeftButton" class="button small">←</div>
@@ -31,9 +31,9 @@
     </header>
 
     <main id="mainPanel">
-        <div class="card">
+        <div id="monthCard" class="card">
             <H1 class="cardHeader">Sorties</H1>
-            <div id="monthTableHeader">
+            <div id="monthTableHeaderContainer">
                 <table>
                     <tr>
                         <th class="smallCol">
@@ -50,9 +50,9 @@
                     </tr>
                 </table>
             </div>
-            <div id="monthTable">
+            <div id="monthTableContainer">
                 <table>
-                    <tr class="sortieRow">
+                    <!-- <tr class="sortieRow">
                         <td class="smallCol">
                             <p>Unit</p>
                             <p>Type</p>
@@ -64,13 +64,501 @@
                         </td>
                         <td><input class="noteInput"></td>
                         <td class="actionCol">
-                            <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔</div>
+                            <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br/>Create new sortie</div></div>
                             <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
-                            <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙</div>
-                            <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX</div>
+                            <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br/>Permanently remove this sortie<br/>and all associated data</div></div>
+                            <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br/>Mark this sortie canceled</div></div>
                             
                         </td>
-                    </tr>
+                    </tr> -->
+                    <tbody><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr>
+                    <tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr><tr class="sortieRow">
+                            <td class="smallCol">
+                                <p>Unit</p>
+                                <p>Type</p>
+                            </td>
+                            <td class="smallCol"><input class="msnInput"></td>
+                            <td class="timeCol">
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                                <p>KBAB <input class="dateInput"> <input class="timeInput"></p>
+                            </td>
+                            <td><input class="noteInput"></td>
+                            <td class="actionCol">
+                                <div class="button accept tooltipHolder" style="height:21px; text-decoration: none;">✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div></div>
+                                <div class="button tooltipHolder" style="height:21px; text-decoration: none;">⋯</div>
+                                <div class="button delete tooltipHolder" style="height:21px; text-decoration: none;">🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div></div>
+                                <div class="button cnx tooltipHolder" style="height:21px; text-decoration: none;">CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div></div>
+                                
+                            </td>
+                        </tr></tbody>
                 </table>
             </div>
         </div>
@@ -85,6 +573,7 @@
     <script src="components/inputSelectModal.js"></script>
     <script src="components/inputDropdown.js"></script>
     <script src="components/toast.js"></script>
+    <script src="monthEditorScript.js"></script>
 </body>
 
 </html>

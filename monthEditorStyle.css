@@ -1,13 +1,16 @@
-body{
-    display: flex;
+body {
+    /* display: flex;
     flex-direction: column;
+    align-items: center; */
+    box-sizing: border-box;
 }
 
 table {
     width: 100%;
 }
 
-th,td{
+th,
+td {
     vertical-align: middle;
     min-width: 100px;
 }
@@ -18,20 +21,20 @@ table .smallCol {
 
 table .timeCol {
     width: 150px;
-    min-width:150px;
+    min-width: 150px;
 }
 
 table .actionCol {
-    width: 200px;
+    width: 150px;
 }
 
 #headerPanel {
-    /* position: fixed;
+    position: fixed;
     top: 0px;
-    height: 35px; */
+    height: 55px;
     /*75px;*/
-    /* width: 100%;
-    min-width: 500px; */
+    width: 100%;
+    min-width: 500px;
     background-color: whitesmoke;
     border-bottom: 3px solid black;
     /*flex the top*/
@@ -52,90 +55,112 @@ table .actionCol {
     flex-grow: 0;
     flex-shrink: 0;
     max-width: 300px;
-    min-width: 250px;
+    min-width: 150px;
 }
 
+#headerMonth {
+    min-width: 250px;
+}
 
 #headerMenu {
     flex-grow: 0;
     flex-shrink: 1;
     /* height: 30px; */
     min-width: 75px;
+    align-self: flex-start;
 }
 
 #mainPanel {
-	/* position: absolute;
-	top: 40px; */
-	padding: 10px;
-	/* bottom: 0; */
-	/* width: 100%; */
-	overflow: auto;
-	overflow-x: hidden;
-	/* scroll-behavior: smooth; */
+    position: absolute;
+    top: 55px;
+    bottom: 0; 
+    right:0;
+    left:0;
+    padding: 10px;
+    min-width: min-content;
+    overflow: auto;
+/* flex stuff */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: flex-start;
 }
 
-#monthTableHeader{
+#monthCard{
+    flex-grow: 1;
+    max-width: 1000px;
+    max-height: calc(100% - 30px);
+    display: flex;
+    flex-direction: column;
+}
+
+#monthTableHeaderContainer {
     margin-right: 17px;
     border-bottom: 2px solid black;
+    overflow: hidden;
+    flex-shrink: 0;
 }
 
-#monthTable{
+#monthTableContainer {
     overflow-y: scroll;
+    overflow-x: hidden;
+    min-height: 500px;
+    scroll-behavior: smooth;
 }
 
-.sortieRow td{
+.sortieRow td {
     padding: 2px 5px;
 }
 
-.dateInput{
-    width:50px;
+.dateInput {
+    width: 50px;
 }
 
-.timeInput{
-    width:35px;
+.timeInput {
+    width: 35px;
 }
 
-.msnInput{
-    width:75px;
+.msnInput {
+    width: 75px;
 }
 
-.noteInput{
-    width:100%;
+.noteInput {
+    width: 100%;
 }
 
 /*button colors*/
 .button.accept {
-	background: #4caf50;
+    background: #4caf50;
 }
 
 .button.accept:hover {
-	background: #6adc6f;
+    background: #6adc6f;
 }
 
 .button.accept:active {
-	background: #2e7d32;
+    background: #2e7d32;
 }
 
 .button.cnx {
-	background: #ef6c00;
+    background: #ef6c00;
 }
 
 .button.cnx:hover {
-	background: #ffa726;
+    background: #ffa726;
 }
 
 .button.cnx:active {
-	background: #e65100;
+    background: #e65100;
 }
 
 .button.delete {
-	background: crimson;
+    background: crimson;
 }
 
 .button.delete:hover {
-	background: #E57373;
+    background: #E57373;
 }
 
 .button.delete:active {
-	background: #B71C1C;
+    background: #B71C1C;
 }
