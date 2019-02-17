@@ -73,11 +73,11 @@ function DateTimeModal(inputElement, containerElement) {
     this.modal = document.createElement("div");
     this.modal.className = "card timeCard modal";
     this.modal.addEventListener('click', () => {
-        event.stopPropagation();//prevents clicks on modal from bubbling up to document level (which would trigger modal close)
+        event.stopPropagation(); //prevents clicks on modal from bubbling up to document level (which would trigger modal close)
         //make sure all dropdowns are closed if a click happens outside of them
         this.cal.monthSelection.dropdownHide();
         this.cal.yearSelection.dropdownHide();
-    }); 
+    });
     //let closeButton = document.createElement("div");
     //closeButton.className = "button small";
     //closeButton.innerText = "⨯";
@@ -117,7 +117,9 @@ function DateTimeModal(inputElement, containerElement) {
     let clearButton = document.createElement("div");
     clearButton.className = "button small left";
     clearButton.innerText = "🗙 clear";
-    clearButton.addEventListener('click', () => { this.clearEntry(); });
+    clearButton.addEventListener('click', () => {
+        this.clearEntry();
+    });
     let buttonToday = document.createElement("div");
     buttonToday.className = "button small";
     buttonToday.innerText = "📆";
@@ -151,13 +153,23 @@ function DateTimeModal(inputElement, containerElement) {
 
     this.timeHourInput.addEventListener('keydown', this.inputKeyHandler);
     this.timeHourInput.addEventListener('focusout', this.focusHandler);
-    this.timeHourInput.addEventListener('input', (event) => { this.inputTimeHandler(event, 24, 2); });
-    this.timeHourInput.addEventListener('focus', () => { this.timeHourInput.select(); });
+    this.timeHourInput.addEventListener('input', (event) => {
+        this.inputTimeHandler(event, 24, 2);
+    });
+    this.timeHourInput.addEventListener('focus', () => {
+        this.timeHourInput.select();
+    });
     this.timeMinuteInput.addEventListener('keydown', this.inputKeyHandler);
     this.timeMinuteInput.addEventListener('focusout', this.focusHandler);
-    this.timeMinuteInput.addEventListener('input', (event) => { this.inputTimeHandler(event, 60, 5); });
-    this.timeMinuteInput.addEventListener('focus', () => { this.timeMinuteInput.select(); });
-    this.dateInput.addEventListener('focus', () => { this.dateInput.select(); });
+    this.timeMinuteInput.addEventListener('input', (event) => {
+        this.inputTimeHandler(event, 60, 5);
+    });
+    this.timeMinuteInput.addEventListener('focus', () => {
+        this.timeMinuteInput.select();
+    });
+    this.dateInput.addEventListener('focus', () => {
+        this.dateInput.select();
+    });
     this.dateInput.addEventListener('keydown', this.inputKeyHandler);
     this.dateInput.addEventListener('focusout', this.focusHandler);
 
@@ -271,9 +283,15 @@ DateTimeModal.prototype.inputTimeHandler = function (event, maxValue, firstDigit
     let timePattern = /^-?\d{0,2}$/;
     if (timePattern.test(event.target.value)) {
         //input contains numbers, so force them into range
-        if (Number(event.target.value) >= maxValue) { event.target.value = Number(event.target.value) % maxValue; }
-        if (Number(event.target.value) < 0) { event.target.value = maxValue + Number(event.target.value); }
-        if (Number(event.target.value) === 0 && event.target.value !== "") { event.target.value = "0"; } //fix -0 awkwardness
+        if (Number(event.target.value) >= maxValue) {
+            event.target.value = Number(event.target.value) % maxValue;
+        }
+        if (Number(event.target.value) < 0) {
+            event.target.value = maxValue + Number(event.target.value);
+        }
+        if (Number(event.target.value) === 0 && event.target.value !== "") {
+            event.target.value = "0";
+        } //fix -0 awkwardness
         //save good value
         event.target.prevValue = event.target.value;
         //check for finished input conditions
@@ -326,13 +344,13 @@ DateTimeModal.prototype.calendarSelectionHandler = function (d) {
 DateTimeModal.prototype.clearEntry = function () {
     //if field was already blank, then there's nothing to change
     if (isNaN(this.dateTimeValue.valueOf())) {
-        this.newValue = new Date("");//reset newValue as well
+        this.newValue = new Date(""); //reset newValue as well
         this.displayNewValue();
         return;
     }
 
     //pass update to server
-    this.newValue = new Date("");//null value
+    this.newValue = new Date(""); //null value
     this.inputAccept();
 };
 
@@ -370,7 +388,7 @@ DateTimeModal.prototype.inputAccept = function () {
         elementID: this.inputElement.getAttribute("data-element-id"),
         field: this.inputElement.getAttribute("data-field"),
         value: JSON.stringify(val)
-    };//looks like stringify does pretty well with time values, too! - should default to Z time to avoid timezone ambiguity
+    }; //looks like stringify does pretty well with time values, too! - should default to Z time to avoid timezone ambiguity
 
     //send update to server
     let xhttp = new XMLHttpRequest();
@@ -452,7 +470,7 @@ DateTimeModal.prototype.parseTimeInput = function (event) {
         return false; //bad input, don't update values
     }
 
-    this.displayNewValue();//update display
+    this.displayNewValue(); //update display
     return true; //if we got here, then we succeeded
 };
 
@@ -475,73 +493,20 @@ DateTimeModal.prototype.parseDateInput = function (d) {
     //combine with existing value, or set the UTC date value at 0 time if current value is empty
     this.newValue = new Date(Date.UTC(inDate.getUTCFullYear(), inDate.getUTCMonth(), inDate.getUTCDate(), (this.newValue.getUTCHours() || 0), (this.newValue.getUTCMinutes() || 0)));
 
-    this.displayNewValue();//update display
+    this.displayNewValue(); //update display
     return true; //if we got here, then we succeeded
 };
 
 
-//determines difference between two times (valueOf) and returns formatted string
-function formatTimeDifference(actualTime, schedTime) {
-    if (typeof actualTime !== 'undefined' && typeof schedTime !== 'undefined') {
-        if (actualTime === schedTime) {
-            return "On Time";
-        } else {
-            let diff = roundMinutes((actualTime - schedTime) / 60000);
-            return Math.abs(diff) + (diff % 1 === 0 ? ".0 " : "hr ") + (diff > 0 ? "late" : "early");
-        }
-    } else {
-        return "-";
-    }
-}
 
-//given a value in minutes, provides 781 rounding to hours
-//for example: 62 -> 1.0
-function roundMinutes(t) {
-    let sign = (t >= 0 ? 1 : -1)
-    let h = Math.floor(Math.abs(t) / 60) * sign;
-    let m = Math.abs(t) % 60;
-    if (m <= 2) {
-        return h;
-    } else if (m <= 8) {
-        return h + (0.1 * sign);
-    } else if (m <= 14) {
-        return h + (0.2 * sign);
-    } else if (m <= 20) {
-        return h + (0.3 * sign);
-    } else if (m <= 26) {
-        return h + (0.4 * sign);
-    } else if (m <= 33) {
-        return h + (0.5 * sign);
-    } else if (m <= 39) {
-        return h + (0.6 * sign);
-    } else if (m <= 45) {
-        return h + (0.7 * sign);
-    } else if (m <= 51) {
-        return h + (0.8 * sign);
-    } else if (m <= 57) {
-        return h + (0.9 * sign);
-    } else {
-        return h + sign;
-    }
-}
 
-//determines if a time difference is a deviation (default is > +-30 minutes)
-//devTime is in minutes
-function isDev(actualTime, schedTime, devTime) {
-    if (devTime === undefined) { devTime = 30; }
-    if (typeof actualTime !== 'undefined' && typeof schedTime !== 'undefined') {
-        //get the difference in minutes, then round down to the nearest minute
-        if (Math.floor(Math.abs((actualTime - schedTime) / 60000)) > devTime) {
-            return true;
-        }
-    }
-    return false; //can't be a deviation if both numbers don't exist (or if it doesn't meet the condition)
 
-}
 
 //functions for formatting time (calendar includes date formatting tool)
 function formatTime(t, colon) {
-    if (typeof colon === 'undefined') { colon = false; }
+    if (typeof colon === 'undefined') {
+        colon = false;
+    }
     if (t !== null && t.valueOf() > 0 && typeof t !== 'undefined') {
         return (t.getUTCHours() < 10 ? "0" : "") + t.getUTCHours() + (colon ? ":" : "") + (t.getUTCMinutes() < 10 ? "0" : "") + t.getUTCMinutes();
     } else if (colon) {
@@ -553,7 +518,7 @@ function formatTime(t, colon) {
 
 function formatShortDate(d) {
     if (d !== null && typeof d !== 'undefined' && d.valueOf() > 0) {
-        return (d.getUTCDate() >= 10 ? d.getUTCDate() : "0" + d.getUTCDate()) + "-" + shortMonth[d.getUTCMonth()] + "-" + d.getUTCFullYear().toString();//.substr(-2); <--if you only want last 2 digits
+        return (d.getUTCDate() >= 10 ? d.getUTCDate() : "0" + d.getUTCDate()) + "-" + shortMonth[d.getUTCMonth()] + "-" + d.getUTCFullYear().toString(); //.substr(-2); <--if you only want last 2 digits
     } else {
         return "";
     }
@@ -570,7 +535,7 @@ function parseDateString(dateStr) {
     let mmmdy = /(JAN|FEB|MAR|APR|MAY|JUN|JUL|AUG|SEP|OCT|NOV|DEC)[A-Z]*[^A-Z0-9]*(\d{1,2})[^A-Z0-9]*(\d{0,4})/i;
     let mmddyy = /(\d{1,2})[^A-Z0-9]+(\d{1,2})[^A-Z0-9]*(\d{0,4})/i;
     let d, m, y; //set aside our variables for month,day, and year - remain unassigned until we find an input pattern
-    let blankYear = false;//indicates if we filled in empty year value with current value
+    let blankYear = false; //indicates if we filled in empty year value with current value
     let fullYear = false; //indicates user provided full year input
     let now = new Date(); //current date for filling in blanks
     //check string against each pattern
@@ -595,7 +560,9 @@ function parseDateString(dateStr) {
         y = Number(match[3] || now.getUTCFullYear());
         blankYear = match[3].length < 2;
         fullYear = (match[3].length === 4);
-        if (m > 11 || m < 0) { return new Date(''); }//check for month input error
+        if (m > 11 || m < 0) {
+            return new Date('');
+        } //check for month input error
     } else {
         return new Date(''); //return invalid date because none of the parsing patterns matched
     }
@@ -615,7 +582,9 @@ function parseDateString(dateStr) {
     }
     //this is for new user input, so adjust year if an early month is entered late in the year
     //first two months of the year entered during last two months of the year, use next year if year was not explicitly provided
-    if (blankYear && now.getUTCMonth() > 9 && m < 2) { y += 1; }
+    if (blankYear && now.getUTCMonth() > 9 && m < 2) {
+        y += 1;
+    }
 
     return new Date(Date.UTC(y, m, d));
 }
@@ -625,34 +594,51 @@ function parseDateString(dateStr) {
 //returns date value with only hour and minute values (date portion is 0)
 function parseTimeString(t) {
     //start out with hours and minutes set to 0
-    let h = 0; let m = 0;
+    let h = 0;
+    let m = 0;
 
     if (String(t).indexOf(':') >= 0) {
         //semicolons exist, use to split
         let tA = t.split(':');
         for (let i = 0; i <= 1; i++) {
-            if (typeof tA[i] === 'undefined') { tA[i] = "0"; }
+            if (typeof tA[i] === 'undefined') {
+                tA[i] = "0";
+            }
             tA[i] = parseInt(String(tA[i]).replace(/\D/g, ''));
         }
-        if (tA[0] >= 0 && tA[0] < 24) { h = tA[0]; } //else { return false; } //use this if we want to fail the entire transaction instead of resetting to 0
-        if (tA[1] >= 0 && tA[1] < 60) { m = tA[1]; }
+        if (tA[0] >= 0 && tA[0] < 24) {
+            h = tA[0];
+        } //else { return false; } //use this if we want to fail the entire transaction instead of resetting to 0
+        if (tA[1] >= 0 && tA[1] < 60) {
+            m = tA[1];
+        }
     } else {
         //remove non-number characters
         t = String(t).replace(/\D/g, '');
         //no semicolon, use length to determine hours/minutes
         if (t.length > 0 && t.length <= 2) { //H,HH - just hours
             t = parseInt(t);
-            if (t >= 0 && t < 24) { h = t; }
+            if (t >= 0 && t < 24) {
+                h = t;
+            }
         } else if (t.length > 0 && t.length <= 4) { //Hmm, HHmm - count from right to get hours and minutes (since minutes should always be 2 digits)
             let tH = parseInt(t.slice(0, -2));
             let tM = parseInt(t.slice(-2));
-            if (tH >= 0 && tH < 24) { h = tH; }
-            if (tM >= 0 && tM < 60) { m = tM; }
+            if (tH >= 0 && tH < 24) {
+                h = tH;
+            }
+            if (tM >= 0 && tM < 60) {
+                m = tM;
+            }
         } else if (t.length > 4) { //HHmm* -count from left since it appears we have some extra garbage on here
             let tH = parseInt(t.slice(0, 2));
             let tM = parseInt(t.slice(2, 4));
-            if (tH >= 0 && tH < 24) { h = tH; }
-            if (tM >= 0 && tM < 60) { m = tM; }
+            if (tH >= 0 && tH < 24) {
+                h = tH;
+            }
+            if (tM >= 0 && tM < 60) {
+                m = tM;
+            }
         }
     }
 
@@ -661,11 +647,11 @@ function parseTimeString(t) {
 
 //uses current page selection to highlight all text
 //Required for content editable inputs because they don't have a select() method
-function selectAll(target) {
-    let sel = window.getSelection();
-    let r = new Range();
-    r.setStart(target.firstChild, 0);
-    r.setEnd(target.firstChild, target.firstChild.length);
-    sel.removeAllRanges();
-    sel.addRange(r);
-}
+// function selectAll(target) {
+//     let sel = window.getSelection();
+//     let r = new Range();
+//     r.setStart(target.firstChild, 0);
+//     r.setEnd(target.firstChild, target.firstChild.length);
+//     sel.removeAllRanges();
+//     sel.addRange(r);
+// }

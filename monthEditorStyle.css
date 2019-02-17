@@ -24,9 +24,23 @@ table .timeCol {
     min-width: 150px;
 }
 
+table .durCol {
+    width: 40px;
+    min-width: 40px;
+}
+
+table .timeCol .editDropdown {
+    width: 35px;
+}
+
 table .actionCol {
     width: 120px;
     text-align: left;
+}
+
+table .actionCol .button {
+    height: 21px;
+    text-decoration: none;
 }
 
 #headerPanel {
@@ -109,12 +123,21 @@ table .actionCol {
     scroll-behavior: smooth;
 }
 
+#monthTable tr:nth-child(even) {
+    background: lightgray;
+}
+
 .sortieRow td {
     padding: 2px 5px;
 }
 
+.dateContainer {
+    position: relative;
+}
+
 .dateInput {
     width: 50px;
+    margin-right: 4px;
 }
 
 .timeInput {

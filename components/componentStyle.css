@@ -21,6 +21,7 @@ div.editText {
 
 
 .editDropdown {
+	display: inline-block;
 	cursor: pointer;
 	position: relative;
 	/*width: max-content;*/

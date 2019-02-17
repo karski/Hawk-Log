@@ -24,7 +24,7 @@ const month = [
 //draws calndar display inside calendar element (should be an appropriately sized div)
 //selects date passed and calls back any user input to selectDateCallback(date)
 //if passed date is null, current month is displayed without selection
-function Calendar(selectDateCallback, initialDate) {
+function Calendar(selectDateCallback, initialDate, initialMonth) {
     //store inputs so we can reference later
     //this.calendarElement = calendarElement; -we never actually need this after initial draw, so let's manage it ourselves
     this.calendarContainer = document.createElement("div");
@@ -33,6 +33,10 @@ function Calendar(selectDateCallback, initialDate) {
     //initial values for display (no selection and today)
     this.selected = -1;
     this.displayMonth = new Date();
+    //set display month to passed value if it exists
+    if (typeof initialMonth !== 'undefined' && initialMonth !== null && !isNaN(initialMonth.valueOf()) && initialMonth.valueOf() > 0) {
+        this.displayMonth = initialMonth;
+    }
 
     //construct initial display frames
     //month/year label
@@ -43,7 +47,7 @@ function Calendar(selectDateCallback, initialDate) {
     //this.yearLabel.className = "calendar-yearLabel";// editDropdown";
 
     this.monthSelection = new inputDropdown(month, "", "", "", month[this.displayMonth.getUTCMonth()], false, false);
-    this.yearSelection = new inputDropdown(generateYearList(this.displayMonth,3), "", "", "", this.displayMonth.getUTCFullYear(), false, false);
+    this.yearSelection = new inputDropdown(generateYearList(this.displayMonth, 3), "", "", "", this.displayMonth.getUTCFullYear(), false, false);
 
     //add listeners to catch updates from dropdown controls
     this.monthSelection.getHTMLNode().addEventListener('change', () => {
@@ -65,7 +69,7 @@ function Calendar(selectDateCallback, initialDate) {
     calendarLabel.className = "calendar-monthLabel";
     calendarLabel.appendChild(this.yearSelection.getHTMLNode());
     calendarLabel.appendChild(this.monthSelection.getHTMLNode());
-    
+
     //calendarLabel.appendChild(this.monthLabel);
     //calendarLabel.appendChild(this.yearLabel);
 
@@ -162,7 +166,9 @@ Calendar.prototype.drawDay = function (d) {
     }
 
     //add click listener
-    dayElement.addEventListener('click', () => { this.selectDate(event); });
+    dayElement.addEventListener('click', () => {
+        this.selectDate(event);
+    });
 
     //append element to day container
     this.dayContainer.appendChild(dayElement);
@@ -220,12 +226,10 @@ Calendar.prototype.updateSelection = function (d) {
 // builds a list of year values around the year of a given date
 // d = date currently selected
 // numYears is the number of years on either side to display
-function generateYearList(d,numYears) {
+function generateYearList(d, numYears) {
     let yearList = [];
     for (let i = d.getUTCFullYear() - numYears; i <= d.getUTCFullYear() + numYears; i++) {
         yearList.push(i);
     }
     return yearList;
 }
-
-

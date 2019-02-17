@@ -26,7 +26,7 @@ let monthSortieData = []; //array to hold all sortie info for display in table
 let monthSortieTable = document.getElementById("monthTable");
 let displayMonth = new Date(); //keeps track of what month we are on
 //check URL for preselected date - should be passed as a number representing the month's valueOf value
-if(getParameterByName("month")!=null){
+if (getParameterByName("month") != null) {
     displayMonth = new Date(Number(getParameterByName("month")));
 }
 //collect and populate page displays
@@ -62,70 +62,113 @@ document.getElementById("pageRightButton").addEventListener('click', () => {
 //   this is a more expensive approach, but probably fine since there are not going to be an excessive number of sorties per month
 function drawPageMonth() {
     //update the url parameter
-    addParamter("month",displayMonth.valueOf());
+    addParamter("month", displayMonth.valueOf());
     //set up month/year labels
     monthDropdown.setValue(month[displayMonth.getUTCMonth()]);
-    yearDropdown.list.buildList(generateYearList(displayMonth,3));
+    yearDropdown.list.buildList(generateYearList(displayMonth, 3));
     yearDropdown.setValue(displayMonth.getUTCFullYear());
     //clear out table entries
     monthSortieTable.innerHTML = '';
     //fill in info from local data array
     for (let sortie of monthSortieData) {
         let row = createSortieRow(sortie);
-        //find the right spot for it in the table
-
+        //find the right spot for it in the table --> for now just assume it is in order already
+        monthSortieTable.appendChild(row);
     }
     // create one empty new sortie row at the end
-    monthSortieTable.appendChild(createNewEntryRow());
+    monthSortieTable.appendChild(createSortieRow());
 }
 
 //---------------Row Building functions-----------------------------------------//
 // * NOTE: may want to consider treating rows as objects to more easily record and pass info...
 
 //creates a sortie table row from the sortie data object passed
+// -if no object is passed, an empty row for input will be created
 // returns HTML node for table row
-function createSortieRow(sortie){
-
-}
-
-//creates an empty table row for creating new sorties
-// returns HTML node for table row
-function createNewEntryRow(){
+function createSortieRow(sortie) {
+    let hasData = sortie || false;
     let entryRow = document.createElement("tr");
-    entryRow.className="sortieRow";
+    entryRow.className = "sortieRow";
+
+    //create table cells to hold all the components built below
+    let unitCol = document.createElement("td");
+    unitCol.className = "smallCol";
+    let msnCol = document.createElement("td");
+    msnCol.className = "smallCol";
+    let timeCol = document.createElement("td");
+    timeCol.className = "timeCol";
+    let noteCol = document.createElement("td");
+    let actionCol = document.createElement("td");
+    actionCol.className = "actionCol";
+
     //create components to add to table cells
-    let unitDropdown = new inputDropdown(lists.unitList,"","SORTIE","squadron","",false,true,true);
-    let typeDropdown = new inputDropdown(lists.flightTypeList,"","SORTIE","COCOM","",false,true,true);
-    let takeoffAfldDropdown = new inputDropdown(lists.airfieldList,"","SORTIE","takeoffLoc","",true,true,true);
-    let landAfldDropdown = new inputDropdown(lists.airfieldList,"","SORTIE","landLoc","",true,true,true);
-    let msnNumInput = document.createElement("input");
-    let noteInput = document.createElement("input");
-    let takeoffDateInput = document.createElement("input");
-    let takeoffTimeInput= document.createElement("input");
-    let landDateInput= document.createElement("input");
-    let landTimeINput= document.createElement("input");
-    //new sortie buttons - accept or delete
-    let acceptButton = document.createElement("div");
-    acceptButton.className = "button accept tooltipHolder"
-    let deleteButton = document.createElement("div");
-    deleteButton.className = "button delete tooltipHolder"
-
-    //create table cells to hold all the components built above
-let unitCol = document.createElement("td");
-unitCol.className = "smallCol";
-let msnCol = document.createElement("td");
-msnCol.className = "smallCol";
-let timeCol = document.createElement("td");
-timeCol.className = "timeCol";
-let noteCol = document.createElement("td");
-let actionCol = document.createElement("td");
-actionCol.className = "actionCol";
-
-    //arrange elements
+    let unitDropdown = new inputDropdown(lists.unitList, "", "SORTIE", "squadron", "", false, true, true);
     unitCol.appendChild(document.createElement("p").appendChild(unitDropdown.getHTMLNode()));
+    let typeDropdown = new inputDropdown(lists.flightTypeList, "", "SORTIE", "COCOM", "", false, true, true);
     unitCol.appendChild(document.createElement("p").appendChild(typeDropdown.getHTMLNode()));
-
     entryRow.appendChild(unitCol);
+
+    let msnNumInput = document.createElement("input");
+    msnNumInput.className = "msnInput";
+    msnCol.appendChild(msnNumInput);
+    entryRow.appendChild(msnCol);
+
+    let takeoffAfldDropdown = new inputDropdown(lists.airfieldList, "", "SORTIE", "takeoffLoc", "", true, true, true);
+    let takeoffDateInput = document.createElement("input");
+    takeoffDateInput.className = "dateInput";
+    let takeoffTimeInput = document.createElement("input");
+    takeoffTimeInput.className = "timeInput";
+    let tmpP = document.createElement("p");
+    tmpP.appendChild(takeoffAfldDropdown.getHTMLNode());
+    tmpP.appendChild(takeoffDateInput);
+    tmpP.appendChild(takeoffTimeInput);
+    timeCol.appendChild(tmpP);
+    let landAfldDropdown = new inputDropdown(lists.airfieldList, "", "SORTIE", "landLoc", "", true, true, true);
+    let landDateInput = document.createElement("input");
+    landDateInput.className = "dateInput";
+    let landTimeInput = document.createElement("input");
+    landTimeInput.className = "timeInput";
+    tmpP = document.createElement("p");
+    tmpP.appendChild(landAfldDropdown.getHTMLNode());
+    tmpP.appendChild(landDateInput);
+    tmpP.appendChild(landTimeInput);
+    timeCol.appendChild(tmpP);
+    entryRow.appendChild(timeCol);
+
+    let noteInput = document.createElement("input");
+    noteInput.className = "noteInput";
+    noteCol.appendChild(noteInput);
+    entryRow.appendChild(noteCol);
+
+    if (hasData) {
+        //fill in data passed to components
+
+        //existing sortie buttons - menu, delete, and cancel
+        let menuButton = document.createElement("div");
+        menuButton.className = "button tooltipHolder";
+        menuButton.innerHTML = '⋯';
+        let deleteButton = document.createElement("div");
+        deleteButton.className = "button delete tooltipHolder"
+        deleteButton.innerHTML = '🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div>';
+        let cnxButton = document.createElement("div");
+        cnxButton.className = "button cnx tooltipHolder"
+        cnxButton.innerHTML = 'CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div>';
+        actionCol.appendChild(menuButton);
+        actionCol.appendChild(deleteButton);
+        actionCol.appendChild(cnxButton);
+        entryRow.appendChild(actionCol);
+    } else {
+        //new sortie buttons - accept or delete
+        let acceptButton = document.createElement("div");
+        acceptButton.className = "button accept tooltipHolder"
+        acceptButton.innerHTML = '✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div>';
+        let deleteButton = document.createElement("div");
+        deleteButton.className = "button delete tooltipHolder"
+        deleteButton.innerHTML = '🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div>';
+        actionCol.appendChild(acceptButton);
+        actionCol.appendChild(deleteButton);
+        entryRow.appendChild(actionCol);
+    }
 
 
     return entryRow;

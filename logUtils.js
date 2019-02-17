@@ -29,3 +29,66 @@ function addParamter(name, value, addParamHeader) {
         history.replaceState(null, "", url + (/\?/.test(url) ? "&" : "?") + name + "=" + value);
     }
 }
+
+//given a value in minutes, provides 781 rounding to hours
+//for example: 62 -> 1.0
+function roundMinutes(t) {
+    let sign = (t >= 0 ? 1 : -1)
+    let h = Math.floor(Math.abs(t) / 60) * sign;
+    let m = Math.abs(t) % 60;
+    if (m <= 2) {
+        return h;
+    } else if (m <= 8) {
+        return h + (0.1 * sign);
+    } else if (m <= 14) {
+        return h + (0.2 * sign);
+    } else if (m <= 20) {
+        return h + (0.3 * sign);
+    } else if (m <= 26) {
+        return h + (0.4 * sign);
+    } else if (m <= 33) {
+        return h + (0.5 * sign);
+    } else if (m <= 39) {
+        return h + (0.6 * sign);
+    } else if (m <= 45) {
+        return h + (0.7 * sign);
+    } else if (m <= 51) {
+        return h + (0.8 * sign);
+    } else if (m <= 57) {
+        return h + (0.9 * sign);
+    } else {
+        return h + sign;
+    }
+}
+
+
+//determines if a time difference is a deviation (default is > +-30 minutes)
+//devTime is in minutes
+function isDev(actualTime, schedTime, devTime) {
+    if (devTime === undefined) {
+        devTime = 30;
+    }
+    if (typeof actualTime !== 'undefined' && typeof schedTime !== 'undefined') {
+        //get the difference in minutes, then round down to the nearest minute
+        if (Math.floor(Math.abs((actualTime - schedTime) / 60000)) > devTime) {
+            return true;
+        }
+    }
+    return false; //can't be a deviation if both numbers don't exist (or if it doesn't meet the condition)
+
+}
+
+
+//determines difference between two times (valueOf) and returns formatted string
+function formatTimeDifference(actualTime, schedTime) {
+    if (typeof actualTime !== 'undefined' && typeof schedTime !== 'undefined') {
+        if (actualTime === schedTime) {
+            return "On Time";
+        } else {
+            let diff = roundMinutes((actualTime - schedTime) / 60000);
+            return Math.abs(diff) + (diff % 1 === 0 ? ".0 " : "hr ") + (diff > 0 ? "late" : "early");
+        }
+    } else {
+        return "-";
+    }
+}
