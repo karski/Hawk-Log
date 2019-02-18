@@ -140,6 +140,11 @@ table .actionCol .button {
     margin-right: 4px;
 }
 
+/* remove top border from calendar display */
+.calendar-header {
+    border-top: 0px;
+}
+
 .timeInput {
     width: 35px;
 }

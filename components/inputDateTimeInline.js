@@ -4,9 +4,11 @@
 //creates the input object to keep track of state
 // inputs: initial value = date value to display in the field - passed as date object
 //         displayMonth = date value for the month that should be displayed by the calendar when no selection has been made
-function DateTimeInput(initialValue, displayMonth) {
+//          changeCallback = function that will be called when date or time value is changed - function will be passed DateTime object
+function DateTimeInput(initialValue, displayMonth, changeCallback) {
     this.value = null; //begin blank
     this.defaultMonth = new Date(); //default to current month
+    this.callback = changeCallback;
 
     //set initial values based on input (if valid)
     if (typeof initialValue !== 'undefined' && initialValue !== null && !isNaN(initialValue.valueOf()) && initialValue.valueOf() > 0) {
@@ -16,17 +18,20 @@ function DateTimeInput(initialValue, displayMonth) {
         this.defaultMonth = displayMonth;
     }
 
-
     //create container
     this.inputContainer = document.createElement("div");
     this.inputContainer.className = "dateTimeContainer";
     let dateContainer = document.createElement("span");
     dateContainer.className = "dateContainer";
+    dateContainer.addEventListener('click', () => {
+        event.stopPropagation(); //prevent clicks from closing our own modal
+    });
     this.inputContainer.appendChild(dateContainer);
 
     //create inputs and add them to the containers
     this.dateInput = document.createElement("input");
     this.dateInput.className = "dateInput";
+    this.dateInput.prevValue = "";
     this.dateInput.setAttribute("placeholder", "date");
     dateContainer.appendChild(this.dateInput);
     this.timeInput = document.createElement("input");
@@ -34,6 +39,12 @@ function DateTimeInput(initialValue, displayMonth) {
     this.timeInput.setAttribute("placeholder", "time");
     this.timeInput.prevValue = ""; //for handling bad user inputs
     this.timeInput.addEventListener('input', this.timeInputHandler);
+    this.timeInput.addEventListener('keydown', () => {
+        this.timeKeyHandler();
+    });
+    this.timeInput.addEventListener('blur', () => {
+        this.updateTime(event.target.value, true);
+    });
     this.inputContainer.appendChild(this.timeInput);
 
     //create modal display for calendar
@@ -42,23 +53,132 @@ function DateTimeInput(initialValue, displayMonth) {
     dateContainer.appendChild(this.calendarModal);
     //create calendar display
     this.calendar = new Calendar((d) => {
-        this.calendarSelectionHandler(d)
+        this.calendarSelectionHandler(d);
     }, this.value, this.defaultMonth);
     this.calendarModal.appendChild(this.calendar.getHTMLNode());
+    this.dateInput.addEventListener('focus', () => {
+        this.calendarModal.classList.remove("hidden");
+        addModal(this, true); //add ourselves to modal manager, since this is the only modal we're monitoring
+    });
+
+    //display the current value
+    this.displayValue();
 }
 
 DateTimeInput.prototype.getHTMLNode = function () {
     return this.inputContainer;
 };
 
+//fills in displays with current value
+DateTimeInput.prototype.displayValue = function () {
+    this.dateInput.value = formatDayMonth(this.value);
+    this.dateInput.prevValue = this.dateInput.value;
+    this.timeInput.value = formatTimeValue(this.value);
+    this.timeInput.prevValue = this.timeInput.value;
+    this.calendar.updateSelection(this.value);
+};
+
+
+
+//-----------------Value updaters----------------------------------//
+// accepts time string for parsing
+//  if unable to parse, defaults to 00:00
+//  if good value, updates value (filling in date as required) and triggers change event
+// doChangeEvent is boolean - indicates if change should be pushed as event or witheld
+DateTimeInput.prototype.updateTime = function (t, doChangeEvent) {
+    doChangeEvent = doChangeEvent || false; //default to *not* event for changes
+    let tVal = parseTimeString(t);
+    //fill in date, if no value selected
+    if (this.value === null) { //There is no date selection made yet
+        //if today is within the default month, use today as the date guess
+        let today = new Date();
+        if (today.getUTCMonth() === this.defaultMonth.getUTCMonth() && today.getUTCFullYear() === this.defaultMonth.getUTCFullYear()) {
+            tVal.setUTCFullYear(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate());
+        } else { //otherwise, use the first day of the default month
+            tVal.setUTCFullYear(this.defaultMonth.getUTCFullYear(), this.defaultMonth.getUTCMonth(), 1);
+        }
+    } else { //date portion already exists, append onto time
+        tVal.setUTCFullYear(this.value.getUTCFullYear(), this.value.getUTCMonth(), this.value.getUTCDate());
+    }
+
+    //we have date and time now, use to fill in value
+    this.oldValue = this.value;
+    this.value = tVal;
+    this.displayValue();
+
+    if (doChangeEvent) {
+        this.callback(this.value);
+    }
+};
+
+// accepts date string for parsing
+//  if unable to parse, reverts to old value
+//  if good value, updates value (filling in time as required) and triggers change event
+// doChangeEvent is boolean - indicates if change should be pushed as event or witheld
+DateTimeInput.prototype.updateDate = function (d, doChangeEvent) {
+    doChangeEvent = doChangeEvent || false; //default to *not* event for changes
+    let dVal = parseDateString(d);
+
+    //if date value is invalid, revert to old value
+    if (!dVal.valueOf() > 0) {
+        event.target.value = event.target.prevValue;
+        return;
+    }
+
+    //merge date value and time value
+    if (this.value !== null) {
+        dVal.setUTCHours(this.value.getUTCHours() || 0, this.value.getUTCMinutes() || 0);
+    }
+
+    this.oldValue = this.value;
+    this.value = dVal;
+    this.displayValue();
+
+    if (doChangeEvent) {
+        this.callback(this.value);
+    }
+};
+
+// uses date time object to set current value and update display
+//  (use for setting up the initial display or other external updates)
+DateTimeInput.prototype.setDateTime = function (d) {
+
+};
+
+
+
+///////////////////////////////////////////////////////////////////////////
+//                  Event Handlers
+///////////////////////////////////////////////////////////////////////////
+
+
+//handles close calls for the date modal
+DateTimeInput.prototype.close = function () {
+    this.calendarModal.classList.add("hidden");
+}
+
 // gets input from the calendar and applies the selected date to the text input field
 DateTimeInput.prototype.calendarSelectionHandler = function (d) {
-
+    //save current value
+    this.oldValue = this.value;
+    //set value of date field here (if no time set, use 00:00)
+    if (this.value !== null) {
+        this.value = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), this.value.getUTCHours() || 0, this.value.getUTCMinutes() || 0));
+    } else {
+        this.value = d;
+    }
+    this.dateInput.value = formatDayMonth(d);
+    //close modal and change focus to time field
+    removeSpecificModal(this);
+    this.close();
+    this.timeInput.focus();
+    //trigger change event
+    this.callback(this.value);
 };
 
 // control user time input to prevent bad characters entering the string and add colon formatting
 // save parsing to a date value until user hits enter or moves to another input
-function timeInputHandler() {
+DateTimeInput.prototype.timeInputHandler = function () {
     //make sure input matches accepted pattern - if not, roll back to previous value
     let pattern = /^(\d){0,2}:?(\d){0,2}$/;
     if (!pattern.test(event.target.value)) {
@@ -114,7 +234,52 @@ function timeInputHandler() {
     event.target.prevValue = event.target.value;
 };
 
+//handle special key presses for time field
+// enter accepts input, esc rolls back to stored value, up and down adjust time in 30 min increments
+DateTimeInput.prototype.timeKeyHandler = function () {
+    if (event.key === "Enter") {
+        //prevent enter key from making input
+        event.stopPropagation();
+        event.target.blur();
+        //*allow blur to trigger time parsing
+    } else if (event.key === "Escape" || event.key === "Esc") {
+        //cancel input
+        this.value = this.oldValue;
+        event.target.blur();
+        this.displayValue();
+    } else if (event.key === "ArrowUp") { //Use arrow keys to increment/decrement
+        event.stopImmediatePropagation(); //prevent arrow key from triggering input field actions, which could contradict what we want to do
+        event.preventDefault();
+        //first, attempt to udpate the value
+        this.updateTime(event.target.value, false);
+        //now increment by +30 and redraw
+        if (this.value !== null) {
+            this.value.setUTCMinutes(this.value.getUTCMinutes() + 30);
+            this.displayValue();
+        }
+    } else if (event.key === "ArrowDown") { //Use arrow keys to increment/decrement
+        event.stopImmediatePropagation(); //prevent arrow key from triggering input field actions, which could contradict what we want to do
+        event.preventDefault();
+        //first, attempt to udpate the value
+        this.updateTime(event.target.value, false);
+        //now increment by +30 and redraw
+        if (this.value !== null) {
+            this.value.setUTCMinutes(this.value.getUTCMinutes() - 30);
+            this.displayValue();
+        }
+    }
+};
 
+
+//-----------------------------------------formatting tools---------------------------------------------//
+
+function formatTimeValue(t) {
+    if (t !== null && t.valueOf() > 0 && typeof t !== 'undefined') {
+        return (t.getUTCHours() < 10 ? "0" : "") + t.getUTCHours() + ":" + (t.getUTCMinutes() < 10 ? "0" : "") + t.getUTCMinutes();
+    } else {
+        return "";
+    }
+}
 
 function formatDayMonth(d) {
     if (d !== null && typeof d !== 'undefined' && d.valueOf() > 0) {
