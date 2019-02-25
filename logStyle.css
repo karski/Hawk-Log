@@ -14,72 +14,72 @@ span, main {
 /*General styles*/
 
 body {
-	margin: 0;
-	/*font-size: 10.0pt;*/
-	font-family: Calibri;
-	background-color: gray;
-	transition: background-color 1s;
+    margin: 0;
+    /*font-size: 10.0pt;*/
+    font-family: Calibri;
+    background-color: gray;
+    transition: background-color 1s;
 }
 
 
 h1 {
-	font-size: 1.5em;
-	margin: 0;
-	top: 0;
-	left: 0;
-	display: inline-block;
+    font-size: 1.5em;
+    margin: 0;
+    top: 0;
+    left: 0;
+    display: inline-block;
 }
 
 h2 {
-	font-size: 1.2em;
-	margin: 0px;
-	display: inline-block;
+    font-size: 1.2em;
+    margin: 0px;
+    display: inline-block;
 }
 
 h3 {
-	margin: 0px;
-	display: inline-block;
+    margin: 0px;
+    display: inline-block;
 }
 
 p {
-	margin: 0px 0px 0px 0px;
-	width: 100%;
+    margin: 0px 0px 0px 0px;
+    width: 100%;
 }
 
 
 table {
-	width: 100%;
-	border: 0px none;
-	border-spacing: 0px;
-	border-collapse: collapse;
-	text-align: center;
+    width: 100%;
+    border: 0px none;
+    border-spacing: 0px;
+    border-collapse: collapse;
+    text-align: center;
 }
 
 
 th {
-	border-width: 1px 0px 1px 0px;
-	padding: 1px 5px 1px 5px;
-	border-style: solid;
-	border-color: black;
-	font-weight: bold;
-	white-space: nowrap;
-	/*overflow: hidden;
+    border-width: 1px 0px 1px 0px;
+    padding: 1px 5px 1px 5px;
+    border-style: solid;
+    border-color: black;
+    font-weight: bold;
+    white-space: nowrap;
+    /*overflow: hidden;
 	text-overflow: ellipsis;*/
-	vertical-align: top;
+    vertical-align: top;
 }
 
 td {
-	border-width: 0px;
-	padding: 0px 2px 0px 2px;
-	border-color: transparent;
-	/*overflow: hidden;
+    border-width: 0px;
+    padding: 0px 2px 0px 2px;
+    border-color: transparent;
+    /*overflow: hidden;
 	text-overflow: ellipsis;*/
-	/*white-space: nowrap;*/
-	vertical-align: top;
+    /*white-space: nowrap;*/
+    vertical-align: top;
 }
 
 td.topBorder {
-	border-top: 1px solid lightgray;
+    border-top: 1px solid lightgray;
 }
 
 
@@ -89,40 +89,40 @@ td.topBorder {
 
 /*----------------------------------------------reused major page component styles------------------------------------------------*/
 .panelShadow {
-	/*moves panels to "top" and casts shadow on lower content*/
-	z-index: 10;
-	box-shadow: black 0px 0px 7px 0px;
+    /*moves panels to "top" and casts shadow on lower content*/
+    z-index: 10;
+    box-shadow: black 0px 0px 7px 0px;
 }
 
 .card {
-	border: 0;
-	background: whitesmoke;
-	border-radius: 3px;
-	margin: 5px;
-	/*box-shadow: black 1px 1px 7px 0px;*/
-	box-shadow: black 1px 1px 2px 0px;
-	padding: 5px 5px 10px 5px;
-	/*width: 100%; causes overflow by ignoring margins*/
+    border: 0;
+    background: whitesmoke;
+    border-radius: 3px;
+    margin: 5px;
+    /*box-shadow: black 1px 1px 7px 0px;*/
+    box-shadow: black 1px 1px 2px 0px;
+    padding: 5px 5px 10px 5px;
+    /*width: 100%; causes overflow by ignoring margins*/
 }
 
 .cardHeader {
-	margin-bottom: 5px;
-	margin-left: 5px;
+    margin-bottom: 5px;
+    margin-left: 5px;
 }
 
 .recordEntry {
-	border-top: 1px solid dimgray;
-	margin-top: 10px;
+    border-top: 1px solid dimgray;
+    margin-top: 10px;
 }
 
 .label {
-	color: grey;
-	cursor: default;
+    color: grey;
+    cursor: default;
 }
 
 .calculated {
-	font-style: italic;
-	cursor: default;
+    font-style: italic;
+    cursor: default;
 }
 
 
@@ -132,76 +132,76 @@ td.topBorder {
 	- note this assumes we don't have any other radio buttons, or they are all styled the same*/
 
 .filterContainer {
-	min-width: 375px;
-	margin: 10px 0 10px 0;
-	text-align: center;
+    min-width: 375px;
+    margin: 10px 0 10px 0;
+    text-align: center;
 }
 
 input[type="radio"] {
-	display: none;
+    display: none;
 }
 
 label {
-	position: relative;
-	display: inline-block;
-	margin-right: 10px;
-	padding-left: 10px;
-	padding-right: 10px;
-	line-height: 25px;
-	border-radius: 12px;
-	cursor: pointer;
-	user-select: none;
-	transition: .25s all ease;
-	z-index: 2;
+    position: relative;
+    display: inline-block;
+    margin-right: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    line-height: 25px;
+    border-radius: 12px;
+    cursor: pointer;
+    user-select: none;
+    transition: .25s all ease;
+    z-index: 2;
 }
 
 input[type="radio"]:checked+label {
-	color: #fff;
-	background: dodgerblue;
+    color: #fff;
+    background: dodgerblue;
 }
 
 input[type="radio"]:hover+label {
-	color: #fff;
-	background: lightskyblue;
+    color: #fff;
+    background: lightskyblue;
 }
 
 #filterAll+label:before {
-	content: " ";
-	position: absolute;
-	visibility: hidden;
-	top: 0px;
-	left: 0;
-	display: block;
-	width: 24px;
-	height: 21px;
-	border: 2px solid dodgerblue;
-	border-radius: 11px;
-	z-index: 1;
+    content: " ";
+    position: absolute;
+    visibility: hidden;
+    top: 0px;
+    left: 0;
+    display: block;
+    width: 24px;
+    height: 21px;
+    border: 2px solid dodgerblue;
+    border-radius: 11px;
+    z-index: 1;
 }
 
 #filterAll:checked+label:before {
-	width: 370px;
-	visibility: visible;
-	transition: .25s width ease;
+    width: 370px;
+    visibility: visible;
+    transition: .25s width ease;
 }
 
 .toggleContainerVertical {
-	/*for simple toggle buttons*/
-	border: 2px solid dodgerblue;
-	border-radius: 11px;
-	z-index: 1;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	margin: 0 5px;
+    /*for simple toggle buttons*/
+    border: 2px solid dodgerblue;
+    border-radius: 11px;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0 5px;
 }
 
 .toggleContainerVertical label {
-	display: inherit;
-	margin: 0;
-	padding: 0 5px;
-	font-size: 10px;
-	line-height: 12px;
+    display: inherit;
+    margin: 0;
+    padding: 0 5px;
+    font-size: 10px;
+    line-height: 12px;
 }
 
 
@@ -210,167 +210,169 @@ input[type="radio"]:hover+label {
 /* List at end so that they aren't overriden*/
 
 .noEdit {
-	cursor: default;
+    cursor: default;
 }
 
 
 .changed {
-	box-shadow: 0px 0px 5px 2px orange;
+    box-shadow: 0px 0px 5px 2px orange;
 }
 
 .error {
-	box-shadow: 0px 0px 5px 2px red;
+    box-shadow: 0px 0px 5px 2px red;
 }
 
 /*use for timeline deviations or error notices*/
 .deviation {
-	color: crimson;
+    color: crimson;
 }
 
 /*use for on time indiactions and 'good' displays*/
 .nominal {
-	color: limegreen;
+    color: limegreen;
 }
 
 .hidden {
-	display: none;
+    display: none;
 }
 
 .inputAlert {
-	position: relative;
+    position: relative;
 }
 
 .inputAlert:after {
-	content: "!";
-	position: absolute;
-	top: 0;
-	left: 100%;
-	/*margin-left: 5px;*/
-	width: 15px;
-	height: 15px;
-	font-size: 12px;
-	text-align: center;
-	/*vertical-align: middle;*/
-	font-weight: bold;
-	color: crimson;
-	/*gray;*/
-	border: solid crimson 1px;
-	/*solid gray 1px;*/
-	border-radius: 20px;
-	background-color: whitesmoke;
-	z-index: 10;
+    content: "!";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    /*margin-left: 5px;*/
+    width: 15px;
+    height: 15px;
+    font-size: 12px;
+    text-align: center;
+    /*vertical-align: middle;*/
+    font-weight: bold;
+    color: crimson;
+    /*gray;*/
+    border: solid crimson 1px;
+    /*solid gray 1px;*/
+    border-radius: 20px;
+    background-color: whitesmoke;
+    z-index: 10;
 }
 
 .inputAlert:hover:after {
-	content: "input required";
-	font-weight: normal;
-	border-radius: 3px;
-	padding: 0 2px 0 2px;
-	height: auto;
-	width: auto;
-	z-index: 10;
+    content: "input required";
+    font-weight: normal;
+    border-radius: 3px;
+    padding: 0 2px 0 2px;
+    height: auto;
+    width: auto;
+    z-index: 10;
 }
 
 .dateRangeAlert {
-	position: relative;
+    position: relative;
 }
 
 .dateRangeAlert:after {
-	content: "!";
-	position: absolute;
-	top: 0;
-	left: 100%;
-	/*margin-left: 5px;*/
-	width: 15px;
-	height: 15px;
-	font-size: 12px;
-	text-align: center;
-	/*vertical-align: middle;*/
-	font-weight: bold;
-	color: crimson;
-	/*gray;*/
-	border: solid crimson 1px;
-	/*solid gray 1px;*/
-	border-radius: 20px;
-	background-color: whitesmoke;
-	z-index: 10;
+    content: "!";
+    position: absolute;
+    top: 0;
+    left: 100%;
+    /*margin-left: 5px;*/
+    width: 15px;
+    height: 15px;
+    font-size: 12px;
+    text-align: center;
+    /*vertical-align: middle;*/
+    font-weight: bold;
+    color: crimson;
+    /*gray;*/
+    border: solid crimson 1px;
+    /*solid gray 1px;*/
+    border-radius: 20px;
+    background-color: whitesmoke;
+    z-index: 10;
 }
 
 .dateRangeAlert:hover:after {
-	content: "outside flight range";
-	font-weight: normal;
-	border-radius: 3px;
-	padding: 0 2px 0 2px;
-	height: auto;
-	width: auto;
-	z-index: 10;
+    content: "outside flight range";
+    font-weight: normal;
+    border-radius: 3px;
+    padding: 0 2px 0 2px;
+    height: auto;
+    width: auto;
+    z-index: 10;
 }
 
 
 .expandArrow {
-	position: relative;
-	top: 5px;
-	width: 7px;
-	height: 7px;
-	margin: 2px;
-	border: solid white;
-	border-width: 1px 0 0 1px;
-	transform: rotate(45deg);
-	transition: all ease-in-out 0.25s;
+    position: relative;
+    top: 5px;
+    width: 7px;
+    height: 7px;
+    margin: 2px;
+    border: solid white;
+    border-width: 1px 0 0 1px;
+    transform: rotate(45deg);
+    transition: all ease-in-out 0.25s;
 }
 
 .expand div.expandArrow {
-	transform: rotate(225deg) translateY(2px) translateX(2px);
+    transform: rotate(225deg) translateY(2px) translateX(2px);
 }
 
 /*Standard Button*/
 .button {
-	display: inline-block;
-	margin: 2px;
-	border: 0px none;
-	/*box-shadow: grey 0px 1px 7px 2px;*/
-	box-shadow: grey 1px 1px 2px 0px;
-	border-radius: 3px;
-	padding: 1px 5px 1px 5px;
-	text-align: center;
-	vertical-align: middle;
-	background: dodgerblue;
-	color: white;
-	user-select: none;
-	-ms-user-select: none;
-	-webkit-user-select: none;
+    display: inline-block;
+    margin: 2px;
+    border: 0px none;
+    /*box-shadow: grey 0px 1px 7px 2px;*/
+    box-shadow: grey 1px 1px 2px 0px;
+    border-radius: 3px;
+    padding: 1px 5px 1px 5px;
+    text-align: center;
+    vertical-align: middle;
+    background: dodgerblue;
+    color: white;
+    user-select: none;
+    -ms-user-select: none;
+    -webkit-user-select: none;
 }
 
 .button:hover {
-	cursor: pointer;
-	/*box-shadow: grey 0px 1px 10px 5px;*/
-	box-shadow: grey 1px 1px 4px 2px;
-	/*padding: 5px 5px 5px 5px;*/
-	/*font-weight: bold;*/
-	text-shadow: 1px 0px 0px white;
-	/*use shadow instead of bold to keep the button size consistent*/
-	background: deepskyblue;
+    cursor: pointer;
+    /*box-shadow: grey 0px 1px 10px 5px;*/
+    box-shadow: grey 1px 1px 4px 2px;
+    /*padding: 5px 5px 5px 5px;*/
+    /*font-weight: bold;*/
+    text-shadow: 1px 0px 0px white;
+    /*use shadow instead of bold to keep the button size consistent*/
+    background: deepskyblue;
+    /* filter: brightness(150%); */
 }
 
 .button:active {
-	/*box-shadow: grey 0px 1px 2px 1px;*/
-	box-shadow: inset grey 1px 1px 0px 0px;
-	/*font-weight: bold;*/
-	text-shadow: 1px 0px 0px white;
-	cursor: pointer;
-	background: #1976d2;
+    /*box-shadow: grey 0px 1px 2px 1px;*/
+    box-shadow: inset grey 1px 1px 0px 0px;
+    /*font-weight: bold;*/
+    text-shadow: 1px 0px 0px white;
+    cursor: pointer;
+    background: #1976d2;
+    /* filter: brightness(75%); */
 }
 
 /*Small buttons for use in most interfaces*/
 .button.small {
-	height: 22px;
-	/*make room for padding*/
-	min-width: 14px;
-	line-height: 22px;
-	border-radius: 20px;
-	float: right;
+    height: 22px;
+    /*make room for padding*/
+    min-width: 14px;
+    line-height: 22px;
+    border-radius: 20px;
+    float: right;
 }
 
 .button.small.left {
-	float: left;
+    float: left;
 }

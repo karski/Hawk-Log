@@ -31,6 +31,7 @@ table .durCol {
 
 table .timeCol .editDropdown {
     width: 35px;
+    margin-right: 3px;
 }
 
 table .actionCol {
@@ -123,12 +124,16 @@ table .actionCol .button {
     scroll-behavior: smooth;
 }
 
-#monthTable tr:nth-child(even) {
+#monthTable .sortieRow:nth-of-type(even) {
     background: lightgray;
 }
 
 .sortieRow td {
     padding: 2px 5px;
+}
+
+.dateTimeContainer {
+    display: inline;
 }
 
 .dateContainer {
@@ -150,7 +155,7 @@ table .actionCol .button {
 }
 
 .msnInput {
-    width: 75px;
+    width: 100%;
 }
 
 .noteInput {

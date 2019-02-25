@@ -1,7 +1,7 @@
-const lists = {   
+const lists = {
     "unitList": ["12 RS", "348 RS", "13 RS"],
 
-    "flightTypeList": ["CENTCOM", "AFRICOM", "EUCOM", "PACOM", "NORTHCOM", "SOUTHCOM", "LOCAL/EXERCISE", "BACN", "FERRY FLIGHT", "TEST", "GROUND RING"],
+    "flightTypeList": ["CENTCOM", "AFRICOM", "EUCOM", "PACOM", "NORTHCOM", "SOUTHCOM", "LOCAL / EXERCISE", "BACN", "FERRY FLIGHT", "TEST", "GROUND RING"],
 
     "airfieldList": [
         ["KBAB", "Beale AFB"],
