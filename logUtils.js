@@ -92,3 +92,19 @@ function formatTimeDifference(actualTime, schedTime) {
         return "-";
     }
 }
+
+//determines duration of time between two times (valueOf) and returns formatted string
+function formatTimeDuration(startTime, endTime) {
+    if (typeof startTime !== 'undefined' && typeof endTime !== 'undefined' &&
+        startTime !== null && endTime !== null &&
+        !isNaN(startTime) && !isNaN(endTime)) {
+        if (startTime === endTime) {
+            return "0.0";
+        } else {
+            let diff = roundMinutes((endTime - startTime) / 60000);
+            return diff + (diff % 1 === 0 ? ".0 " : "");
+        }
+    } else {
+        return "-";
+    }
+}

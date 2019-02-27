@@ -90,6 +90,9 @@ function SortieRow(sortie) {
     this.entryRow = document.createElement("tr");
     this.entryRow.className = "sortieRow";
 
+    //link callback to current context
+    this.timeChangeHandler = this.timeChangeHandler.bind(this);
+
     //create table cells to hold all the components built below
     let unitCol = document.createElement("td");
     unitCol.className = "smallCol";
@@ -104,9 +107,9 @@ function SortieRow(sortie) {
     actionCol.className = "actionCol";
 
     //create components to add to table cells
-    this.unitDropdown = new inputDropdown(lists.unitList, "*callback*", "SORTIE", "squadron", "", false, true, true);
+    this.unitDropdown = new inputDropdown(lists.unitList, (this.hasData ? sortie.ID : ""), "SORTIE", "Squadron", (this.hasData ? sortie.Squadron : ""), false, true, true);
     unitCol.appendChild(document.createElement("p").appendChild(this.unitDropdown.getHTMLNode()));
-    this.typeDropdown = new inputDropdown(lists.flightTypeList, "", "SORTIE", "COCOM", "", false, true, true);
+    this.typeDropdown = new inputDropdown(lists.flightTypeList, (this.hasData ? sortie.ID : ""), "SORTIE", "COCOM", (this.hasData ? sortie.COCOM : ""), false, true, true);
     unitCol.appendChild(document.createElement("p").appendChild(this.typeDropdown.getHTMLNode()));
     this.entryRow.appendChild(unitCol);
 
@@ -115,20 +118,20 @@ function SortieRow(sortie) {
     msnCol.appendChild(this.msnNumInput);
     this.entryRow.appendChild(msnCol);
 
-    this.takeoffAfldDropdown = new inputDropdown(lists.airfieldList, "*callback*", "SORTIE", "takeoffLoc", "", true, true, true);
+    this.takeoffAfldDropdown = new inputDropdown(lists.airfieldList, (this.hasData ? sortie.ID : ""), "SORTIE", "TakeoffAirfield", (this.hasData ? sortie.TakeoffAirfield : ""), true, true, true);
     // let takeoffDateInput = document.createElement("input");
     // takeoffDateInput.className = "dateInput";
     // let takeoffTimeInput = document.createElement("input");
     // takeoffTimeInput.className = "timeInput";
-    this.takeoffDateTimeInput = new DateTimeInput(null, displayMonth, );
+    this.takeoffDateTimeInput = new DateTimeInput(null, displayMonth, this.timeChangeHandler);
     //TODO: add event listeners to move focus and set land time when takeoff is selected
     let tmpP = document.createElement("p");
     tmpP.appendChild(this.takeoffAfldDropdown.getHTMLNode());
     tmpP.appendChild(this.takeoffDateTimeInput.getHTMLNode());
     timeCol.appendChild(tmpP);
 
-    this.landAfldDropdown = new inputDropdown(lists.airfieldList, "*callback*", "SORTIE", "landLoc", "", true, true, true);
-    this.landDateTimeInput = new DateTimeInput(null, displayMonth);
+    this.landAfldDropdown = new inputDropdown(lists.airfieldList, (this.hasData ? sortie.ID : ""), "SORTIE", "LandAirfield", (this.hasData ? sortie.LandAirfield : ""), true, true, true);
+    this.landDateTimeInput = new DateTimeInput(null, displayMonth, this.timeChangeHandler);
     tmpP = document.createElement("p");
     tmpP.appendChild(this.landAfldDropdown.getHTMLNode());
     tmpP.appendChild(this.landDateTimeInput.getHTMLNode());
@@ -171,6 +174,10 @@ function SortieRow(sortie) {
         actionCol.appendChild(cnxButton);
         this.entryRow.appendChild(actionCol);
     } else {
+        //add event listener to fill in blank land airfield to match takeoff by default
+        this.takeoffAfldDropdown.getHTMLNode().addEventListener('change', () => {
+            if (this.landAfldDropdown.value === "") { this.landAfldDropdown.setValue(this.takeoffAfldDropdown.value); }
+        });
         //new sortie buttons - accept or delete
         let acceptButton = document.createElement("div");
         acceptButton.className = "button accept tooltipHolder"
@@ -186,6 +193,26 @@ function SortieRow(sortie) {
 
 SortieRow.prototype.getHTMLNode = function() {
     return this.entryRow;
+};
+
+//handle all time changes here
+SortieRow.prototype.timeChangeHandler = function(t) {
+    //update duration
+    this.durTime.textContent = formatTimeDuration(
+        (this.takeoffDateTimeInput.value === null ? null : this.takeoffDateTimeInput.value.valueOf()),
+        (this.landDateTimeInput.value === null ? null : this.landDateTimeInput.value.valueOf()));
+    if (Number(this.durTime.textContent) <= 0 || Number(this.durTime.textContent) > 30) {
+        this.durTime.classList.add("deviation")
+    } else {
+        this.durTime.classList.remove("deviation")
+    }
+    //for new entries: when takeoff time is entered, use to fill in baseline land date
+    if (this.takeoffDateTimeInput.value !== null && this.landDateTimeInput.value === null) {
+        let landDate = new Date(this.takeoffDateTimeInput.value.valueOf());
+        landDate.setUTCDate(landDate.getUTCDate() + (landDate.getUTCHours() > 20 ? 2 : 1)); //1 day ahead, unless takeoff time is near end of day
+        landDate.setUTCHours(0, 0); //set time to 0
+        this.landDateTimeInput.setDateTime(landDate);
+    }
 };
 
 //---------------Row Event Handlers-------------------------------//

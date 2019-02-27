@@ -81,7 +81,9 @@ DateTimeInput.prototype.displayValue = function() {
     this.dateInput.value = formatDayMonth(this.value);
     this.timeInput.value = formatTimeValue(this.value);
     this.timeInput.prevValue = this.timeInput.value;
-    this.calendar.updateSelection(this.value);
+    if (this.value !== null) {
+        this.calendar.updateSelection(this.value);
+    }
 };
 
 
@@ -112,11 +114,11 @@ DateTimeInput.prototype.updateTime = function(t, doChangeEvent) {
         this.oldValue = this.value;
         this.value = tVal;
         this.displayValue();
-
-        if (doChangeEvent) {
-            this.callback(this.value);
-        }
     }
+    if (doChangeEvent && this.value !== null && (this.oldValue === null || this.value.valueOf() !== this.oldValue.valueOf())) {
+        this.callback(this.value);
+    }
+
 };
 
 // accepts date string for parsing
@@ -142,11 +144,11 @@ DateTimeInput.prototype.updateDate = function(d, doChangeEvent) {
         this.oldValue = this.value;
         this.value = dVal;
         this.displayValue();
-
-        if (doChangeEvent) {
-            this.callback(this.value);
-        }
     }
+    if (doChangeEvent && this.value !== null && (this.oldValue === null || this.value.valueOf() !== this.oldValue.valueOf())) {
+        this.callback(this.value);
+    }
+
 };
 
 // uses date time object to set current value and update display
@@ -268,7 +270,13 @@ DateTimeInput.prototype.timeKeyHandler = function() {
         this.updateTime(event.target.value, false);
         //now increment by +30 and redraw
         if (this.value !== null) {
-            this.value.setUTCMinutes(this.value.getUTCMinutes() + 30);
+            if (this.value.getUTCMinutes() > 30) { //move up to next hour
+                this.value.setUTCHours(this.value.getUTCHours() + 1, 0)
+            } else if (this.value.getUTCMinutes() < 30 && this.value.getUTCMinutes() > 0) { //move up to 30
+                this.value.setUTCMinutes(30);
+            } else {
+                this.value.setUTCMinutes(this.value.getUTCMinutes() + 30);
+            }
             this.displayValue();
         }
     } else if (event.key === "ArrowDown") { //Use arrow keys to increment/decrement
@@ -278,7 +286,13 @@ DateTimeInput.prototype.timeKeyHandler = function() {
         this.updateTime(event.target.value, false);
         //now increment by +30 and redraw
         if (this.value !== null) {
-            this.value.setUTCMinutes(this.value.getUTCMinutes() - 30);
+            if (this.value.getUTCMinutes() > 30) { //move down to 30
+                this.value.setUTCMinutes(30)
+            } else if (this.value.getUTCMinutes() < 30 && this.value.getUTCMinutes() > 0) { //move up to 30
+                this.value.setUTCMinutes(0);
+            } else {
+                this.value.setUTCMinutes(this.value.getUTCMinutes() - 30);
+            }
             this.displayValue();
         }
     }
@@ -304,7 +318,7 @@ DateTimeInput.prototype.dateKeyHandler = function() {
         this.updateDate(event.target.value, false);
         //now increment by +30 and redraw
         if (this.value !== null) {
-            this.value.setUTCHours(this.value.getUTCHours() + 1);
+            this.value.setUTCDate(this.value.getUTCDate() + 1);
             this.displayValue();
         }
     } else if (event.key === "ArrowDown") { //Use arrow keys to increment/decrement
@@ -314,7 +328,7 @@ DateTimeInput.prototype.dateKeyHandler = function() {
         this.updateDate(event.target.value, false);
         //now increment by +30 and redraw
         if (this.value !== null) {
-            this.value.setUTCHours(this.value.getUTCHours() - 1);
+            this.value.setUTCDate(this.value.getUTCDate() - 1);
             this.displayValue();
         }
     }
