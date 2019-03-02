@@ -87,7 +87,7 @@ function SortieRow(sortie) {
     this.hasData = !(typeof sortie === 'undefined');
     this.entryRow = document.createElement("tr");
     this.entryRow.className = "sortieRow";
-    this.ID = sortie.ID || ""; //needed for updates
+    this.ID = this.hasData ? sortie.ID : ""; //needed for updates
 
     //link callback to current context
     this.timeChangeHandler = this.timeChangeHandler.bind(this);
@@ -118,6 +118,7 @@ function SortieRow(sortie) {
     this.entryRow.appendChild(msnCol);
 
     this.takeoffAfldDropdown = new inputDropdown(lists.airfieldList, (this.hasData ? sortie.ID : ""), "SORTIE", "TakeoffAirfield", (this.hasData ? sortie.TakeoffAirfield : ""), true, true, true);
+    this.takeoffAfldDropdown.getHTMLNode().classList.add("airfieldDropdown");
     this.takeoffDateTimeInput = new DateTimeInput(null, displayMonth, this.timeChangeHandler);
     let tmpP = document.createElement("p");
     tmpP.appendChild(this.takeoffAfldDropdown.getHTMLNode());
@@ -125,6 +126,7 @@ function SortieRow(sortie) {
     timeCol.appendChild(tmpP);
 
     this.landAfldDropdown = new inputDropdown(lists.airfieldList, (this.hasData ? sortie.ID : ""), "SORTIE", "LandAirfield", (this.hasData ? sortie.LandAirfield : ""), true, true, true);
+    this.landAfldDropdown.getHTMLNode().classList.add("airfieldDropdown");
     this.landDateTimeInput = new DateTimeInput(null, displayMonth, this.timeChangeHandler);
     tmpP = document.createElement("p");
     tmpP.appendChild(this.landAfldDropdown.getHTMLNode());

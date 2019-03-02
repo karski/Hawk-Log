@@ -29,7 +29,7 @@ table .durCol {
     min-width: 40px;
 }
 
-table .timeCol .editDropdown {
+table .airfieldDropdown {
     width: 35px;
     margin-right: 3px;
 }
@@ -113,8 +113,12 @@ table .actionCol .button {
 #monthTableHeaderContainer {
     margin-right: 17px;
     border-bottom: 2px solid black;
-    overflow: hidden;
+    /* overflow: hidden; */
     flex-shrink: 0;
+}
+
+#monthTableHeaderContainer .tooltip {
+    font-weight: normal;
 }
 
 #monthTableContainer {
