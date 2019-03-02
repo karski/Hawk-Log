@@ -1,23 +1,7 @@
 //test code here
 
-function stopActions() {
-    event.stopImmediatePropagation();
-}
-
-function buttonAction() {
-    console.log("button pressed!");
-}
-
-//make sure that clicking on the tooltip doesn't accidentally click the button
-let buttonList = document.getElementsByClassName("button delete");
-let tooltipList = document.getElementsByClassName("tooltip");
-
-for (let tooltip of tooltipList) {
-    tooltip.addEventListener('click', stopActions);
-}
-for (let button of buttonList) {
-    button.addEventListener('click', buttonAction);
-}
+//TODO:
+// - each time month changes, make request to server for the month's entries
 
 
 //----------------------------begin page logic------------------------------------//
@@ -57,6 +41,20 @@ document.getElementById("pageRightButton").addEventListener('click', () => {
     drawPageMonth();
 });
 
+//received response data from the server and then calls draw month
+function responseHandler() {
+    if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
+        monthSortieData = JSON.parse(this.responseText).Sorties; //save the array of sorties into data variable
+        drawPageMonth(); //redraw the page
+        console.log(rJSON);
+        showToast("Log Server Accepted Update!", "#81f363");
+
+    } else if (this.readyState === XMLHttpRequest.DONE) {
+        //toast error notice
+        showToast("Error communicating with the server.  Your update was not saved.");
+        if (this.statusText !== "") { showToast(this.status + " " + this.statusText); } else { showToast("⚠ Check Network Connection and Try Again ⚠", "#fff59d"); }
+    }
+}
 
 // redraws the sorties for the month (erases everything first)
 //   this is a more expensive approach, but probably fine since there are not going to be an excessive number of sorties per month
@@ -86,9 +84,10 @@ function drawPageMonth() {
 // -if no object is passed, an empty row for input will be created
 // returns HTML node for table row
 function SortieRow(sortie) {
-    this.hasData = sortie || false;
+    this.hasData = !(typeof sortie === 'undefined');
     this.entryRow = document.createElement("tr");
     this.entryRow.className = "sortieRow";
+    this.ID = sortie.ID || ""; //needed for updates
 
     //link callback to current context
     this.timeChangeHandler = this.timeChangeHandler.bind(this);
@@ -119,12 +118,7 @@ function SortieRow(sortie) {
     this.entryRow.appendChild(msnCol);
 
     this.takeoffAfldDropdown = new inputDropdown(lists.airfieldList, (this.hasData ? sortie.ID : ""), "SORTIE", "TakeoffAirfield", (this.hasData ? sortie.TakeoffAirfield : ""), true, true, true);
-    // let takeoffDateInput = document.createElement("input");
-    // takeoffDateInput.className = "dateInput";
-    // let takeoffTimeInput = document.createElement("input");
-    // takeoffTimeInput.className = "timeInput";
     this.takeoffDateTimeInput = new DateTimeInput(null, displayMonth, this.timeChangeHandler);
-    //TODO: add event listeners to move focus and set land time when takeoff is selected
     let tmpP = document.createElement("p");
     tmpP.appendChild(this.takeoffAfldDropdown.getHTMLNode());
     tmpP.appendChild(this.takeoffDateTimeInput.getHTMLNode());
@@ -154,21 +148,33 @@ function SortieRow(sortie) {
     this.entryRow.appendChild(noteCol);
 
     if (this.hasData) {
-        //fill in data passed to components
+        //fill in data passed to components (dropdowns should already have data from initialization parameters)
+        this.msnNumInput.value = JSON.parse(sortie.MsnNum);
+        this.takeoffDateTimeInput.setDateTime(new Date(JSON.parse(sortie.schedTakeoff)));
+        this.landDateTimeInput.setDateTime(new Date(JSON.parse(sortie.schedLand)));
+        this.timeChangeHandler(); //calculate and format the duration display
+        this.noteInput.value = JSON.parse(sortie.QuickTake);
 
+        //TODO: add listeners to handle updates to individual fields
 
         //if sortie is canceled, format row to match status
-
+        if (sortie.Status.includes("CNX")) {
+            this.entryRow.classList.add("canceled")
+        } else {
+            this.entryRow.classList.remove("canceled");
+        }
         //existing sortie buttons - menu, delete, and cancel
         let menuButton = document.createElement("div");
-        menuButton.className = "button tooltipHolder";
+        menuButton.className = "button";
         menuButton.innerHTML = '⋯';
+        menuButton.addEventListener('click', () => { this.menuButtonHandler(); });
         let deleteButton = document.createElement("div");
         deleteButton.className = "button delete tooltipHolder"
-        deleteButton.innerHTML = '🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div>';
+        deleteButton.innerHTML = '🗙<div class="tooltip shiftDown shiftLeft" onclick="event.stopPropagation()"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div>';
+        deleteButton.addEventListener('click', () => { this.deleteSortie(); });
         let cnxButton = document.createElement("div");
         cnxButton.className = "button cnx tooltipHolder"
-        cnxButton.innerHTML = 'CNX<div class="tooltip shiftDown shiftLeft"><b>Cancel</b><br>Mark this sortie canceled</div>';
+        cnxButton.innerHTML = 'CNX<div class="tooltip shiftDown shiftLeft" onclick="event.stopPropagation()"><b>Cancel</b><br>Mark this sortie canceled</div>';
         actionCol.appendChild(menuButton);
         actionCol.appendChild(deleteButton);
         actionCol.appendChild(cnxButton);
@@ -181,10 +187,12 @@ function SortieRow(sortie) {
         //new sortie buttons - accept or delete
         let acceptButton = document.createElement("div");
         acceptButton.className = "button accept tooltipHolder"
-        acceptButton.innerHTML = '✔<div class="tooltip shiftDown shiftLeft"><b>Accept</b><br>Create new sortie</div>';
+        acceptButton.innerHTML = '✔<div class="tooltip shiftDown shiftLeft" onclick="event.stopPropagation()"><b>Accept</b><br>Create new sortie</div>';
+        acceptButton.addEventListener('click', () => { this.acceptNewSortie(); });
         let deleteButton = document.createElement("div");
         deleteButton.className = "button delete tooltipHolder"
-        deleteButton.innerHTML = '🗙<div class="tooltip shiftDown shiftLeft"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div>';
+        deleteButton.innerHTML = '🗙<div class="tooltip shiftDown shiftLeft" onclick="event.stopPropagation()"><b>Delete</b><br>Permanently remove this sortie<br>and all associated data</div>';
+        deleteButton.addEventListener('click', () => { this.deleteSortie(); });
         actionCol.appendChild(acceptButton);
         actionCol.appendChild(deleteButton);
         this.entryRow.appendChild(actionCol);
@@ -195,8 +203,15 @@ SortieRow.prototype.getHTMLNode = function() {
     return this.entryRow;
 };
 
+
+//---------------Row Event Handlers-------------------------------//
+
+//takeoff time changes --> set empty land time into future - add flags to existing land time if in past
+//   set to next day, unless that is within 3 hours, then push out 2 days
+// update duration
+//land time changes --> update duration
 //handle all time changes here
-SortieRow.prototype.timeChangeHandler = function(t) {
+SortieRow.prototype.timeChangeHandler = function() {
     //update duration
     this.durTime.textContent = formatTimeDuration(
         (this.takeoffDateTimeInput.value === null ? null : this.takeoffDateTimeInput.value.valueOf()),
@@ -215,15 +230,6 @@ SortieRow.prototype.timeChangeHandler = function(t) {
     }
 };
 
-//---------------Row Event Handlers-------------------------------//
-
-//takeoff time changes --> set empty land time into future - add flags to existing land time if in past
-//   set to next day, unless that is within 3 hours, then push out 2 days
-// update duration
-
-
-//land time changes
-// update duration
 
 
 
@@ -232,6 +238,63 @@ SortieRow.prototype.timeChangeHandler = function(t) {
 //  -check for blank/invalid inputs
 //  -submit to server
 //  -set up receiver to redraw page
+SortieRow.prototype.acceptNewSortie = function() {
+    //explicitly check each entry
+    let dataMissing = false;
+    let payload = { table: "SORTIES" };
+    if (this.unitDropdown.value === "" || this.unitDropdown.value === null) {
+        dataMissing = true;
+        this.unitDropdown.getHTMLNode().parentElement.classList.add("inputAlert");
+    }
+    if (this.typeDropdown.value === "" || this.typeDropdown.value === null) {
+        dataMissing = true;
+        this.typeDropdown.getHTMLNode().parentElement.classList.add("inputAlert");
+    }
+    if (this.msnNumInput.value === "" || this.msnNumInput.value === null || this.msnNumInput.value.length < 4) {
+        dataMissing = true;
+        this.msnNumInput.parentElement.classList.add("inputAlert");
+    }
+    if (this.takeoffAfldDropdown.value === "" || this.takeoffAfldDropdown.value === null) {
+        dataMissing = true;
+        this.takeoffAfldDropdown.getHTMLNode().parentElement.classList.add("inputAlert");
+    }
+    if (this.landAfldDropdown.value === "" || this.landAfldDropdown.value === null) {
+        dataMissing = true;
+        this.landAfldDropdown.getHTMLNode().parentElement.classList.add("inputAlert");
+    }
+    if (this.takeoffDateTimeInput.value === null) {
+        dataMissing = true;
+        this.takeoffDateTimeInput.getHTMLNode().parentElement.classList.add("inputAlert");
+    }
+    if (this.landDateTimeInput.value === null) {
+        dataMissing = true;
+        this.landDateTimeInput.getHTMLNode().parentElement.classList.add("inputAlert");
+    }
+
+    if (dataMissing) {
+        showToast('All required fields must be filled in', "#fff59d")
+    } else {
+        //build payload - using JSON.stringify to remove any inline scripting or bad formatting
+        let payload = {
+            table: "SORTIES",
+            Status: "PLANNED",
+            Squadron: JSON.stringify(this.unitDropdown.value),
+            COCOM: JSON.stringify(this.typeDropdown.value),
+            MsnNum: JSON.stringify(this.msnNumInput.value),
+            TakeoffAirfield: JSON.stringify(this.takeoffAfldDropdown.value),
+            LandAirfield: JSON.stringify(this.landAfldDropdown.value),
+            schedTakeoff: JSON.stringify(this.takeoffDateTimeInput.value),
+            schedLand: JSON.stringify(this.landDateTimeInput.value),
+            QuickTake: JSON.stringify(this.noteInput.value)
+        }; //TODO: this payload should probably have some info about what it wants to get back from the server (a whole month of basic info instead of lots of detail on a single sortie)
+        //submit to server
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = responseHandler;
+        xhttp.open("POST", createURL, true);
+        xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+        xhttp.send(JSON.stringify(payload));
+    }
+};
 
 
 // Delete Row
@@ -241,6 +304,36 @@ SortieRow.prototype.timeChangeHandler = function(t) {
 //  *Row with existing date
 //    -send delete info to server
 //    -set up receiver to redraw page
+SortieRow.prototype.deleteSortie = function() {
+    confirm("You are about to delete " + (this.msnNumInput.value === "" ? "this sortie" : this.msnNumInput.value) + "\nThis action cannot be undone"); //first confirm with user
+    if (this.hasData) {
+        //send delete request to server - server will need to cascade delete related records according to schema
+
+        //handle page redraw
+
+    } else {
+        //this was a new entry that wasn't sent to the server yet, just delete the row and make a new one
+        monthSortieTable.removeChild(this.getHTMLNode());
+        monthSortieTable.appendChild(new SortieRow().getHTMLNode());
+    }
+};
+
 
 //Cancel flight
-// -submit cancel status to server
+// -toggle cancel status and send to server
+SortieRow.prototype.cancelSortie = function() {
+    //if sortie is already canceled, change status to planned
+
+    //sortie is not cancelled yet, set status to cancelled
+
+};
+
+//details button
+// provide interface for adding:
+//  -timeline opAreas
+//  -collection entries
+//  -ground stations
+//  -tail number
+SortieRow.prototype.menuButtonHandler = function() {
+    showToast('This functionality has not been built yet...', "#fff59d");
+};

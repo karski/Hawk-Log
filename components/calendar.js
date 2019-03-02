@@ -40,12 +40,6 @@ function Calendar(selectDateCallback, initialDate, initialMonth) {
 
     //construct initial display frames
     //month/year label
-    //TODO: add direct selection later - month/year dropdowns - may need a lot of JS to make this look good
-    //this.monthLabel = document.createElement("span");
-    //this.monthLabel.className = "calendar-monthLabel";// editDropdown";
-    //this.yearLabel = document.createElement("span");
-    //this.yearLabel.className = "calendar-yearLabel";// editDropdown";
-
     this.monthSelection = new inputDropdown(month, "", "", "", month[this.displayMonth.getUTCMonth()], false, false);
     this.yearSelection = new inputDropdown(generateYearList(this.displayMonth, 3), "", "", "", this.displayMonth.getUTCFullYear(), false, false);
 
@@ -117,13 +111,13 @@ function Calendar(selectDateCallback, initialDate, initialMonth) {
     this.calendarContainer.appendChild(this.dayContainer);
 }
 
-Calendar.prototype.getHTMLNode = function () {
+Calendar.prototype.getHTMLNode = function() {
     return this.calendarContainer;
 };
 
 
 //fills in the month - requires container and header to be prebuilt already
-Calendar.prototype.drawMonth = function () {
+Calendar.prototype.drawMonth = function() {
     this.clearCal();
     //display month & year for user
     this.monthSelection.setValue(month[this.displayMonth.getUTCMonth()]);
@@ -147,7 +141,7 @@ Calendar.prototype.drawMonth = function () {
 };
 
 //draws a single day entry with date input
-Calendar.prototype.drawDay = function (d) {
+Calendar.prototype.drawDay = function(d) {
     let dayElement = document.createElement("div");
     dayElement.className = "calendar-day";
     dayElement.setAttribute('data-calendar-date', d.valueOf());
@@ -175,7 +169,7 @@ Calendar.prototype.drawDay = function (d) {
 };
 
 //clears all calendar elements to prep for new month or selection
-Calendar.prototype.clearCal = function () {
+Calendar.prototype.clearCal = function() {
     //this.monthLabel.innerHTML = '';
     //this.yearLabel.innerHTML = '';
     this.dayContainer.innerHTML = '';
@@ -183,7 +177,7 @@ Calendar.prototype.clearCal = function () {
 
 //user selects date using calendar
 // updates date display value and highlights desired date
-Calendar.prototype.selectDate = function () {
+Calendar.prototype.selectDate = function() {
     //save selected date into calendar object
     this.selected = new Date(Number(event.target.getAttribute("data-calendar-date"))); //parseUTCDate(event.target.getAttribute("data-calendar-date"));
     //clear formatting on old selection
@@ -198,20 +192,20 @@ Calendar.prototype.selectDate = function () {
 };
 
 //Display today in calendar view
-Calendar.prototype.displayToday = function () {
+Calendar.prototype.displayToday = function() {
     this.displayMonth = new Date();
     this.drawMonth();
 };
 
 //Display selected day in calendar view
-Calendar.prototype.displaySelected = function () {
+Calendar.prototype.displaySelected = function() {
     this.displayMonth = (this.selected > 0 ? new Date(this.selected) : new Date());
     this.drawMonth();
 };
 
 
 //updates selected date - requires input to be a correct date object
-Calendar.prototype.updateSelection = function (d) {
+Calendar.prototype.updateSelection = function(d) {
     if (typeof d !== 'undefined' && d !== null && !isNaN(d.valueOf()) && d.valueOf() > 0) {
         //should be valid date input - set up the calendar to display it
         //ensure selected is a day value (no time)

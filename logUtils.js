@@ -1,4 +1,9 @@
-// collection of functions that are not bound to a specific page or component that are useful across several areas of the log
+// collection of functions and constants that are not bound to a specific page or component that are useful across several areas of the log
+const getSortieURL = "php_rest_myblog-master/api/post/read_single.php";
+const updateURL = "php_rest_myblog-master/api/post/update.php";
+const createURL = "php_rest_myblog-master/api/post/create.php";
+const deleteURL = "php_rest_myblog-master/api/post/delete.php";
+
 
 //uses regular expression to get parameter from URL
 //if parameter is not found, returns NULL

@@ -35,7 +35,7 @@ table .timeCol .editDropdown {
 }
 
 table .actionCol {
-    width: 120px;
+    width: 100px;
     text-align: left;
 }
 
@@ -130,6 +130,11 @@ table .actionCol .button {
 
 .sortieRow td {
     padding: 2px 5px;
+}
+
+.canceled {
+    background: #fff59d;
+    text-decoration: line-through;
 }
 
 .dateTimeContainer {

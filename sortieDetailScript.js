@@ -1,17 +1,15 @@
 ﻿var sortieID = 0; //for now just use this fixed value
-const updateURL = "php_rest_myblog-master/api/post/update.php";
+
 var sortieData = {
     "SORTIE": {
         "csATO": "LONGNAME01",
         "csATC": "FRIENDLY99"
     },
-    "TIMELINE": [
-        {
-            "id": 1,
-            "name": "OpArea1",
-            "schedOn": "8AUG2019T1030Z"
-        }
-    ]
+    "TIMELINE": [{
+        "id": 1,
+        "name": "OpArea1",
+        "schedOn": "8AUG2019T1030Z"
+    }]
 };
 
 var airfieldList = [
@@ -28,11 +26,12 @@ var airfieldList = [
 
 var statusList = ["PLANNED", "PREFLIGHT", "INFLIGHT", "POSTFLIGHT", "EFFECTIVE", "INEFFECTIVE", "CNX", "OPS CNX", "WX CNX", "MX CNX", "OPS RTB", "MX RTB"];
 
-var deviationList = ["WEATHER","ATC","OPS","MISSION CHANGE"];
+var deviationList = ["WEATHER", "ATC", "OPS", "MISSION CHANGE"];
 // functions for crontrolling UI elements
 
 
 window.onload = testFunction;
+
 function testFunction() {
     //assign input listeners to fields labeled as such
     let textInputs = document.getElementsByClassName("editText");
@@ -95,7 +94,7 @@ function testFunction() {
 
     //deviation tooltip mockup
     let dev = document.querySelector('.deviationLabel');
-    let devList = new inputDropdown(deviationList, "11", "timeline", "devReason",""  , false, true, true);
+    let devList = new inputDropdown(deviationList, "11", "timeline", "devReason", "", false, true, true);
     devList.getHTMLNode().addEventListener("change", (event) => {
         console.log(event);
         showToast(event.target.value);
@@ -269,6 +268,7 @@ var mainPanel = document.getElementById("mainPanel");
 var navPanel = document.getElementById("navPanel");
 
 mainPanel.addEventListener("scroll", highlightMainNavLinks);
+
 function highlightMainNavLinks() {
     //cut short if nav panel isn't visible
     if (window.getComputedStyle(navPanel).display !== "none") {
@@ -331,9 +331,8 @@ function responseHandler() {
 
     } else if (this.readyState === XMLHttpRequest.DONE) {
         //toast error notice
-        if (this.statusText !== "") { showToast(this.status + " " + this.statusText); }
         showToast("Error communicating with the server.  Your update was not saved.");
-        showToast("⚠ Check Network Connection and Try Again ⚠", "#fff59d");
+        if (this.statusText !== "") { showToast(this.status + " " + this.statusText); } else { showToast("⚠ Check Network Connection and Try Again ⚠", "#fff59d"); }
 
         //mark bad changes so that user can attempt to save or send again
         let changes = document.getElementsByClassName("changed");
