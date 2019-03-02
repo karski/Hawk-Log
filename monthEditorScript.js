@@ -308,8 +308,15 @@ SortieRow.prototype.deleteSortie = function() {
     confirm("You are about to delete " + (this.msnNumInput.value === "" ? "this sortie" : this.msnNumInput.value) + "\nThis action cannot be undone"); //first confirm with user
     if (this.hasData) {
         //send delete request to server - server will need to cascade delete related records according to schema
-
-        //handle page redraw
+        let payload = {
+            table: "SORTIES",
+            id: this.ID
+        }
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = responseHandler;
+        xhttp.open("POST", deleteURL, true);
+        xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+        xhttp.send(JSON.stringify(payload));
 
     } else {
         //this was a new entry that wasn't sent to the server yet, just delete the row and make a new one
