@@ -40,8 +40,8 @@ function Calendar(selectDateCallback, initialDate, initialMonth) {
 
     //construct initial display frames
     //month/year label
-    this.monthSelection = new inputDropdown(month, "", "", "", month[this.displayMonth.getUTCMonth()], false, false);
-    this.yearSelection = new inputDropdown(generateYearList(this.displayMonth, 3), "", "", "", this.displayMonth.getUTCFullYear(), false, false);
+    this.monthSelection = new inputDropdown(month, month[this.displayMonth.getUTCMonth()], false, false);
+    this.yearSelection = new inputDropdown(generateYearList(this.displayMonth, 3), this.displayMonth.getUTCFullYear(), false, false);
 
     //add listeners to catch updates from dropdown controls
     this.monthSelection.getHTMLNode().addEventListener('change', () => {

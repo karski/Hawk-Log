@@ -59,7 +59,10 @@ function testFunction() {
 
     //dropdowns
     let takeoffAirfield = document.querySelector('#takeoffRow .dropHolder');
-    let takeoffList = new inputDropdown(airfieldList, "123", "MissionTable", "TakeoffLocation", "KBAB", true, true, true);
+    let takeoffList = new inputDropdown(airfieldList, "KBAB", true, true, true);
+    takeoffList.getHTMLNode().setAttribute("data-element-id", "123");
+    takeoffList.getHTMLNode().setAttribute("data-table", "SORTIE");
+    takeoffList.getHTMLNode().setAttribute("data-field", "TakeoffLocation");
     takeoffList.getHTMLNode().addEventListener("change", (event) => {
         console.log(event);
         showToast(event.target.value);
@@ -67,7 +70,10 @@ function testFunction() {
     takeoffAirfield.appendChild(takeoffList.getHTMLNode());
     //takeoffAirfield.addEventListener('click', () => { dropdownToggle(takeoffList); });
     let landAirfield = document.querySelector('#landRow .dropHolder');
-    let landList = new inputDropdown(airfieldList, "123", "MissionTable", "LandLocation", "KEDW", true, true, true);
+    let landList = new inputDropdown(airfieldList, "KEDW", true, true, true);
+    landList.getHTMLNode().setAttribute("data-element-id", "123");
+    landList.getHTMLNode().setAttribute("data-table", "SORTIE");
+    landList.getHTMLNode().setAttribute("data-field", "LandLocation");
     landList.getHTMLNode().addEventListener("change", (event) => {
         console.log(event);
         showToast(event.target.value);
@@ -75,7 +81,10 @@ function testFunction() {
     landAirfield.appendChild(landList.getHTMLNode());
     //landAirfield.addEventListener('click', () => { dropdownToggle(landList); });
     let stat = document.querySelector('#msnStat.dropHolder');
-    let statList = new inputDropdown(statusList, "123", "MissionTable", "status", "EFFECTIVE", false, false, true);
+    let statList = new inputDropdown(statusList, "EFFECTIVE", false, false, true);
+    statList.getHTMLNode().setAttribute("data-element-id", "123");
+    statList.getHTMLNode().setAttribute("data-table", "SORTIE");
+    statList.getHTMLNode().setAttribute("data-field", "status");
     statList.getHTMLNode().addEventListener("change", (event) => {
         console.log(event);
         showToast(event.target.value);
@@ -85,7 +94,7 @@ function testFunction() {
 
     //tooltip test
     let x = document.querySelector('.tooltip');
-    let xList = new inputDropdown(statusList, "123", "MissionTable", "status", "EFFECTIVE", false, false, true);
+    let xList = new inputDropdown(statusList, "EFFECTIVE", false, false, true);
     xList.getHTMLNode().addEventListener("change", (event) => {
         console.log(event);
         showToast(event.target.value);
@@ -94,7 +103,7 @@ function testFunction() {
 
     //deviation tooltip mockup
     let dev = document.querySelector('.deviationLabel');
-    let devList = new inputDropdown(deviationList, "11", "timeline", "devReason", "", false, true, true);
+    let devList = new inputDropdown(deviationList, "", false, true, true);
     devList.getHTMLNode().addEventListener("change", (event) => {
         console.log(event);
         showToast(event.target.value);
@@ -103,7 +112,7 @@ function testFunction() {
 
     //deviation tooltip mockup
     let ldev = document.querySelector('#landRow .deviationLabel');
-    let ldevList = new inputDropdown(deviationList, "11", "mission", "landNote", "", false, true, true);
+    let ldevList = new inputDropdown(deviationList, "", false, true, true);
     ldevList.getHTMLNode().addEventListener("change", (event) => {
         console.log(event);
         showToast(event.target.value);

@@ -14,8 +14,8 @@ if (getParameterByName("month") != null) {
     displayMonth = new Date(Number(getParameterByName("month")));
 }
 //collect and populate page displays
-let monthDropdown = new inputDropdown(month, "", "", "", month[displayMonth.getUTCMonth()], false, false, true);
-let yearDropdown = new inputDropdown(generateYearList(displayMonth, 3), "", "", "", displayMonth.getUTCFullYear(), false, false, true);
+let monthDropdown = new inputDropdown(month, month[displayMonth.getUTCMonth()], false, false, true);
+let yearDropdown = new inputDropdown(generateYearList(displayMonth, 3), displayMonth.getUTCFullYear(), false, false, true);
 let pageMonthLabel = document.getElementById("pageMonthLabel");
 pageMonthLabel.innerHTML = '';
 pageMonthLabel.appendChild(monthDropdown.getHTMLNode());
@@ -83,6 +83,10 @@ function drawPageMonth() {
 //creates a sortie table row from the sortie data object passed
 // -if no object is passed, an empty row for input will be created
 // returns HTML node for table row
+/**
+ * 
+ * @param {*} sortie
+ */
 function SortieRow(sortie) {
     this.hasData = !(typeof sortie === 'undefined');
     this.entryRow = document.createElement("tr");
@@ -106,9 +110,15 @@ function SortieRow(sortie) {
     actionCol.className = "actionCol";
 
     //create components to add to table cells
-    this.unitDropdown = new inputDropdown(lists.unitList, (this.hasData ? sortie.ID : ""), "SORTIE", "Squadron", (this.hasData ? sortie.Squadron : ""), false, true, true);
+    this.unitDropdown = new inputDropdown(lists.unitList, (this.hasData ? sortie.Squadron : ""), false, true, true);
+    this.unitDropdown.getHTMLNode().setAttribute("data-element-id", (this.hasData ? sortie.ID : ""));
+    this.unitDropdown.getHTMLNode().setAttribute("data-table", "SORTIE");
+    this.unitDropdown.getHTMLNode().setAttribute("data-field", "Squadron");
     unitCol.appendChild(document.createElement("p").appendChild(this.unitDropdown.getHTMLNode()));
-    this.typeDropdown = new inputDropdown(lists.flightTypeList, (this.hasData ? sortie.ID : ""), "SORTIE", "COCOM", (this.hasData ? sortie.COCOM : ""), false, true, true);
+    this.typeDropdown = new inputDropdown(lists.flightTypeList, (this.hasData ? sortie.COCOM : ""), false, true, true);
+    this.typeDropdown.getHTMLNode().setAttribute("data-element-id", (this.hasData ? sortie.ID : ""));
+    this.typeDropdown.getHTMLNode().setAttribute("data-table", "SORTIE");
+    this.typeDropdown.getHTMLNode().setAttribute("data-field", "COCOM");
     unitCol.appendChild(document.createElement("p").appendChild(this.typeDropdown.getHTMLNode()));
     this.entryRow.appendChild(unitCol);
 
@@ -117,7 +127,10 @@ function SortieRow(sortie) {
     msnCol.appendChild(this.msnNumInput);
     this.entryRow.appendChild(msnCol);
 
-    this.takeoffAfldDropdown = new inputDropdown(lists.airfieldList, (this.hasData ? sortie.ID : ""), "SORTIE", "TakeoffAirfield", (this.hasData ? sortie.TakeoffAirfield : ""), true, true, true);
+    this.takeoffAfldDropdown = new inputDropdown(lists.airfieldList, (this.hasData ? sortie.TakeoffAirfield : ""), true, true, true);
+    this.takeoffAfldDropdown.getHTMLNode().setAttribute("data-element-id", (this.hasData ? sortie.ID : ""));
+    this.takeoffAfldDropdown.getHTMLNode().setAttribute("data-table", "SORTIE");
+    this.takeoffAfldDropdown.getHTMLNode().setAttribute("data-field", "TakeoffAirfield");
     this.takeoffAfldDropdown.getHTMLNode().classList.add("airfieldDropdown");
     this.takeoffDateTimeInput = new DateTimeInput(null, displayMonth, this.timeChangeHandler);
     let tmpP = document.createElement("p");
@@ -125,7 +138,10 @@ function SortieRow(sortie) {
     tmpP.appendChild(this.takeoffDateTimeInput.getHTMLNode());
     timeCol.appendChild(tmpP);
 
-    this.landAfldDropdown = new inputDropdown(lists.airfieldList, (this.hasData ? sortie.ID : ""), "SORTIE", "LandAirfield", (this.hasData ? sortie.LandAirfield : ""), true, true, true);
+    this.landAfldDropdown = new inputDropdown(lists.airfieldList, (this.hasData ? sortie.LandAirfield : ""), true, true, true);
+    this.landAfldDropdown.getHTMLNode().setAttribute("data-element-id", (this.hasData ? sortie.ID : ""));
+    this.landAfldDropdown.getHTMLNode().setAttribute("data-table", "SORTIE");
+    this.landAfldDropdown.getHTMLNode().setAttribute("data-field", "LandAirfield");
     this.landAfldDropdown.getHTMLNode().classList.add("airfieldDropdown");
     this.landDateTimeInput = new DateTimeInput(null, displayMonth, this.timeChangeHandler);
     tmpP = document.createElement("p");

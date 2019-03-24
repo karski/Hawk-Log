@@ -3,7 +3,7 @@
 //  provides display of current selected value and a frame for a dropdown overlay behavior
 //  RootLevel input: if this dropdown is at the page level, then all other dropdowns should close for it - leave false if nested in another modal
 // When selection changes (from user input), "change" event will be triggered with the dropdown object (this) as target - queries can be made against the object to detemine state
-function inputDropdown(listItems, dataID, dataTable, dataField, initialValueSelected, includeSearch, allowCustom, rootLevel) {
+function inputDropdown(listItems, initialValueSelected, includeSearch, allowCustom, rootLevel) {
     //set up variables for maintaining state
     this.oldValue = null;
     this.value = initialValueSelected;
@@ -20,9 +20,6 @@ function inputDropdown(listItems, dataID, dataTable, dataField, initialValueSele
     //store main elements
     this.dropdownContainer = document.createElement('div'); //wraps all elements for this control
     this.dropdownContainer.className = "editDropdown";
-    this.dropdownContainer.setAttribute("data-element-id", dataID);
-    this.dropdownContainer.setAttribute("data-table", dataTable);
-    this.dropdownContainer.setAttribute("data-field", dataField);
     this.dropdownContainer.value = this.value; //also store value here so it can be accessed by events
     this.dropdownContainer.addEventListener("click", () => { this.dropdownToggle(); });
 
@@ -45,11 +42,11 @@ function inputDropdown(listItems, dataID, dataTable, dataField, initialValueSele
 
 }
 
-inputDropdown.prototype.getHTMLNode = function () {
+inputDropdown.prototype.getHTMLNode = function() {
     return this.dropdownContainer;
 };
 
-inputDropdown.prototype.dropdownToggle = function () {
+inputDropdown.prototype.dropdownToggle = function() {
     event.stopPropagation(); //assuming this was triggered by user click
     if (this.dropdownListContainer.classList.contains('hidden')) {
         this.dropdownShow();
@@ -57,7 +54,7 @@ inputDropdown.prototype.dropdownToggle = function () {
         this.dropdownHide();
     }
 };
-inputDropdown.prototype.dropdownShow = function () {
+inputDropdown.prototype.dropdownShow = function() {
     //display dropdown
     this.dropdownListContainer.classList.remove("hidden");
     //position inside window
@@ -70,7 +67,7 @@ inputDropdown.prototype.dropdownShow = function () {
     //document.addEventListener('click', this.globalClickHandler);
     addModal(this, this.rootLevel); //<--should be true if page level occurance
 };
-inputDropdown.prototype.dropdownHide = function (fromModalManager) {
+inputDropdown.prototype.dropdownHide = function(fromModalManager) {
     fromModalManager = fromModalManager || false;
     //hide dropdown
     this.dropdownListContainer.classList.add("hidden");
@@ -89,9 +86,9 @@ inputDropdown.prototype.dropdownHide = function (fromModalManager) {
 
 //updates current selection in list and display - does NOT trigger any events
 // NOTE: passing "" will clear out selections and reset the list
-inputDropdown.prototype.setValue = function (selectedValue) {
-    selectedValue = selectedValue || "";  //avoid dealing will undefined params
-    
+inputDropdown.prototype.setValue = function(selectedValue) {
+    selectedValue = selectedValue || ""; //avoid dealing will undefined params
+
     //display value
     if (selectedValue === "") { //blank selection - reset the dropdown
         //clear out list selection
@@ -113,7 +110,7 @@ inputDropdown.prototype.setValue = function (selectedValue) {
 };
 
 //move dropdown to avoid overflowing window
-inputDropdown.prototype.dropdownReposition = function () {
+inputDropdown.prototype.dropdownReposition = function() {
     //shift left/right
     if (this.dropdownListContainer.getBoundingClientRect().right > window.innerWidth) {
         this.dropdownListContainer.classList.add("shiftLeft");
@@ -142,11 +139,11 @@ inputDropdown.prototype.dropdownReposition = function () {
 // arrow up/down moves search selection
 // enter selects current selection
 // escape closes list
-inputDropdown.prototype.globalKeyHandler = function () {
+inputDropdown.prototype.globalKeyHandler = function() {
     //if (event.key === "Escape" || event.key === "Esc") {
     //    this.dropdownHide();
     //} else <--handled by modal manager
-        if (event.key === "Enter") {
+    if (event.key === "Enter") {
         event.stopImmediatePropagation(); //prevent key from changing page position, which would be confusing
         event.preventDefault();
         this.list.selectSearchSelection();
@@ -167,7 +164,7 @@ inputDropdown.prototype.globalKeyHandler = function () {
 
 //catches callback from user inputs to list element
 // triggers "change" event so that listeners can be registered to this element
-inputDropdown.prototype.changeHandler = function (selectionObj) {
+inputDropdown.prototype.changeHandler = function(selectionObj) {
     this.dropdownHide(); //close the dropdown
     // update current status - if value has changed
     if (selectionObj.value !== this.value) {
@@ -187,6 +184,6 @@ inputDropdown.prototype.changeHandler = function (selectionObj) {
 };
 
 //receives modal manager close call
-inputDropdown.prototype.close = function () {
+inputDropdown.prototype.close = function() {
     this.dropdownHide(true);
 };
