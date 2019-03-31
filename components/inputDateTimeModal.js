@@ -19,7 +19,8 @@ const shortMonth = [
 //if dateTime value is not passed or is unparsable, current date/time will be used
 //scheduled time (if provided) will be used to display time offset (early/late) and determine need for rationale
 //container element - optional, but if included, modal display will avoid overflowing *upward* out of it
-function DateTimeModal(inputElement, containerElement) {
+function DateTimeModal(changeCallback, inputElement, containerElement) {
+    this.callback = changeCallback;
     //initialize variables for the dateTime display
     this.inputElement = inputElement;
     this.containerElement = containerElement || null; //safely assign to known bad state
@@ -195,7 +196,7 @@ function DateTimeModal(inputElement, containerElement) {
 
 //displays Date/Time selection defined by newValue
 //this will show all changes made
-DateTimeModal.prototype.displayNewValue = function () {
+DateTimeModal.prototype.displayNewValue = function() {
     this.timeHourInput.value = isNaN(this.newValue.getUTCHours()) ? "" : (this.newValue.getUTCHours() < 10 ? "0" : "") + this.newValue.getUTCHours();
     this.timeMinuteInput.value = isNaN(this.newValue.getUTCMinutes()) ? "" : (this.newValue.getUTCMinutes() < 10 ? "0" : "") + this.newValue.getUTCMinutes();
     this.dateInput.value = formatShortDate(this.newValue);
@@ -205,7 +206,7 @@ DateTimeModal.prototype.displayNewValue = function () {
 
 //consolidated event handlers
 //handles loss of focus by processing input, and submitting or allowing focus to pass to other input field
-DateTimeModal.prototype.focusHandler = function () {
+DateTimeModal.prototype.focusHandler = function() {
 
     //process input and display result
     let isGood = false;
@@ -228,7 +229,7 @@ DateTimeModal.prototype.focusHandler = function () {
 
 //key handlers - watches for escape to cancel or enter to accept
 //based on solution provided by emkey08 on https://stackoverflow.com/questions/469357/html-text-input-allows-only-numeric-input
-DateTimeModal.prototype.inputKeyHandler = function () {
+DateTimeModal.prototype.inputKeyHandler = function() {
     if (event.key === "Enter") {
         //prevent enter key from making input
         event.stopPropagation();
@@ -279,7 +280,7 @@ DateTimeModal.prototype.inputKeyHandler = function () {
 };
 
 //time field input handlers - filter out bad input and auto-advance focus
-DateTimeModal.prototype.inputTimeHandler = function (event, maxValue, firstDigitLimit) {
+DateTimeModal.prototype.inputTimeHandler = function(event, maxValue, firstDigitLimit) {
     let timePattern = /^-?\d{0,2}$/;
     if (timePattern.test(event.target.value)) {
         //input contains numbers, so force them into range
@@ -332,7 +333,7 @@ DateTimeModal.prototype.inputTimeHandler = function (event, maxValue, firstDigit
 
 //updates date value based on calendar input
 //input: date object representing selected day
-DateTimeModal.prototype.calendarSelectionHandler = function (d) {
+DateTimeModal.prototype.calendarSelectionHandler = function(d) {
     //set newValue to the selection - if current newValue doesn't have time assigned, it will receive 0's
     this.newValue = new Date(Date.UTC(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), this.newValue.getUTCHours() || 0, this.newValue.getUTCMinutes() || 0));
 
@@ -341,7 +342,7 @@ DateTimeModal.prototype.calendarSelectionHandler = function (d) {
 };
 
 //clears the current value since removing data from 2 fields is kind of hard
-DateTimeModal.prototype.clearEntry = function () {
+DateTimeModal.prototype.clearEntry = function() {
     //if field was already blank, then there's nothing to change
     if (isNaN(this.dateTimeValue.valueOf())) {
         this.newValue = new Date(""); //reset newValue as well
@@ -356,7 +357,7 @@ DateTimeModal.prototype.clearEntry = function () {
 
 //accepts user input and passes update to server
 //this is very similar to other update functions and could probably be refactored - only field value source changes really
-DateTimeModal.prototype.inputAccept = function () {
+DateTimeModal.prototype.inputAccept = function() {
     console.log("Date/Time Input accepted " + this.dateTimeValue + " --> " + this.newValue);
 
     //if new value is the same as current, nothing to change
@@ -379,27 +380,33 @@ DateTimeModal.prototype.inputAccept = function () {
     this.inputElement.querySelector('span.timeDisplay').oldText = formatTime(this.dateTimeValue);
     this.inputElement.querySelector('span.timeDisplay').classList.add("changed");
 
+    // use callback to let parent make the server calls (or other)
+    // *Note, may need to pass a reference to this object so that source info can be determined?
+    this.callback(this.newValue);
+
+    //Should be able to move everything below up to the parent - the response handler lived in sortieDetailScript anyway
+
     //create an update field payload
     //NOTE: assumes all necessary attributes are correctly associated with the field
-    let val = this.newValue;
+    /* let val = this.newValue;
     let payload = {
         sortieID: sortieID,
         table: this.inputElement.getAttribute("data-table"),
         elementID: this.inputElement.getAttribute("data-element-id"),
         field: this.inputElement.getAttribute("data-field"),
         value: JSON.stringify(val)
-    }; //looks like stringify does pretty well with time values, too! - should default to Z time to avoid timezone ambiguity
+    }; */ //looks like stringify does pretty well with time values, too! - should default to Z time to avoid timezone ambiguity
 
     //send update to server
-    let xhttp = new XMLHttpRequest();
+    /* let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = responseHandler;
     xhttp.open("POST", updateURL, true);
     xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-    xhttp.send(JSON.stringify(payload));
+    xhttp.send(JSON.stringify(payload)); */
 };
 
 //user cancels input, revert to previous value
-DateTimeModal.prototype.inputCancel = function () {
+DateTimeModal.prototype.inputCancel = function() {
     event.stopPropagation();
     //reset newValue = current dateTimeValue
     if (this.dateTimeValue.valueOf() > 0) {
@@ -414,7 +421,7 @@ DateTimeModal.prototype.inputCancel = function () {
 
 
 //move modal to avoid overflowing window
-DateTimeModal.prototype.reposition = function () {
+DateTimeModal.prototype.reposition = function() {
     //shift left/right
     if (this.modal.getBoundingClientRect().right > window.innerWidth) {
         this.modal.classList.add("shiftLeft");
@@ -439,7 +446,7 @@ DateTimeModal.prototype.reposition = function () {
 };
 
 //cleans up after modal for closing
-DateTimeModal.prototype.close = function () {
+DateTimeModal.prototype.close = function() {
     //remove resize listener - since this is attached to the window, it won't ever be removed otherwise
     window.removeEventListener('resize', this.shiftHandler);
     this.modal.outerHTML = '';
@@ -448,7 +455,7 @@ DateTimeModal.prototype.close = function () {
 //parses time input input fields - requires event to determine which value was updated
 //updates newValue and displays interpreted input
 //return: true if value was valid --> only blank inputs (or no digits) should return false
-DateTimeModal.prototype.parseTimeInput = function (event) {
+DateTimeModal.prototype.parseTimeInput = function(event) {
     if (Number(event.target.value) >= 0) {
         if (isNaN(this.newValue.valueOf())) {
             //no existing input, create a new value
@@ -478,7 +485,7 @@ DateTimeModal.prototype.parseTimeInput = function (event) {
 //updates newValue and displays interpreted input
 //return: true if value was valid
 //NOTE: IE date format is very picky and this will not work well there -> this works in Chrome only for now
-DateTimeModal.prototype.parseDateInput = function (d) {
+DateTimeModal.prototype.parseDateInput = function(d) {
     //let inDate = new Date(Date.parse(d)); //get date string into date format (note: local value will need to be converted to Z)
     let inDate = parseDateString(d);
 

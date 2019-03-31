@@ -49,9 +49,9 @@ function testFunction() {
         i.addEventListener('click', () => {
             //event.stopPropagation();
             if (Array.prototype.includes.call(logTimeInputs, i)) {
-                addModal(new DateTimeModal(i, logContainer), true);
+                addModal(new DateTimeModal((val) => { timeInputAccept(i, val) }, i, logContainer), true);
             } else {
-                addModal(new DateTimeModal(i), true);
+                addModal(new DateTimeModal((val) => { timeInputAccept(i, val) }, i), true);
             }
 
         });
@@ -125,6 +125,30 @@ function testFunction() {
 
 }
 
+//send time changed data
+function timeInputAccept(sourceElement, value) {
+
+    let payload = {
+        sortieID: sortieID,
+        table: sourceElement.getAttribute("data-table"),
+        elementID: sourceElement.getAttribute("data-element-id"),
+        field: sourceElement.getAttribute("data-field"),
+        value: JSON.stringify(value)
+    };
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = responseHandler;
+    xhttp.open("POST", updateURL, true);
+    xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    xhttp.send(JSON.stringify(payload));
+
+    // fetch(updateURL, {
+    //     method: 'post',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(payload)
+    // }).then(response => responseHandler(response));
+}
 
 //reverses order of child elements in the provided container - useful for reverse chronological lists
 function reverseSort(containerElement) {
