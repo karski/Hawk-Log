@@ -138,8 +138,7 @@ timeCalcModal.prototype.durationChangeHandler = function(newVal) {
         this.duration = val;
         let hours = Math.floor(Number(val));
         let minutes = decimalMinutes(Math.abs(Number(val)));
-        this.endTime = new Date(Date.UTC(this.startTime.getUTCFullYear(), this.startTime.getUTCMonth(), this.startTime.getUTCDate(), 0, 0, 0));
-        this.endTime.setUTCHours(hours, minutes);
+        this.endTime = new Date(Date.UTC(this.startTime.getUTCFullYear(), this.startTime.getUTCMonth(), this.startTime.getUTCDate(), this.startTime.getUTCHours() + hours, this.startTime.getUTCMinutes() + minutes, 0));
     }
     this.updateDisplayValues();
 };
