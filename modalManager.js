@@ -1,6 +1,6 @@
 // manages modals on the page - should be limited to new log entries and date/time inputs, but should provide flexibility for more
 
-var activeModals = [];  //empty list for holding modals (use push/pop to addremove from end)
+var activeModals = []; //empty list for holding modals (use push/pop to addremove from end)
 
 function addModal(m, closeOtherModals) {
     event && event.stopPropagation(); //prevent this modal creation event from triggering other actions
@@ -41,6 +41,11 @@ function removeSpecificModal(tgtModal) {
     if (tgtIndex >= 0) {
         activeModals.splice(tgtIndex, 1);
     }
+    //if there are no modals remaining, remove listeners from page
+    if (activeModals.length === 0) {
+        document.removeEventListener('click', modalEscapeHandler);
+        document.removeEventListener('keydown', modalEscapeHandler);
+    }
 }
 
 //listens for Escape keypress or clicks outside modal
@@ -49,10 +54,9 @@ function modalEscapeHandler() {
     //or this was called by a modal exit button
     if (event.type === 'click') {
         closeTopModal();
-    }else if (event.key === "Escape" || event.key === "Esc") {
+    } else if (event.key === "Escape" || event.key === "Esc") {
         //any escape that bubbles up should close the top modal
         console.log("Escape key pressed");
         closeTopModal();
     }
 }
-

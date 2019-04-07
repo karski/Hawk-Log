@@ -65,7 +65,31 @@ function roundMinutes(t) {
         return h + sign;
     }
 }
-
+//given a decimal hours, provides the number of minutes that would match the decimal (using 781 rounding)
+function decimalMinutes(t) {
+    t = Number((t % 1).toFixed(1)); //remove integer portion for easy math
+    if (t < 0.1) { //0-2
+        return 0;
+    } else if (t < 0.2) { //3-8
+        return 5;
+    } else if (t < 0.3) { //9-14
+        return 10;
+    } else if (t < 0.4) { //15-20
+        return 15;
+    } else if (t < 0.5) { //21-26
+        return 25;
+    } else if (t < 0.6) { //27-33
+        return 30;
+    } else if (t < 0.7) { //34-39
+        return 35;
+    } else if (t < 0.8) { //40-45
+        return 45;
+    } else if (t < 0.9) { //46-51
+        return 50;
+    } else if (t < 1) { //52-59
+        return 55;
+    }
+}
 
 //determines if a time difference is a deviation (default is > +-30 minutes)
 //devTime is in minutes

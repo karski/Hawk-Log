@@ -379,6 +379,8 @@ DateTimeModal.prototype.inputAccept = function() {
     this.timeMinuteInput.classList.add("changed");
     this.inputElement.querySelector('span.timeDisplay').oldText = formatTime(this.dateTimeValue);
     this.inputElement.querySelector('span.timeDisplay').classList.add("changed");
+    this.inputElement.title = formatShortDate(this.dateTimeValue) + " " + formatTime(this.dateTimeValue) + "z";
+    this.inputElement.setAttribute("data-value", this.dateTimeValue.toString());
 
     // use callback to let parent make the server calls (or other)
     // *Note, may need to pass a reference to this object so that source info can be determined?
