@@ -8,6 +8,7 @@ function timeCalcModal(containerElement) {
     this.startTime = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 0, 0, 0));
     this.endTime = new Date(Date.UTC(today.getUTCFullYear(), today.getUTCMonth(), today.getUTCDate(), 0, 0, 0));
     this.duration = "0.0";
+    this.minutes = 0;
     this.openModal = null; //store time selection modal here so it can be closed before the next is opened
     //create elements
     this.modal = document.createElement("div");
@@ -30,9 +31,15 @@ function timeCalcModal(containerElement) {
     equals.innerText = "=";
     equals.style.padding = "0 5px";
     let answers = document.createElement("div");
-    let duration
+    let p0 = document.createElement("p");
     let label = document.createElement("span");
     label.innerText = " hrs";
+    let p1 = document.createElement("p");
+    let hlabel = document.createElement("span");
+    let p2 = document.createElement("p");
+    hlabel.innerText = " hours";
+    let mlabel = document.createElement("span");
+    mlabel.innerText = " minutes";
     this.startInput = document.createElement("div");
     this.startInput.className = "editDateTime";
     this.startInput.setAttribute("data-name", "Start Time");
@@ -65,6 +72,20 @@ function timeCalcModal(containerElement) {
     this.durationInput.innerText = "0.0";
     this.durationInput.addEventListener("keydown", () => { this.durationKeyHandler(event) });
     this.durationInput.addEventListener("focusout", () => { this.durationChangeHandler(event.target.innerText) });
+    this.hourInput = document.createElement("div");
+    this.hourInput.className = "editText";
+    this.hourInput.setAttribute("contentEditable", "true");
+    this.hourInput.setAttribute("spellcheck", "false");
+    this.hourInput.innerText = "0";
+    this.hourInput.addEventListener("keydown", () => { this.timeKeyHandler(event) });
+    this.hourInput.addEventListener("focusout", () => { this.timeChangeHandler(event) });
+    this.minuteInput = document.createElement("div");
+    this.minuteInput.className = "editText";
+    this.minuteInput.setAttribute("contentEditable", "true");
+    this.minuteInput.setAttribute("spellcheck", "false");
+    this.minuteInput.innerText = "0";
+    this.minuteInput.addEventListener("keydown", () => { this.timeKeyHandler(event) });
+    this.minuteInput.addEventListener("focusout", () => { this.timeChangeHandler(event) });
     //add to page
     this.modal.appendChild(header);
     this.startInput.appendChild(this.startTimeDisp);
@@ -73,8 +94,16 @@ function timeCalcModal(containerElement) {
     this.endInput.appendChild(this.endTimeDisp);
     content.appendChild(this.endInput);
     content.appendChild(equals);
-    content.appendChild(this.durationInput);
-    content.appendChild(label);
+    p0.appendChild(this.durationInput);
+    p0.appendChild(label);
+    p1.appendChild(this.hourInput);
+    p1.appendChild(hlabel);
+    p2.appendChild(this.minuteInput);
+    p2.appendChild(mlabel);
+    answers.appendChild(p0);
+    answers.appendChild(p1);
+    answers.appendChild(p2);
+    content.appendChild(answers);
     this.modal.appendChild(content);
     containerElement.appendChild(this.modal);
     addModal(this, true);
@@ -87,7 +116,7 @@ timeCalcModal.prototype.close = function() {
 
 //ensures only one modal is open before opening a second
 timeCalcModal.prototype.closeSubModal = function() {
-    //todo: add some error handling since the modal display may not even exist
+    //some error handling since the modal display may not even exist
     if (this.openModal !== null) {
         try {
             this.openModal.close();
@@ -99,6 +128,8 @@ timeCalcModal.prototype.closeSubModal = function() {
     }
 };
 
+//TODO: change this.minutes value whenever start/end times change (or duration)
+
 //handles time changes
 timeCalcModal.prototype.startTimeChangeHandler = function(newVal) {
     this.startTime = cleanTimeValue(newVal);
@@ -106,6 +137,7 @@ timeCalcModal.prototype.startTimeChangeHandler = function(newVal) {
     for (let e of this.modal.querySelectorAll(".changed")) { e.classList.remove("changed") }
     //run calculation and display values
     this.duration = formatTimeDuration(this.startTime, this.endTime);
+    this.minutes = Math.floor((this.endTime - this.startTime) / 60000);
     this.updateDisplayValues();
 };
 timeCalcModal.prototype.endTimeChangeHandler = function(newVal) {
@@ -114,6 +146,7 @@ timeCalcModal.prototype.endTimeChangeHandler = function(newVal) {
     for (let e of this.modal.querySelectorAll(".changed")) { e.classList.remove("changed") }
     //run calculation and display values
     this.duration = formatTimeDuration(this.startTime, this.endTime);
+    this.minutes = Math.floor((this.endTime - this.startTime) / 60000);
     this.updateDisplayValues();
 };
 
@@ -125,6 +158,19 @@ timeCalcModal.prototype.durationKeyHandler = function(event) {
         event.target.blur();
     } else if (event.key === "Enter") {
         event.target.blur();
+    } else if (event.key === "ArrowUp" || event.key === "ArrowDown") { //process the value for arrow buttons, then add/subtract 0.1
+        let val = parseFloat(event.target.innerText).toFixed(1);
+        if (isNaN(val)) {
+            this.updateDisplayValues();
+            return;
+        } else {
+            if (event.key === "ArrowUp") {
+                val = Number(val) + .1;
+            } else {
+                val = Number(val) - .1;
+            }
+            this.durationChangeHandler(val);
+        }
     }
 };
 timeCalcModal.prototype.durationChangeHandler = function(newVal) {
@@ -139,6 +185,59 @@ timeCalcModal.prototype.durationChangeHandler = function(newVal) {
         let hours = Math.floor(Number(val));
         let minutes = decimalMinutes(Math.abs(Number(val)));
         this.endTime = new Date(Date.UTC(this.startTime.getUTCFullYear(), this.startTime.getUTCMonth(), this.startTime.getUTCDate(), this.startTime.getUTCHours() + hours, this.startTime.getUTCMinutes() + minutes, 0));
+        this.minutes = Math.floor((this.endTime - this.startTime) / 60000);
+    }
+    this.updateDisplayValues();
+};
+
+//handles time inputs (hour/minute) changes
+timeCalcModal.prototype.timeKeyHandler = function(event) {
+    if (event.key === "Escape" || event.key === "Esc") { //on escape, display current duration value
+        event.stopPropagation();
+        this.hourInput.innerText = parseInt(this.minutes / 60);
+        this.minuteInput.innerText = abs(this.minutes % 60);
+        event.target.blur();
+    } else if (event.key === "Enter") {
+        event.target.blur();
+    } else if (event.key === "ArrowUp" || event.key === "ArrowDown") { //process the value for arrow buttons, then add/subtract 0.1
+        let val = Math.floor(Number(event.target.innerText));
+        if (isNaN(val)) {
+            this.updateDisplayValues();
+            return;
+        } else {
+            if ((event.key === "ArrowUp" && event.target === this.hourInput) ||
+                (event.key === "ArrowUp" && this.minutes >= 0) ||
+                (event.key === "ArrowDown" && this.minutes < 0 && event.target === this.minuteInput)) {
+                val = Number(val) + 1;
+            } else {
+                val = Number(val) - 1;
+            }
+            event.target.innerText = val;
+            this.timeChangeHandler(event);
+        }
+    }
+};
+timeCalcModal.prototype.timeChangeHandler = function(event) {
+    //force value to a number and round down to full number only
+    let val = Math.floor(Number(event.target.innerText));
+    console.log(val);
+    if (isNaN(val)) { //bad input - don't change any values, just redraw current
+        this.updateDisplayValues();
+        return;
+    } else { //update end time and then use two times to calc duration
+        event.target.innerText = val;
+        let h = Math.floor(Number(this.hourInput.innerText));
+        let m = Math.floor(Number(this.minuteInput.innerText));
+        if (isNaN(h) || isNaN(m)) { //either time input is invalid, reset
+            this.updateDisplayValues();
+            return;
+        } else {
+            this.minutes = (Math.abs(h * 60) + m);
+            if ((h < 0 || this.hourInput.innerText === "-0") && this.minutes > 0) { this.minutes *= -1; }
+            //force minutes into bounds
+            this.endTime = new Date(Date.UTC(this.startTime.getUTCFullYear(), this.startTime.getUTCMonth(), this.startTime.getUTCDate(), this.startTime.getUTCHours(), this.startTime.getUTCMinutes() + this.minutes, 0));
+            this.duration = formatTimeDuration(this.startTime, this.endTime);
+        }
     }
     this.updateDisplayValues();
 };
@@ -146,12 +245,15 @@ timeCalcModal.prototype.durationChangeHandler = function(newVal) {
 //update display based on current values
 timeCalcModal.prototype.updateDisplayValues = function() {
     this.durationInput.innerText = this.duration;
+    this.hourInput.innerText = (this.minutes < 0 && this.minutes > -60 ? "-" : "") + parseInt(this.minutes / 60);
+    this.minuteInput.innerText = Math.abs(this.minutes % 60);
     this.startTimeDisp.innerText = formatTime(this.startTime);
     this.startInput.setAttribute("data-value", this.startTime.toString());
     this.startInput.title = formatShortDate(this.startTime) + " " + formatTime(this.startTime) + "z";
     this.endTimeDisp.innerText = formatTime(this.endTime);
     this.endInput.setAttribute("data-value", this.endTime.toString());
     this.endInput.title = formatShortDate(this.endTime) + " " + formatTime(this.endTime) + "z";
+
     console.log("display updated");
 };
 
