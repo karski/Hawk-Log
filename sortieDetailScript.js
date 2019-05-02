@@ -27,10 +27,14 @@ var airfieldList = [
 var statusList = ["PLANNED", "PREFLIGHT", "INFLIGHT", "POSTFLIGHT", "EFFECTIVE", "INEFFECTIVE", "CNX", "OPS CNX", "WX CNX", "MX CNX", "OPS RTB", "MX RTB"];
 
 var deviationList = ["WEATHER", "ATC", "OPS", "MISSION CHANGE"];
+//assign sortie ID
+sortieID = getParameterByName("ID");
+
 // functions for crontrolling UI elements
 
-
 window.onload = testFunction;
+window.onload = getSortie;
+
 
 function testFunction() {
     //assign input listeners to fields labeled as such
@@ -125,29 +129,23 @@ function testFunction() {
 
 }
 
-//send time changed data
-function timeInputAccept(sourceElement, value) {
+
+
+// query server for the sortie specified by the address line parameter
+function getSortie() {
+    if (typeof(sortieID) === "undefined" || sortieID === null) {
+        showToast("Sortie ID not provided.  Try going back to previous page.", "#fff59d");
+        return
+    }
 
     let payload = {
-        sortieID: sortieID,
-        table: sourceElement.getAttribute("data-table"),
-        elementID: sourceElement.getAttribute("data-element-id"),
-        field: sourceElement.getAttribute("data-field"),
-        value: JSON.stringify(value)
+        sortieID: sortieID
     };
     let xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = responseHandler;
-    xhttp.open("POST", updateURL, true);
+    xhttp.open("POST", getSortieURL, true);
     xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
     xhttp.send(JSON.stringify(payload));
-
-    // fetch(updateURL, {
-    //     method: 'post',
-    //     headers: {
-    //         'Content-Type': 'application/json'
-    //     },
-    //     body: JSON.stringify(payload)
-    // }).then(response => responseHandler(response));
 }
 
 //reverses order of child elements in the provided container - useful for reverse chronological lists
@@ -192,6 +190,33 @@ function inputKeyCatcher() {
     }
 }
 
+//send time changed data - handled slightly differently than text, 
+// since the value isn't stored in the root element value, but an attribute
+function timeInputAccept(sourceElement, value) {
+
+    let payload = {
+        sortieID: sortieID,
+        table: sourceElement.getAttribute("data-table"),
+        elementID: sourceElement.getAttribute("data-element-id"),
+        field: sourceElement.getAttribute("data-field"),
+        value: JSON.stringify(value),
+        respond: 'sortie'
+    };
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = responseHandler;
+    xhttp.open("POST", updateURL, true);
+    xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    xhttp.send(JSON.stringify(payload));
+
+    // fetch(updateURL, {
+    //     method: 'post',
+    //     headers: {
+    //         'Content-Type': 'application/json'
+    //     },
+    //     body: JSON.stringify(payload)
+    // }).then(response => responseHandler(response));
+}
+
 function inputAccept() {
     console.log("Input accepted");
 
@@ -211,7 +236,8 @@ function inputAccept() {
         table: event.target.getAttribute("data-table"),
         elementID: event.target.getAttribute("data-element-id"),
         field: event.target.getAttribute("data-field"),
-        value: JSON.stringify(val)
+        value: JSON.stringify(val),
+        respond: 'sortie'
     };
 
     //remove event listensers

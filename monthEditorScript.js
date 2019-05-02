@@ -1,4 +1,11 @@
+window.onload = getPageMonth;
+
 //test code here
+window.onload = test;
+function test(){
+    monthSortieData = [{"ID":"1","Status":"INFLIGHT","QuickTake":"","Squadron":"12RS","COCOM":"LOCAL","TakeoffAirfield":"KBAB","LandAirfield":"KEDW","schedTakeoff":"2019-01-01T05:00Z","schedLand":"2019-01-02T06:00Z","MsnNum":"MSN123"}]
+    drawPageMonth();
+}
 
 //TODO:
 // - each time month changes, make request to server for the month's entries
@@ -25,21 +32,49 @@ pageYearLabel.appendChild(yearDropdown.getHTMLNode());
 //configure dropdown actions
 monthDropdown.getHTMLNode().addEventListener('change', () => {
     displayMonth.setUTCMonth(month.indexOf(event.target.value));
-    drawPageMonth();
+    getPageMonth();
+    //drawPageMonth(); - done in response handler
 });
 yearDropdown.getHTMLNode().addEventListener('change', () => {
     displayMonth.setUTCFullYear(event.target.value);
-    drawPageMonth();
+    getPageMonth();
+    //drawPageMonth();
 });
 //configure button actions
 document.getElementById("pageLeftButton").addEventListener('click', () => {
     displayMonth.setUTCMonth(displayMonth.getUTCMonth() - 1);
-    drawPageMonth();
+    getPageMonth();
+    //drawPageMonth();
 });
 document.getElementById("pageRightButton").addEventListener('click', () => {
     displayMonth.setUTCMonth(displayMonth.getUTCMonth() + 1);
-    drawPageMonth();
+    getPageMonth();
+    //drawPageMonth();
 });
+
+
+
+//requests current month data from server
+function getPageMonth() {
+    //display month should always have a value, so we'll assume it is a valid date
+    // build a start value and end value at the beginning and end of the month
+    let start = new Date(Date.UTC(displayMonth.getUTCFullYear(), displayMonth.getUTCMonth(), 1));
+    let end = new Date(Date.UTC(displayMonth.getUTCFullYear(), displayMonth.getUTCMonth() + 1, 1));
+
+    let payload = {
+        startDate: JSON.stringify(start),
+        endDate: JSON.stringify(end),
+        COCOM: '*',
+        Squadron: '*'
+    };
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = responseHandler;
+    xhttp.open("POST", getSortieCollectionURL, true);
+    xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    xhttp.send(JSON.stringify(payload));
+}
+
+
 
 //received response data from the server and then calls draw month
 function responseHandler() {
@@ -78,13 +113,11 @@ function drawPageMonth() {
 }
 
 //---------------Row Object functionality-----------------------------------------//
-// TODO: * NOTE: may want to consider treating rows as objects to more easily record and pass info...
 
-//creates a sortie table row from the sortie data object passed
-// -if no object is passed, an empty row for input will be created
-// returns HTML node for table row
 /**
- * 
+ * creates a sortie table row from the sortie data object passed
+ * -if no object is passed, an empty row for input will be created
+ * returns HTML node for table row
  * @param {*} sortie
  */
 function SortieRow(sortie) {
@@ -94,7 +127,8 @@ function SortieRow(sortie) {
     this.ID = this.hasData ? sortie.ID : ""; //needed for updates
 
     //link callback to current context
-    this.timeChangeHandler = this.timeChangeHandler.bind(this);
+    this.takeoffTimeChangeHandler = this.takeoffTimeChangeHandler.bind(this);
+    this.landTimeChangeHandler = this.landTimeChangeHandler.bind(this);
 
     //create table cells to hold all the components built below
     let unitCol = document.createElement("td");
@@ -132,7 +166,7 @@ function SortieRow(sortie) {
     this.takeoffAfldDropdown.getHTMLNode().setAttribute("data-table", "SORTIE");
     this.takeoffAfldDropdown.getHTMLNode().setAttribute("data-field", "TakeoffAirfield");
     this.takeoffAfldDropdown.getHTMLNode().classList.add("airfieldDropdown");
-    this.takeoffDateTimeInput = new DateTimeInput(null, displayMonth, this.timeChangeHandler);
+    this.takeoffDateTimeInput = new DateTimeInput(null, displayMonth, this.takeoffTimeChangeHandler);
     let tmpP = document.createElement("p");
     tmpP.appendChild(this.takeoffAfldDropdown.getHTMLNode());
     tmpP.appendChild(this.takeoffDateTimeInput.getHTMLNode());
@@ -143,7 +177,7 @@ function SortieRow(sortie) {
     this.landAfldDropdown.getHTMLNode().setAttribute("data-table", "SORTIE");
     this.landAfldDropdown.getHTMLNode().setAttribute("data-field", "LandAirfield");
     this.landAfldDropdown.getHTMLNode().classList.add("airfieldDropdown");
-    this.landDateTimeInput = new DateTimeInput(null, displayMonth, this.timeChangeHandler);
+    this.landDateTimeInput = new DateTimeInput(null, displayMonth, this.landTimeChangeHandler);
     tmpP = document.createElement("p");
     tmpP.appendChild(this.landAfldDropdown.getHTMLNode());
     tmpP.appendChild(this.landDateTimeInput.getHTMLNode());
@@ -167,13 +201,18 @@ function SortieRow(sortie) {
 
     if (this.hasData) {
         //fill in data passed to components (dropdowns should already have data from initialization parameters)
-        this.msnNumInput.value = JSON.parse(sortie.MsnNum);
-        this.takeoffDateTimeInput.setDateTime(new Date(JSON.parse(sortie.schedTakeoff)));
-        this.landDateTimeInput.setDateTime(new Date(JSON.parse(sortie.schedLand)));
+        this.msnNumInput.value = sortie.MsnNum;
+        this.takeoffDateTimeInput.setDateTime(new Date(sortie.schedTakeoff));
+        this.landDateTimeInput.setDateTime(new Date(sortie.schedLand));
         this.timeChangeHandler(); //calculate and format the duration display
-        this.noteInput.value = JSON.parse(sortie.QuickTake);
+        this.noteInput.value = sortie.QuickTake || "";
 
-        //TODO: add listeners to handle updates to individual fields
+        //add listeners to handle updates to individual fields (time inputs already have callbacks assigned from creation)
+        this.unitDropdown.getHTMLNode().addEventListener("change",sendDropdownUpdate);
+        this.typeDropdown.getHTMLNode().addEventListener("change",sendDropdownUpdate);
+        this.takeoffAfldDropdown.getHTMLNode().addEventListener("change",sendDropdownUpdate);
+        this.landAfldDropdown.getHTMLNode().addEventListener("change",sendDropdownUpdate);
+        //TODO: add text box input changes
 
         //if sortie is canceled, format row to match status
         if (sortie.Status.includes("CNX")) {
@@ -223,13 +262,53 @@ SortieRow.prototype.getHTMLNode = function() {
 
 
 //---------------Row Event Handlers-------------------------------//
+//accepts updates to takeoffTime
+SortieRow.prototype.takeoffTimeChangeHandler = function(d) {
+    this.timeChangeHandler(); //update display
+    //for entries that have data (and a valid time was passed in), send the udpate to the server
+    if (d !== null && !isNaN(d.valueOf()) && this.hasData) {
+        console.log("sending takeoff date time update: " + d.toDateString());
+        sendTimeUpdate(this.takeoffDateTimeInput.getHTMLNode(), d);
+    }
+};
+//accepts updates to landTime
+SortieRow.prototype.landTimeChangeHandler = function(d) {
+    this.timeChangeHandler(); //update display
+    //for entries that have data (and a valid time was passed in), send the udpate to the server
+    if (d !== null && !isNaN(d.valueOf()) && this.hasData) {
+        console.log("sending land date time update: " + d.toDateString());
+        sendTimeUpdate(this.landDateTimeInput.getHTMLNode(), d);
+    }
+};
+
+function sendTimeUpdate(element, d) {
+    //for entries that have data (and a valid time was passed in), send the udpate to the server
+    //if (d !== null && !isNaN(d.valueOf()) && this.hasData) { <-- already checked by the calling functions that are tied to the event element
+        console.log("sending date time update: " + d.toDateString());
+
+        let payload = {
+            sortieID: element.getAttribute("data-element-id"),
+            table: element.getAttribute("data-table"),
+            elementID: element.getAttribute("data-element-id"),
+            field: element.getAttribute("data-field"),
+            value: JSON.stringify(d),
+            respond: 'month'
+        };
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = responseHandler;
+        xhttp.open("POST", updateURL, true);
+        xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+        xhttp.send(JSON.stringify(payload));
+    //}
+}
+
 
 //takeoff time changes --> set empty land time into future - add flags to existing land time if in past
 //   set to next day, unless that is within 3 hours, then push out 2 days
 // update duration
 //land time changes --> update duration
 //handle all time changes here
-SortieRow.prototype.timeChangeHandler = function() {
+SortieRow.prototype.timeChangeHandler = function(d, element) {
     //update duration
     this.durTime.textContent = formatTimeDuration(
         (this.takeoffDateTimeInput.value === null ? null : this.takeoffDateTimeInput.value.valueOf()),
@@ -246,7 +325,29 @@ SortieRow.prototype.timeChangeHandler = function() {
         landDate.setUTCHours(0, 0); //set time to 0
         this.landDateTimeInput.setDateTime(landDate);
     }
+
 };
+
+//sends changes from any dropdown to the server
+// the dropdown HTML element contains all the data required to take action
+function sendDropdownUpdate(event){
+    console.log("sending dropdown update: " + event.target.value);
+
+        let payload = {
+            sortieID: event.target.getAttribute("data-element-id"),
+            table: event.target.getAttribute("data-table"),
+            elementID: event.target.getAttribute("data-element-id"),
+            field: event.target.getAttribute("data-field"),
+            value: event.target.value,
+            respond: 'month'
+        };
+        let xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = responseHandler;
+        xhttp.open("POST", updateURL, true);
+        xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+        xhttp.send(JSON.stringify(payload));
+}
+
 
 
 
@@ -257,9 +358,15 @@ SortieRow.prototype.timeChangeHandler = function() {
 //  -submit to server
 //  -set up receiver to redraw page
 SortieRow.prototype.acceptNewSortie = function() {
+    //clear out previous markers to prevent confusion
+    let alerts = this.getHTMLNode().getElementsByClassName("inputAlert");
+    while (alerts.length >0){
+        alerts[0].classList.remove("inputAlert");
+    }
+    
     //explicitly check each entry
     let dataMissing = false;
-    let payload = { table: "SORTIES" };
+    let payload = { table: "SORTIE" };
     if (this.unitDropdown.value === "" || this.unitDropdown.value === null) {
         dataMissing = true;
         this.unitDropdown.getHTMLNode().parentElement.classList.add("inputAlert");
@@ -294,7 +401,7 @@ SortieRow.prototype.acceptNewSortie = function() {
     } else {
         //build payload - using JSON.stringify to remove any inline scripting or bad formatting
         let payload = {
-            table: "SORTIES",
+            table: "SORTIE",
             Status: "PLANNED",
             Squadron: JSON.stringify(this.unitDropdown.value),
             COCOM: JSON.stringify(this.typeDropdown.value),
@@ -327,7 +434,7 @@ SortieRow.prototype.deleteSortie = function() {
     if (this.hasData) {
         //send delete request to server - server will need to cascade delete related records according to schema
         let payload = {
-            table: "SORTIES",
+            table: "SORTIE",
             id: this.ID
         }
         let xhttp = new XMLHttpRequest();
