@@ -140,6 +140,9 @@ table .actionCol .button {
     background: #fff59d;
     text-decoration: line-through;
 }
+.canceled div,.canceled td,.canceled span{
+    text-decoration: line-through;
+}
 
 .dateTimeContainer {
     display: inline;

@@ -2,8 +2,8 @@ window.onload = getPageMonth;
 
 //test code here
 window.onload = test;
-function test(){
-    monthSortieData = [{"ID":"1","Status":"INFLIGHT","QuickTake":"","Squadron":"12RS","COCOM":"LOCAL","TakeoffAirfield":"KBAB","LandAirfield":"KEDW","schedTakeoff":"2019-01-01T05:00Z","schedLand":"2019-01-02T06:00Z","MsnNum":"MSN123"}]
+function test() {
+    monthSortieData = [{ "ID": "1", "Status": "INFLIGHT", "QuickTake": "", "Squadron": "12RS", "COCOM": "LOCAL", "TakeoffAirfield": "KBAB", "LandAirfield": "KEDW", "schedTakeoff": "2019-01-01T05:00Z", "schedLand": "2019-01-02T06:00Z", "MsnNum": "MSN123" }]
     drawPageMonth();
 }
 
@@ -152,12 +152,16 @@ function SortieRow(sortie) {
     this.typeDropdown = new inputDropdown(lists.flightTypeList, (this.hasData ? sortie.COCOM : ""), false, true, true);
     this.typeDropdown.getHTMLNode().setAttribute("data-element-id", (this.hasData ? sortie.ID : ""));
     this.typeDropdown.getHTMLNode().setAttribute("data-table", "SORTIE");
-    this.typeDropdown.getHTMLNode().setAttribute("data-field", "COCOM");
+    this.typeDropdown.getHTMLNode().setAttribute("data-field", "Type");
     unitCol.appendChild(document.createElement("p").appendChild(this.typeDropdown.getHTMLNode()));
     this.entryRow.appendChild(unitCol);
 
     this.msnNumInput = document.createElement("input");
     this.msnNumInput.className = "msnInput";
+    this.msnNumInput.setAttribute("data-element-id", (this.hasData ? sortie.ID : ""));
+    this.msnNumInput.setAttribute("data-table", "SORTIE");
+    this.msnNumInput.setAttribute("data-field", "MsnNumber");
+    this.msnNumInput.spellcheck = false;
     msnCol.appendChild(this.msnNumInput);
     this.entryRow.appendChild(msnCol);
 
@@ -196,6 +200,9 @@ function SortieRow(sortie) {
 
     this.noteInput = document.createElement("input");
     this.noteInput.className = "noteInput";
+    this.noteInput.setAttribute("data-element-id", (this.hasData ? sortie.ID : ""));
+    this.noteInput.setAttribute("data-table", "SORTIE");
+    this.noteInput.setAttribute("data-field", "QuickTake");
     noteCol.appendChild(this.noteInput);
     this.entryRow.appendChild(noteCol);
 
@@ -208,11 +215,17 @@ function SortieRow(sortie) {
         this.noteInput.value = sortie.QuickTake || "";
 
         //add listeners to handle updates to individual fields (time inputs already have callbacks assigned from creation)
-        this.unitDropdown.getHTMLNode().addEventListener("change",sendDropdownUpdate);
-        this.typeDropdown.getHTMLNode().addEventListener("change",sendDropdownUpdate);
-        this.takeoffAfldDropdown.getHTMLNode().addEventListener("change",sendDropdownUpdate);
-        this.landAfldDropdown.getHTMLNode().addEventListener("change",sendDropdownUpdate);
-        //TODO: add text box input changes
+        this.unitDropdown.getHTMLNode().addEventListener("change", sendDropdownUpdate);
+        this.typeDropdown.getHTMLNode().addEventListener("change", sendDropdownUpdate);
+        this.takeoffAfldDropdown.getHTMLNode().addEventListener("change", sendDropdownUpdate);
+        this.landAfldDropdown.getHTMLNode().addEventListener("change", sendDropdownUpdate);
+        //text box input changes
+        this.msnNumInput.addEventListener("focus",focusTextInput);
+        this.msnNumInput.addEventListener("focusout",acceptTextInput);
+        this.msnNumInput.addEventListener("keydown",keyCatcherTextInput);
+        this.noteInput.addEventListener("focus",focusTextInput);
+        this.noteInput.addEventListener("focusout",acceptTextInput);
+        this.noteInput.addEventListener("keydown",keyCatcherTextInput);
 
         //if sortie is canceled, format row to match status
         if (sortie.Status.includes("CNX")) {
@@ -232,6 +245,7 @@ function SortieRow(sortie) {
         let cnxButton = document.createElement("div");
         cnxButton.className = "button cnx tooltipHolder"
         cnxButton.innerHTML = 'CNX<div class="tooltip shiftDown shiftLeft" onclick="event.stopPropagation()"><b>Cancel</b><br>Mark this sortie canceled</div>';
+        cnxButton.addEventListener('click', () => { this.cancelSortie(); });
         actionCol.appendChild(menuButton);
         actionCol.appendChild(deleteButton);
         actionCol.appendChild(cnxButton);
@@ -256,14 +270,14 @@ function SortieRow(sortie) {
     }
 }
 
-SortieRow.prototype.getHTMLNode = function() {
+SortieRow.prototype.getHTMLNode = function () {
     return this.entryRow;
 };
 
 
 //---------------Row Event Handlers-------------------------------//
 //accepts updates to takeoffTime
-SortieRow.prototype.takeoffTimeChangeHandler = function(d) {
+SortieRow.prototype.takeoffTimeChangeHandler = function (d) {
     this.timeChangeHandler(); //update display
     //for entries that have data (and a valid time was passed in), send the udpate to the server
     if (d !== null && !isNaN(d.valueOf()) && this.hasData) {
@@ -272,7 +286,7 @@ SortieRow.prototype.takeoffTimeChangeHandler = function(d) {
     }
 };
 //accepts updates to landTime
-SortieRow.prototype.landTimeChangeHandler = function(d) {
+SortieRow.prototype.landTimeChangeHandler = function (d) {
     this.timeChangeHandler(); //update display
     //for entries that have data (and a valid time was passed in), send the udpate to the server
     if (d !== null && !isNaN(d.valueOf()) && this.hasData) {
@@ -284,21 +298,21 @@ SortieRow.prototype.landTimeChangeHandler = function(d) {
 function sendTimeUpdate(element, d) {
     //for entries that have data (and a valid time was passed in), send the udpate to the server
     //if (d !== null && !isNaN(d.valueOf()) && this.hasData) { <-- already checked by the calling functions that are tied to the event element
-        console.log("sending date time update: " + d.toDateString());
+    console.log("sending date time update: " + d.toDateString());
 
-        let payload = {
-            sortieID: element.getAttribute("data-element-id"),
-            table: element.getAttribute("data-table"),
-            elementID: element.getAttribute("data-element-id"),
-            field: element.getAttribute("data-field"),
-            value: JSON.stringify(d),
-            respond: 'month'
-        };
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = responseHandler;
-        xhttp.open("POST", updateURL, true);
-        xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-        xhttp.send(JSON.stringify(payload));
+    let payload = {
+        sortieID: element.getAttribute("data-element-id"),
+        table: element.getAttribute("data-table"),
+        elementID: element.getAttribute("data-element-id"),
+        field: element.getAttribute("data-field"),
+        value: JSON.stringify(d),
+        respond: 'month'
+    };
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = responseHandler;
+    xhttp.open("POST", updateURL, true);
+    xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    xhttp.send(JSON.stringify(payload));
     //}
 }
 
@@ -308,7 +322,7 @@ function sendTimeUpdate(element, d) {
 // update duration
 //land time changes --> update duration
 //handle all time changes here
-SortieRow.prototype.timeChangeHandler = function(d, element) {
+SortieRow.prototype.timeChangeHandler = function (d, element) {
     //update duration
     this.durTime.textContent = formatTimeDuration(
         (this.takeoffDateTimeInput.value === null ? null : this.takeoffDateTimeInput.value.valueOf()),
@@ -330,15 +344,36 @@ SortieRow.prototype.timeChangeHandler = function(d, element) {
 
 //sends changes from any dropdown to the server
 // the dropdown HTML element contains all the data required to take action
-function sendDropdownUpdate(event){
+function sendDropdownUpdate(event) {
     console.log("sending dropdown update: " + event.target.value);
 
+    let payload = {
+        sortieID: event.target.getAttribute("data-element-id"),
+        table: event.target.getAttribute("data-table"),
+        elementID: event.target.getAttribute("data-element-id"),
+        field: event.target.getAttribute("data-field"),
+        value: event.target.value,
+        respond: 'month'
+    };
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = responseHandler;
+    xhttp.open("POST", updateURL, true);
+    xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    xhttp.send(JSON.stringify(payload));
+}
+
+
+// Text entry functionality - gain focus, cancel input, keypress watcher, and accept input
+function acceptTextInput(){ //send current value to server
+    //update if value has changed
+    if (event.target.value !== event.target.oldValue){
+        let val = event.target.value;
         let payload = {
             sortieID: event.target.getAttribute("data-element-id"),
             table: event.target.getAttribute("data-table"),
             elementID: event.target.getAttribute("data-element-id"),
             field: event.target.getAttribute("data-field"),
-            value: event.target.value,
+            value: JSON.stringify(val),
             respond: 'month'
         };
         let xhttp = new XMLHttpRequest();
@@ -346,8 +381,34 @@ function sendDropdownUpdate(event){
         xhttp.open("POST", updateURL, true);
         xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
         xhttp.send(JSON.stringify(payload));
+    }
 }
 
+function focusTextInput(){ //got focus - simply store existing value in case of cancel
+    event.target.oldValue = event.target.value;
+}
+
+//watch for keys:
+// Enter - accept
+// Escape - cancel
+function keyCatcherTextInput(){
+    event.stopPropagation();
+    if (event.key === "Escape" || event.key === "Esc") {
+        console.log("Escape key pressed");
+        cancelTextInput();
+    }
+    //text edit fields will accept input on enter key
+    if (event.key === "Enter") {
+        event.preventDefault();
+        event.target.blur(); //this will auto-trigger accept
+    }
+
+}
+
+function cancelTextInput(){ //revert to previous value
+    event.stopPropagation();
+    event.target.value = event.target.oldValue;
+}
 
 
 
@@ -357,13 +418,13 @@ function sendDropdownUpdate(event){
 //  -check for blank/invalid inputs
 //  -submit to server
 //  -set up receiver to redraw page
-SortieRow.prototype.acceptNewSortie = function() {
+SortieRow.prototype.acceptNewSortie = function () {
     //clear out previous markers to prevent confusion
     let alerts = this.getHTMLNode().getElementsByClassName("inputAlert");
-    while (alerts.length >0){
+    while (alerts.length > 0) {
         alerts[0].classList.remove("inputAlert");
     }
-    
+
     //explicitly check each entry
     let dataMissing = false;
     let payload = { table: "SORTIE" };
@@ -429,35 +490,50 @@ SortieRow.prototype.acceptNewSortie = function() {
 //  *Row with existing date
 //    -send delete info to server
 //    -set up receiver to redraw page
-SortieRow.prototype.deleteSortie = function() {
-    confirm("You are about to delete " + (this.msnNumInput.value === "" ? "this sortie" : this.msnNumInput.value) + "\nThis action cannot be undone"); //first confirm with user
-    if (this.hasData) {
-        //send delete request to server - server will need to cascade delete related records according to schema
-        let payload = {
-            table: "SORTIE",
-            id: this.ID
-        }
-        let xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = responseHandler;
-        xhttp.open("POST", deleteURL, true);
-        xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
-        xhttp.send(JSON.stringify(payload));
+SortieRow.prototype.deleteSortie = function () {
+    if (confirm("You are about to delete " + (this.msnNumInput.value === "" ? "this sortie" : this.msnNumInput.value) + "\nThis action cannot be undone")) { //first confirm with user
+        if (this.hasData) {
+            //send delete request to server - server will need to cascade delete related records according to schema
+            let payload = {
+                table: "SORTIE",
+                id: this.ID
+            }
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = responseHandler;
+            xhttp.open("POST", deleteURL, true);
+            xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+            xhttp.send(JSON.stringify(payload));
 
-    } else {
-        //this was a new entry that wasn't sent to the server yet, just delete the row and make a new one
-        monthSortieTable.removeChild(this.getHTMLNode());
-        monthSortieTable.appendChild(new SortieRow().getHTMLNode());
+        } else {
+            //this was a new entry that wasn't sent to the server yet, just delete the row and make a new one
+            monthSortieTable.removeChild(this.getHTMLNode());
+            monthSortieTable.appendChild(new SortieRow().getHTMLNode());
+        }
     }
 };
 
 
 //Cancel flight
 // -toggle cancel status and send to server
-SortieRow.prototype.cancelSortie = function() {
+SortieRow.prototype.cancelSortie = function () {
     //if sortie is already canceled, change status to planned
-
     //sortie is not cancelled yet, set status to cancelled
+    this.entryRow.classList.contains("canceled") ? this.entryRow.classList.remove("canceled") : this.entryRow.classList.add("canceled");
 
+    //send new status to server
+    let payload = {
+        sortieID: this.ID,
+        table: "SORTIE",
+        elementID: this.ID,
+        field: "Status",
+        value: this.entryRow.classList.contains("canceled") ? "PLANNED" : "CNX",
+        respond: 'month'
+    };
+    let xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = responseHandler;
+    xhttp.open("POST", updateURL, true);
+    xhttp.setRequestHeader("Content-Type", "application/json; charset=UTF-8");
+    xhttp.send(JSON.stringify(payload));
 };
 
 //details button
@@ -466,6 +542,6 @@ SortieRow.prototype.cancelSortie = function() {
 //  -collection entries
 //  -ground stations
 //  -tail number
-SortieRow.prototype.menuButtonHandler = function() {
+SortieRow.prototype.menuButtonHandler = function () {
     showToast('This functionality has not been built yet...', "#fff59d");
 };

@@ -33,7 +33,7 @@ sortieID = getParameterByName("ID");
 // functions for crontrolling UI elements
 
 window.onload = testFunction;
-window.onload = getSortie;
+//window.onload = getSortie;
 
 
 function testFunction() {
